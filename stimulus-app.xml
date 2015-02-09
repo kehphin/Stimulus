@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://ns.adobe.com/air/application/2.7">
+  <id>com.stimulus.Stimulus</id>
+  <versionNumber>0.1</versionNumber>
+  <filename>Stimulus</filename>
+  <initialWindow>
+    <content>stimulus.html</content>
+    <visible>true</visible>
+    <width>400</width>
+    <height>200</height>
+  </initialWindow>
+</application>
