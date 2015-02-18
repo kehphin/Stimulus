@@ -8,8 +8,13 @@ Project Document: https://docs.google.com/document/d/17EHQaPeqZXIE2E-o4U9oUiRRsG
 Stats Module Interface
 ---
 
-Objects:
-...
+###Objects:
+####Picture:
+`{Name:String, Rating:Number, FilePath:String}`
+* Name:     name of the image
+* Rating:   parsed rating of the image
+* FilePath: relative path of the image on disk
+
 
 Public Methods:
 ...
