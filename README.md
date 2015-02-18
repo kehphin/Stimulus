@@ -16,5 +16,5 @@ Stats Module Interface
 * FilePath: relative path of the image on disk
 
 
-Public Methods:
+###Public Methods:
 ...
