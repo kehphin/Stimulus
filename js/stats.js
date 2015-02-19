@@ -112,13 +112,17 @@ function avg(nums) {
   return _.reduce(nums, (m, n) => m + n, 0) / _.size(nums);
 }
 
-function printStats(sorted) {
+function printStats(sorted, targetRating) {
   var i = 0;
+  var dist = 0;
   _.each(sorted, grouping => {
+    var cavg = avg(_.pluck(grouping, 'rating'));
     console.log('###group ' + i++ + '###');
-    console.log('avg: ' + avg(_.pluck(grouping, 'rating')));
+    console.log('avg: ' + cavg);
     console.log('ratings: ' + _.pluck(grouping, 'rating'));
+    dist += Math.abs(targetRating - cavg);
   });
+  console.log('total distance from targetRating: ' + dist);
 }
 
 
@@ -141,7 +145,7 @@ function testSSplit(numGroups,
   console.time('time taken (greedy)');
   var sorted1 = sSplitHelper(numGroups, numPictures, targetRating, pictures, sSplitGreedy);
   console.timeEnd('time taken (greedy)');
-  printStats(sorted1);
+  printStats(sorted1, targetRating);
 
   console.log();
 
@@ -149,7 +153,7 @@ function testSSplit(numGroups,
   console.time('time taken (round robin)');
   var sorted2 = sSplitHelper(numGroups, numPictures, targetRating, pictures, sSplitRR);
   console.timeEnd('time taken (round robin)');
-    printStats(sorted2);
+    printStats(sorted2, targetRating);
 
   console.log();
 
@@ -157,12 +161,12 @@ function testSSplit(numGroups,
   console.time('time taken (random)');
   var sorted3 = sSplitHelper(numGroups, numPictures, targetRating, pictures, sSplitRandom);
   console.timeEnd('time taken (random)');
-    printStats(sorted3);
+    printStats(sorted3, targetRating);
 }
 
 
 /* update this function with parameters */
-testSSplit(2, 5, 5, 1000, 10);
+testSSplit(4, 10, 5, 100, 10);
 
       
 
