@@ -122,7 +122,7 @@ function printStats(sorted, targetRating) {
     console.log('ratings: ' + _.pluck(grouping, 'rating'));
     dist += Math.abs(targetRating - cavg);
   });
-  console.log('total distance from targetRating: ' + dist);
+  console.log('total distance from targetRating: ~' + dist.toFixed(1));
 }
 
 
@@ -166,7 +166,7 @@ function testSSplit(numGroups,
 
 
 /* update this function with parameters */
-testSSplit(4, 10, 5, 100, 10);
+testSSplit(4, 10, 8, 100, 10);
 
       
 
