@@ -6,7 +6,7 @@
   <initialWindow>
     <content>stimulus.html</content>
     <visible>true</visible>
-    <width>400</width>
-    <height>200</height>
+    <width>1000</width>
+    <height>700</height>
   </initialWindow>
 </application>
