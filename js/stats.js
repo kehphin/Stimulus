@@ -28,7 +28,7 @@
     Stats.stDev(...);
 */
 var Stats = (function() {
-  var my = {}
+  var my = {};
 
 
   // Given a object, checks if it has a value at fieldName.
@@ -45,19 +45,31 @@ var Stats = (function() {
     }
   }
 
+  // Validates the input as a properly formatted Picture.
+  //
+  // Creation date: 3/2/15
+  // Modifications list:
+  //
+  function validatePicture(object) {
+    if(object instanceof Picture) {
+      ensure(object, "rating");
+      ensure(object, "filePath");
+    } else {
+      throw new Error("Picture is not properly formatted: " + object);
+    }
+  }
 
   // Validates the input as a properly formatted Array of Pictures.
   //
   // Creation date: 3/1/15
   // Modifications list:
-  //
+  //  3/2/15 - Updated to use validatePicture helper function.
   function validatePictures(objects) {
-    if(!_.isArray(pictures)) {
+    if(!_.isArray(objects)) {
       throw new Error(
         "Pictures argument is not an Array of Picture");
-    } else if(!_.every(objects, function(o) {o instanceof Picture})) {
-      throw new Error(
-        "Pictures argument is not properly formatted, ie: " + o);
+    } else {
+      _.each(objects, validatePicture);
     }
   }
 
@@ -72,7 +84,7 @@ var Stats = (function() {
     var size = _.size(pictures);        
     if(numGroups * numPictures > size) {
         throw new Error("Can't split " + size + " total pictures into " 
-            + numGroups + "groups of " + numPictures);
+            + numGroups + " groups of " + numPictures);
     }
   }
 
@@ -142,7 +154,7 @@ var Stats = (function() {
   // Modifications list:
   function splitGR(numGroups, numPictures, targetRating, pictures) {
     var sortedPictures = sortPicturesByRating(targetRating, pictures);
-    var chunkedPictures = chunk(sortedPictures, numPictures);
+    var chunkedPictures = sortedPictures.chunk(numPictures);
     return _.first(chunkedPictures, numGroups);
   }
 
