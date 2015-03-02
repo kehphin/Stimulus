@@ -10,9 +10,10 @@
 
   Check the README file for complete documentation on public methods.
 
-  Note: This module relies heavily on Underscore.js 
-      (http://underscorejs.org/). If you don't have this library 
-      installed then you're out of luck my friend.
+  DEPENDENCIES: 
+    - underscore.js
+    - validate.js
+    - picture.js
 
   Note: Unless otherwise noted, all code henceforth in this file
       has been authored by me, Tony J Huang. 
@@ -110,8 +111,7 @@ var Stats = (function() {
   // Modifications list:
   //
   function sortPicturesByRating(targetRating, pictures) {
-    return _.sortBy(pictures, function(p) 
-      {Math.abs(p.rating - targetRating)});
+    return _.sortBy(pictures, function(p){Math.abs(p.rating - targetRating)});
   }
 
 
@@ -129,7 +129,7 @@ var Stats = (function() {
     var sortedPictures = sortPicturesByRating(targetRating, pictures);
     var candidates = _.first(sortedPictures, numGroups * numPictures);
     var i = 0;
-    return _.values(_.groupBy(candidates), function(p) {i++ % numGroups});
+    return _.values(_.groupBy(candidates), function(p){i++ % numGroups});
   }
 
   
@@ -233,8 +233,116 @@ var Stats = (function() {
     return r;
   }
 
+
+  /* Statistics methods */
+
+  // Internal helper function to get an average value from a list of numbers.
+  //
+  // Creation date: 3/2/15
+  // Modifications list:
+  //
+  var avg = function(values) {
+    var sum = _.reduce(values, function(s, v){return s + v}, 0);
+    return sum / values.length;
+  }
+
+  // Returns the average rating from a list of pictures. Returns
+  // 0 given an empty Array.
+  //
+  // Throws an error if not called with an Array of Pictures.
+  //
+  // Creation date: 3/2/15
+  // Modifications list:
+  //
+  my.meanRating = function(pictures) {
+    Validate.validatePictures(pictures);
+    if(pictures.length === 0) {
+      return 0;
+    } else {
+      return avg(_.pluck(pictures, "rating"));
+    }
+  }
+
+  // Returns the Picture that has the median rating from
+  // the given list of Pictures.
+  //
+  // Throws an error if not called with a non-empty Array of Pictures.
+  //
+  // Creation date: 3/2/15
+  // Modifications list:
+  //
+  my.medianPicture = function(pictures) {
+    Validate.validatePictures(pictures);
+    if(pictures.length === 0) {
+      throw new Error("Called with an empty Array.");
+    } else {
+      var sortedPictures = _.sortBy(pictures, "rating");
+      return sortedPictures[Math.floor((pictures.length - 1) / 2)];
+    }
+  }
+
+  // Get the most common rating in a list of Pictures. 
+  // Returns
+  // 0 given an empty Array.
+  //
+  // Throws an error if not called with an Array of Pictures.
+  //
+  // Creation date: 3/2/15
+  // Modifications list:
+  //
+  my.modeRating = function(pictures) {
+    Validate.validatePictures(pictures);
+    var modeMap = {};
+    var mode = 0;
+    var modeCount = 0;
+    _.each(pictures, function(p) {
+      var r = p.rating;
+      
+      if(modeMap[r] === undefined) {
+        modeMap[r] = 0;
+      }   
+      
+      modeMap[r]++;
+      if(modeMap[r] > modeCount) {
+        mode = r;
+        modeCount = modeMap[r];
+      }
+    });
+    return mode;
+  }
+
+
+  // Get the (population) standard deviation of a list of Pictures.
+  // Returns 0 given an empty Array.
+  // 
+  // See https://www.mathsisfun.com/data/standard-deviation-formulas.html
+  //
+  // Creation date: 3/2/15
+  // Modifications list:
+  //
+  my.stdev = function(pictures){
+    Validate.validatePictures(pictures);
+    if(pictures.length === 0) {
+      return 0;
+    } else {
+      // Get average rating of the list of Pictures.
+      var avgRating = meanRating(pictures);
+
+      // Get the square of the differences between 
+      // each rating and the average rating
+      var sqrDiffs = _.map(pictures, function(p) {
+        return Math.pow(p.rating - avgRating, 2);
+      });
+
+      // Stdev = Square root the average of the squared diffs.
+      return Math.sqrt(avg(sqrDiffs));
+    }
+  }
+
   return my;
 }());
+
+
 
 
 
