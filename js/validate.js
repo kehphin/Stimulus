@@ -66,8 +66,8 @@ var Validate = (function() {
   my.validateNumArgs = function(numGroups, numPictures, pictures) {
     var size = _.size(pictures);        
     if(numGroups * numPictures > size) {
-        throw new Error("Can't split " + size + " total pictures into " 
-            + numGroups + " groups of " + numPictures);
+      throw new Error("Can't split " + size + " total pictures into " 
+        + numGroups + " groups of " + numPictures);
     }
   }
 
