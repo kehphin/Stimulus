@@ -21,7 +21,7 @@
 */
 
 /*
-  Global export for _$_ variable. 
+  Global export for Stats variable. 
 
   Sample usages include: 
     Stats.split(...);
