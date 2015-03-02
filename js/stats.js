@@ -182,8 +182,6 @@ var _$_ = (function() {
                           defaults to greedy.
     */
     //
-
-
     // Creation date: 3/1/15
     // Modifications list:
     my.split = function(params) {
