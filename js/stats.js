@@ -36,9 +36,11 @@ var _$_ = (function() {
     // Modifications list:
     //
     function ensure(params, fieldName) {
-        if(params[fieldName])
+        if(params[fieldName]) {
             return params[fieldName];
-        throw new Error("missing param field: " + fieldName);
+        } else {
+           throw new Error("missing param field: " + fieldName);
+        }
     }
 
 
@@ -48,13 +50,13 @@ var _$_ = (function() {
     // Modifications list:
     //
     function validatePictures(objects) {
-        if(!_.isArray(pictures))
+        if(!_.isArray(pictures)) {
             throw new Error(
                 "Pictures argument is not an Array of Picture");
-
-        if(!_.every(objects, o => o instanceof Picture))
+        } else if(!_.every(objects, o => o instanceof Picture)) {
             throw new Error(
                 "Pictures argument is not properly formatted, ie: " + o);
+        }
     }
 
 
@@ -66,9 +68,10 @@ var _$_ = (function() {
     //
     function validateNumArgs(numGroups, numPictures, pictures) {
         var size = _.size(pictures);        
-        if(numGroups * numPictures > size)
+        if(numGroups * numPictures > size) {
             throw new Error("Can't split " + size + " total pictures into " 
                 + numGroups + "groups of " + numPictures);
+        }
     }
 
 
@@ -80,8 +83,9 @@ var _$_ = (function() {
     //
     Array.prototype.chunk = function(chunkSize) {
         var R = [];
-        for (var i = 0; i < this.length; i += chunkSize)
+        for (var i = 0; i < this.length; i += chunkSize) {
             R.push(this.slice(i, i + chunkSize));
+        }   
         return R;
     }
 
@@ -178,6 +182,8 @@ var _$_ = (function() {
                           defaults to greedy.
     */
     //
+
+
     // Creation date: 3/1/15
     // Modifications list:
     my.split = function(params) {
