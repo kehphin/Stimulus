@@ -1,173 +1,222 @@
-var _ = require('underscore')
+/*
+    Author: Tony J Huang
+    Group: Team Stimulus
+    Created At: 2/18/15
+
+    This is the stats module, affectionately and globally referred 
+    to as _$_. This module provides the solutions to all of your 
+    statistical needs, including standard deviations, means, medians, 
+    modes, and much much more (coming soon [tm])!
+
+    Check the README file for complete documentation on public methods.
+
+    Note: This module relies heavily on Underscore.js 
+        (http://underscorejs.org/). If you don't have this library 
+        installed then you're out of luck my friend.
+
+    Note: Unless otherwise noted, all code henceforth in this file
+        has been authored by me, Tony J Huang. 
+*/
+
+/*
+    Global export for _$_ variable. 
+
+    Sample usages include: 
+      _$_.sSplit(...);
+      _$_.stDev(...);
+*/
+var _$_ = (function() {
+    var my = {};
 
 
-var Picture = function(name, rating, filePath) {
-	this.name = name;
-	this.rating = rating;
-	this.filePath = filePath;
-}
-
-Picture.prototype.toString = function() {
-  console.log("Hello, " + this.name + ", " + this.rating + ", " + this.filePath);
-};
-
-
-/**
- * Takes a list of objects, returns true if they are all of the 'picture' type.
- */
-function checkIfPictures(objects) {
-	return _.every(objects, o => o instanceof Picture);
-}
+    // Given a object, checks if it has a value at fieldName.
+    // Otherwise throws an error.
+    //
+    // Creation date: 3/1/15
+    // Modifications list:
+    //
+    function ensure(params, fieldName) {
+        if(params[fieldName])
+            return params[fieldName];
+        throw new Error("missing param field: " + fieldName);
+    }
 
 
-/**
- * numGroups: number of different groups you want to split the pictures into
- * numPictures: number of pictures you want in each group
- * targetRating: the numerical value you want the groups to average to, ideally
- * pictures: array of Pictures that we'll be splitting into groups
- */
-function sSplit(numGroups, numPictures, targetRating, pictures) {
-	if(!_.isArray(pictures)) {
-		throwInvalidInput("Received something other than an array for pictures argument.");
-	}		
-	if(!checkIfPictures(pictures)) {
-		throwInvalidInput("Pictures arguments are not properly formatted.");
-	}
-	var size = _.size(pictures);		
-	if(numGroups * numPictures > size){
-		throwInvalidInput("Can't split " + size + " total pictures into " 
-			+ numGroups + "groups of " + numPictures);
-	}
-  
-  return sSplitRR(numGroups, numPictures, targetRating, pictures);
-}
+    // Validates the input as a properly formatted Array of Pictures.
+    //
+    // Creation date: 3/1/15
+    // Modifications list:
+    //
+    function validatePictures(objects) {
+        if(!_.isArray(pictures))
+            throw new Error(
+                "Pictures argument is not an Array of Picture");
 
-/**
- * Does NOT sort the pictures from lowest to highest rating. Actually sorts the numbers
- * based on their rating distance from the targetRating.
- */
-function sortPicturesByRating(targetRating, pictures) {
-	return _.sortBy(pictures, pic => Math.abs(pic.rating - targetRating))
-}
-
-/**
- * Chunks an array into equal sizes of chunkSize, notwithstanding the very last chunk, which
- * is anywhere from size 1 to chunkSize
- */
-function chunk(array, chunkSize) {
-  var R = [];
-    for (var i=0; i<array.length; i+=chunkSize)
-        R.push(array.slice(i,i+chunkSize));
-    return R;
-}
-
-/**
- * Split pictures by choosing the best pictures for the first group, then the second,
- * then the third...
- */
-function sSplitGreedy(numGroups, numPictures, targetRating, pictures) {
-    var sortedPictures = sortPicturesByRating(targetRating, pictures);
-  	var chunkedPictures = chunk(sortedPictures, numPictures);
-  	return _.first(chunkedPictures, numGroups);
-}
-
-function sSplitRR(numGroups, numPictures, targetRating, pictures) {
-    var sortedPictures = sortPicturesByRating(targetRating, pictures);
-    var i = 0;
-    return _.values(_.groupBy(_.first(sortedPictures, numGroups * numPictures), 
-                              p => i++ % numGroups));
-}
-
-function sSplitRandom(numGroups, numPictures, targetRating, pictures) {
-    return chunk(_.first(_.shuffle(pictures), numGroups * numPictures), 
-                 numPictures);
-}
-
-/**
- * Returns an array of size numElements with integers random 
- * distributed from 1 to upperBound, inclusive.
- */
-function getRandomIntArray(numElements, upperBound) {
-	var pool = _.range(upperBound);
-	return _.map(_.range(numElements), n => _.sample(pool) + 1);
-}
-
-function sSplitHelper(numGroups, numPictures, targetRating, pictures, sSplitFunc) {
-  if(!_.isArray(pictures)) {
-		throwInvalidInput("Received something other than an array for pictures argument.");
-	}		
-	if(!checkIfPictures(pictures)) {
-		throwInvalidInput("Pictures arguments are not properly formatted.");
-	}
-	var size = _.size(pictures);		
-	if(numGroups * numPictures > size){
-		throwInvalidInput("Can't split " + size + " total pictures into " 
-			+ numGroups + "groups of " + numPictures);
-	}
-  
-  return sSplitFunc(numGroups, numPictures, targetRating, pictures);
-}
-
-function avg(nums) {
-  return _.reduce(nums, (m, n) => m + n, 0) / _.size(nums);
-}
-
-function printStats(sorted, targetRating) {
-  var i = 0;
-  var dist = 0;
-  _.each(sorted, grouping => {
-    var cavg = avg(_.pluck(grouping, 'rating'));
-    console.log('###group ' + i++ + '###');
-    console.log('avg: ' + cavg);
-    console.log('ratings: ' + _.pluck(grouping, 'rating'));
-    dist += Math.abs(targetRating - cavg);
-  });
-  console.log('total distance from targetRating: ~' + dist.toFixed(1));
-}
+        if(!_.every(objects, o => o instanceof Picture))
+            throw new Error(
+                "Pictures argument is not properly formatted, ie: " + o);
+    }
 
 
-/**
- * numGroups: number of groups you want to split the dataset into
- * numPictures: number of pictures you want in each group
- * targetRating: ideal average of each group of pictures
- * dataSetSize: how many randomly generated 'pictures' you want to pull from
- * ratingUpperBound: defines range of ratings, from 1 to ratingUpperBound.
- */
-function testSSplit(numGroups, 
-                     numPictures, 
-                     targetRating, 
-                     dataSetSize, 
-                     ratingUpperBound) {
-
-  var pictures = _.map(getRandomIntArray(dataSetSize, ratingUpperBound), r => new Picture("name", r, "filePath"));
-
-  console.log("sorting by greedy");
-  console.time('time taken (greedy)');
-  var sorted1 = sSplitHelper(numGroups, numPictures, targetRating, pictures, sSplitGreedy);
-  console.timeEnd('time taken (greedy)');
-  printStats(sorted1, targetRating);
-
-  console.log();
-
-  console.log("sorting by round robin");
-  console.time('time taken (round robin)');
-  var sorted2 = sSplitHelper(numGroups, numPictures, targetRating, pictures, sSplitRR);
-  console.timeEnd('time taken (round robin)');
-    printStats(sorted2, targetRating);
-
-  console.log();
-
-  console.log("sorting by random");
-  console.time('time taken (random)');
-  var sorted3 = sSplitHelper(numGroups, numPictures, targetRating, pictures, sSplitRandom);
-  console.timeEnd('time taken (random)');
-    printStats(sorted3, targetRating);
-}
+    // Validates the other user defined input params ansd makes sure
+    // they make sense/are possible.
+    //
+    // Creation date: 3/1/15
+    // Modifications list:
+    //
+    function validateNumArgs(numGroups, numPictures, pictures) {
+        var size = _.size(pictures);        
+        if(numGroups * numPictures > size)
+            throw new Error("Can't split " + size + " total pictures into " 
+                + numGroups + "groups of " + numPictures);
+    }
 
 
-/* update this function with parameters */
-testSSplit(4, 10, 8, 100, 10);
+    // Chunks an array into equal sizes of chunkSize, notwithstanding 
+    // the very last chunk, which is anywhere from size 1 to chunkSize
+    //
+    // Creation date: 3/1/15
+    // Modifications list:
+    //
+    Array.prototype.chunk = function(chunkSize) {
+        var R = [];
+        for (var i = 0; i < this.length; i += chunkSize)
+            R.push(this.slice(i, i + chunkSize));
+        return R;
+    }
 
-      
+
+    // Sorts pictures by their rating distance from targetRating.
+    //
+    // Creation date: 3/1/15
+    // Modifications list:
+    //
+    function sortPicturesByRating(targetRating, pictures) {
+        return _.sortBy(pictures, p => Math.abs(p.rating - targetRating));
+    }
+
+
+    
+    // Round Robin.
+    // ALGORITHM: Picks the picture with the closest rating to the target
+    //     and assigns it to group 1, then group 2, then group 3, ...,
+    //     until all groups are full.
+    //
+    // Creation date: 3/1/15
+    // Modifications list:
+    //
+    
+    function splitRR(numGroups, numPictures, targetRating, pictures) {
+        var sortedPictures = sortPicturesByRating(targetRating, pictures);
+        var candidates = _.first(sortedPictures, numGroups * numPictures);
+        var i = 0;
+        return _.values(_.groupBy(candidates), p => i++ % numGroups);
+    }
+
+    
+    // Random.
+    // ALGORITHM: Pretty much what it sounds like.
+    //     Will return pictures at random. Useful for... ???
+    //
+    // Creation date: 3/1/15
+    // Modifications list:
+    
+    function splitRA(numGroups, numPictures, targetRating, pictures) {
+        return _.first(_.shuffle(pictures), numGroups * numPictures)
+            .chunk(numPictures);
+    }
+
+
+    // Greedy.
+    // ALGORITHM: Distributes the pictures by assigning the ones
+    //     with ratings closest to the target to the groups in order.
+    //
+    // Creation date: 3/1/15
+    // Modifications list:
+    function splitGR(numGroups, numPictures, targetRating, pictures) {
+        var sortedPictures = sortPicturesByRating(targetRating, pictures);
+        var chunkedPictures = chunk(sortedPictures, numPictures);
+        return _.first(chunkedPictures, numGroups);
+    }
+
+    // Dynamic Programming.
+    // ALGORITHM: Go through every possibly combination of pictures,
+    //     caching the results when possible, and pick the combination
+    //     with the smallest total distance from the target rating.
+    //
+    // Creation date: 3/1/15
+    // Modifications list:
+    function splitDP(numGroups, numPictures, targetRating, pictures) {
+        return []; // TODO.
+    }
+
+
+    /*
+        The main entree. Splits a set of pictures up into numGroups 
+        distinct groups of numPictures entries, in which the pictures'
+        average ratings' distance form targetRating is minimized.
+
+
+        params object should contain:
+            numGroups:    number of different groups you want to 
+                          split the pictures into
+
+            numPictures:  number of pictures you want in each group
+
+            targetRating: the numerical value you want the groups 
+                          to average to, ideally
+
+            pictures:     array of Pictures that we'll be splitting 
+                          into groups
+
+        params object OPTIONAL fields:
+            splitFunc:    the algorithm you want to use in this split
+                          ONEOF: "gr" [greedy]
+                                 "rr" [round robin]
+                                 "ra" [random]
+                                 "dp" [dynamic programming]
+                          defaults to greedy.
+    */
+    //
+    // Creation date: 3/1/15
+    // Modifications list:
+    my.split = function(params) {
+        // Validate input.
+        var numGroups    = ensure(params, "numGroups");
+        var numPictures  = ensure(params, "numPictures");
+        var targetRating = ensure(params, "targetRating");
+        var pictures     = ensure(params, "pictures");
+
+        validatePictures(pictures);
+        validateNumArgs(numGroups, numPictures, pictures);
+
+        // Return value.
+        var r;
+
+        // Pick an algorithm, any algorithm.
+        switch(params["splitFunc"] || "gr") {
+            case "rr":
+                r = splitRR(numGroups, numPictures, targetRating, pictures);
+                break;
+            case "ra":
+                r = splitRA(numGroups, numPictures, targetRating, pictures);
+                break;
+            case "gr":
+                r = splitGR(numGroups, numPictures, targetRating, pictures);
+                break;
+            case "dp":
+                r = splitDP(numGroups, numPictures, targetRating, pictures);
+                break;
+            default:
+                r = splitGR(numGroups, numPictures, targetRating, pictures);
+        }
+
+        return r;
+    }
+
+    return my;
+}());
+
+
 
 

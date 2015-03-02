@@ -9,12 +9,14 @@ Style Guide: http://javascript.crockford.com/code.html
 Stats Module Interface
 ---
 
+To use, simply call _$_.<method name>(<arguments>)
+
 ###Objects:
 Picture: `{Name:String, Rating:Number, FilePath:String}`
-* Name:     name of the image
 * Rating:   parsed rating of the image
 * FilePath: relative path of the image on disk
 
 
 ###Public Methods:
-`n
+split
+
