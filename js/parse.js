@@ -8,6 +8,7 @@ $(function() {
     e.preventDefault();
     directory.addEventListener(air.Event.SELECT, function(e) {
       picturePath = directory.nativePath;
+      $('#picture-directory').text(picturePath);
     });
     directory.browseForDirectory("Choose the picture directory");
   });
