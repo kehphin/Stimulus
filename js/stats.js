@@ -28,66 +28,8 @@
     Stats.stDev(...);
 */
 var Stats = (function() {
+  // public facing object export.
   var my = {};
-
-
-  // Given a object, checks if it has a value at fieldName.
-  // Otherwise throws an error.
-  //
-  // Creation date: 3/1/15
-  // Modifications list:
-  //
-  function ensure(params, fieldName) {
-    if(params[fieldName]) {
-      return params[fieldName];
-    } else {
-     throw new Error("missing param field: " + fieldName);
-    }
-  }
-
-  // Validates the input as a properly formatted Picture.
-  //
-  // Creation date: 3/2/15
-  // Modifications list:
-  //
-  function validatePicture(object) {
-    if(object instanceof Picture) {
-      ensure(object, "rating");
-      ensure(object, "filePath");
-    } else {
-      throw new Error("Picture is not properly formatted: " + object);
-    }
-  }
-
-  // Validates the input as a properly formatted Array of Pictures.
-  //
-  // Creation date: 3/1/15
-  // Modifications list:
-  //  3/2/15 - Updated to use validatePicture helper function.
-  function validatePictures(objects) {
-    if(!_.isArray(objects)) {
-      throw new Error(
-        "Pictures argument is not an Array of Picture");
-    } else {
-      _.each(objects, validatePicture);
-    }
-  }
-
-
-  // Validates the other user defined input params ansd makes sure
-  // they make sense/are possible.
-  //
-  // Creation date: 3/1/15
-  // Modifications list:
-  //
-  function validateNumArgs(numGroups, numPictures, pictures) {
-    var size = _.size(pictures);        
-    if(numGroups * numPictures > size) {
-        throw new Error("Can't split " + size + " total pictures into " 
-            + numGroups + " groups of " + numPictures);
-    }
-  }
-
 
   // Chunks an array into equal sizes of chunkSize, notwithstanding 
   // the very last chunk, which is anywhere from size 1 to chunkSize
@@ -124,7 +66,6 @@ var Stats = (function() {
   // Creation date: 3/1/15
   // Modifications list:
   //
-  
   function splitRR(numGroups, numPictures, targetRating, pictures) {
     var sortedPictures = sortPicturesByRating(targetRating, pictures);
     var candidates = _.first(sortedPictures, numGroups * numPictures);
@@ -139,7 +80,7 @@ var Stats = (function() {
   //
   // Creation date: 3/1/15
   // Modifications list:
-  
+  //
   function splitRA(numGroups, numPictures, targetRating, pictures) {
     return _.first(_.shuffle(pictures), numGroups * numPictures)
       .chunk(numPictures);
@@ -152,6 +93,7 @@ var Stats = (function() {
   //
   // Creation date: 3/1/15
   // Modifications list:
+  //
   function splitGR(numGroups, numPictures, targetRating, pictures) {
     var sortedPictures = sortPicturesByRating(targetRating, pictures);
     var chunkedPictures = sortedPictures.chunk(numPictures);
@@ -165,6 +107,7 @@ var Stats = (function() {
   //
   // Creation date: 3/1/15
   // Modifications list:
+  //
   function splitDP(numGroups, numPictures, targetRating, pictures) {
     return []; // TODO.
   }
@@ -199,15 +142,14 @@ var Stats = (function() {
   //
   // Creation date: 3/1/15
   // Modifications list:
+  //  3/2/15 - Use Validate module.
+  // 
   my.split = function(params) {
     // Validate input.
-    var numGroups    = ensure(params, "numGroups");
-    var numPictures  = ensure(params, "numPictures");
-    var targetRating = ensure(params, "targetRating");
-    var pictures     = ensure(params, "pictures");
-
-    validatePictures(pictures);
-    validateNumArgs(numGroups, numPictures, pictures);
+    var numGroups    = Validate.ensure(params, "numGroups");
+    var numPictures  = Validate.ensure(params, "numPictures");
+    var targetRating = Validate.ensure(params, "targetRating");
+    var pictures     = Validate.ensure(params, "pictures");
 
     // Return value.
     var r;
