@@ -34,8 +34,8 @@ var Validate = (function() {
   //
   my.validatePicture = function(object) {
     if(object instanceof Picture) {
-      ensure(object, "rating");
-      ensure(object, "filePath");
+      my.ensure(object, "rating");
+      my.ensure(object, "filePath");
     } else {
       throw new Error("Picture is not properly formatted: " + object);
     }
@@ -46,12 +46,13 @@ var Validate = (function() {
   // Creation date: 3/1/15
   // Modifications list:
   //  3/2/15 - Updated to use validatePicture helper function.
+  //
   my.validatePictures = function(objects) {
     if(!_.isArray(objects)) {
       throw new Error(
         "Pictures argument is not an Array of Picture");
     } else {
-      _.each(objects, validatePicture);
+      _.each(objects, my.validatePicture);
     }
   }
 
@@ -71,4 +72,4 @@ var Validate = (function() {
   }
 
   return my;
-}
+}());
