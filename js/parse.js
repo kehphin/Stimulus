@@ -1,9 +1,24 @@
+/*
+  Author: David Lin
+  Group: Team Stimulus
+  Created At: 2/28/15
+
+  This handles the event bindings for the input form and the code to parse the
+  ratings.csv file that is imported.
+
+  All code in this file was authored by David Lin
+*/
+
 $(function() {
   var directory = new air.File();
   var picturePath = "";
   var ratingsFile;
   var pictures = [];
 
+  /*
+    When the #picture-directory input is clicked, use AIR's browseForDirectory() method
+    When the directory is selected, save the path and display it in the form.
+  */
   $('#picture-directory').click(function(e) {
     e.preventDefault();
     directory.addEventListener(air.Event.SELECT, function(e) {
@@ -13,6 +28,10 @@ $(function() {
     directory.browseForDirectory("Choose the picture directory");
   });
 
+  /*
+    When submit is clicked on the form, parse all of the input into variables
+    and call parse() to parse the ratings file.
+  */
   $('#input-form').submit(function(e) {
     e.preventDefault();
     air.trace("parsing: " + $('#ratings-file').val());
@@ -24,6 +43,9 @@ $(function() {
     parse();
   });
 
+  /*
+    Open the file that was input and parse it into an array of picture objects
+  */
   function parse() {
     var fileStream = new air.FileStream();
     fileStream.open(ratingsFile, air.FileMode.READ);
