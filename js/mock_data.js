@@ -1,5 +1,3 @@
-var _ = require('underscore');
-
 // Creates mock data to make initial fusion chart
 // num_pics is an int : number of pictures
 // data_range is a array of size 2 : [min, max]
@@ -21,11 +19,13 @@ function createMockChartData(num_pics, data_range) {
       return num;
   });
   
+  var pic_num = 0;
   // converts pics_data into a form fusioncharts use as input
   var mock_data = _.map(pics_data, function(pic_data) {
+    pic_num++;
     return {
-      "label": "picture",
-      "value": pic_data
+      "x": pic_num,
+      "y": pic_data
     };
   });
   
@@ -35,7 +35,7 @@ function createMockChartData(num_pics, data_range) {
       "XAxisName": "picture",
       "YAxisName": "rating"
     },
-    "data": mock_data
+    "dataset": [{"data": mock_data}]
   };
   
   return chart_data;

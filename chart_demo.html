@@ -1,16 +1,21 @@
 <html>
 <head>
 	<title>Fusion Chart</title>
-	<script type="text/javascript" src="lib/fusioncharts/fusioncharts.js"></script>
-	<script type="text/javascript" src="lib/fusioncharts/themes/fusioncharts.theme.zune.js"></script>
+	<script type="text/javascript" src="js/underscore-min.js"></script>
+	<script type="text/javascript" src="lib/fusioncharts/js/fusioncharts.js"></script>
 	<script type="text/javascript" src="js/mock_data.js"></script>
 
 	<script type="text/javascript">
 	// Loads chart into chartContainer
 	FusionCharts.ready(function() {
 		var chart = new FusionCharts({
-			
-		});
+			type: 'scatter',
+			renderAt: 'chartContainer',
+			width: '550',
+			height: '350',
+			dataFormat: 'json',
+			dataSource: createMockChartData(500, [0, 10])
+		}).render();
 	});
 	</script>
 </head>
