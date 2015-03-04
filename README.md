@@ -19,4 +19,3 @@ Picture: `{filePath:String, Rating:Number}`
 
 ###Public Methods:
 split
-
