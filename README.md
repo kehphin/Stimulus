@@ -12,11 +12,10 @@ Stats Module Interface
 To use, simply call _$_.<method name>(<arguments>)
 
 ###Objects:
-Picture: `{Name:String, Rating:Number, FilePath:String}`
+Picture: `{filePath:String, Rating:Number}`
+* filePath:     path of the file
 * Rating:   parsed rating of the image
-* FilePath: relative path of the image on disk
 
 
 ###Public Methods:
 split
-
