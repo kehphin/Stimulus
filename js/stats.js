@@ -286,7 +286,7 @@ var Stats = (function() {
         var half = sorted.length / 2;
         return _avg([sorted[half-1]['rating'], sorted[half]['rating']]);
       } else {
-      return sorted[Math.floor((sorted.length - 1) / 2)]['rating'];
+        return sorted[Math.floor((sorted.length - 1) / 2)]['rating'];
       }
     }
   }
