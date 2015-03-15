@@ -1,3 +1,4 @@
+
 /*
   Author: Tony J Huang
   Group: Team Stimulus
@@ -111,7 +112,9 @@ var Stats = (function() {
   // Modifications list:
   //
   function sortPicturesByRating(targetRating, pictures) {
-    return _.sortBy(pictures, function(p){Math.abs(p.rating - targetRating)});
+    return _.sortBy(pictures, function(p) {
+      Math.abs(p.rating - targetRating);
+    });
   }
 
 
@@ -129,7 +132,9 @@ var Stats = (function() {
     var sortedPictures = sortPicturesByRating(targetRating, pictures);
     var candidates = _.first(sortedPictures, numGroups * numPictures);
     var i = 0;
-    return _.values(_.groupBy(candidates), function(p){i++ % numGroups});
+    return _.values(_.groupBy(candidates), function(p) {
+      i++ % numGroups;
+    });
   }
 
   
@@ -159,7 +164,7 @@ var Stats = (function() {
   }
 
   // Dynamic Programming.
-  // ALGORITHM: Go through every possibly combination of pictures,
+  // ALGORITHM: Go through every possible combination of pictures,
   //     caching the results when possible, and pick the combination
   //     with the smallest total distance from the target rating.
   //
@@ -241,7 +246,7 @@ var Stats = (function() {
   // Creation date: 3/2/15
   // Modifications list:
   //
-  var avg = function(values) {
+  var _avg = function(values) {
     var sum = _.reduce(values, function(s, v){return s + v}, 0);
     return sum / values.length;
   }
@@ -259,25 +264,30 @@ var Stats = (function() {
     if(pictures.length === 0) {
       return 0;
     } else {
-      return avg(_.pluck(pictures, "rating"));
+      return _avg(_.pluck(pictures, "rating"));
     }
   }
 
-  // Returns the Picture that has the median rating from
-  // the given list of Pictures.
+  // Returns the median rating given a list of Pictures
   //
   // Throws an error if not called with a non-empty Array of Pictures.
   //
   // Creation date: 3/2/15
   // Modifications list:
   //
-  my.medianPicture = function(pictures) {
+  my.medianRating = function(pictures) {
     Validate.validatePictures(pictures);
     if(pictures.length === 0) {
       throw new Error("Called with an empty Array.");
     } else {
-      var sortedPictures = _.sortBy(pictures, "rating");
-      return sortedPictures[Math.floor((pictures.length - 1) / 2)];
+      var sorted = _.sortBy(pictures, "rating");
+      if(sorted.length % 2 == 0) {
+        // Even number of entries, find middle two entries and average.
+        var half = sorted.length / 2;
+        return _avg([sorted[half-1]['rating'], sorted[half]['rating']]);
+      } else {
+      return sorted[Math.floor((sorted.length - 1) / 2)]['rating'];
+      }
     }
   }
 
@@ -320,7 +330,7 @@ var Stats = (function() {
   // Creation date: 3/2/15
   // Modifications list:
   //
-  my.stdev = function(pictures){
+  my.stdevRating = function(pictures){
     Validate.validatePictures(pictures);
     if(pictures.length === 0) {
       return 0;
@@ -341,9 +351,3 @@ var Stats = (function() {
 
   return my;
 }());
-
-
-
-
-
-
