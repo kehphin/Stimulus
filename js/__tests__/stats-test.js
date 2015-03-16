@@ -184,7 +184,7 @@ describe("greedy split", function() {
 });
 
 
-// Tests for our split algorithm
+
 describe("greedy split", function() {
   it("greedy splits the data set", function() {
     var splitPictures = Stats.split({
@@ -284,7 +284,6 @@ describe("greedy split", function() {
 
 
 
-// Tests for our split algorithm (ROUND ROBIN)
 describe("round robin split", function() {
   it("roud robin splits the data set", function() {
     var splitPictures = Stats.split({
@@ -379,7 +378,6 @@ describe("round robin split", function() {
 
 
 
-// Tests for our split algorithm (RANDOM)
 describe("random split", function() {
   it("roud robin splits the data set", function() {
     var splitPictures = Stats.split({
