@@ -11,6 +11,8 @@
 var Validate = (function() {
   // public facing object export.
   var my = {};
+  var _ = require("./underscore-min.js");
+  var Picture = require("./picture.js");
 
 
   // Given a object, checks if it has a value at fieldName.
@@ -18,9 +20,11 @@ var Validate = (function() {
   //
   // Creation date: 3/1/15
   // Modifications list:
+  //   3/15/15 - more robust undefined value checking. 
+  //             See http://stackoverflow.com/a/3550319
   //
   my.ensure = function(params, fieldName) {
-    if(params[fieldName]) {
+    if(typeof(params[fieldName]) != "undefined") {
       return params[fieldName];
     } else {
      throw new Error("missing param field: " + fieldName);
@@ -73,3 +77,5 @@ var Validate = (function() {
 
   return my;
 }());
+
+module.exports = Validate;
