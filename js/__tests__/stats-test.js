@@ -186,7 +186,7 @@ describe("greedy split", function() {
 
 
 describe("greedy split", function() {
-  it("greedy splits the data set", function() {
+  it("splits the data set", function() {
     var splitPictures = Stats.split({
       "numGroups": 2, 
       "numPictures": 1, 
@@ -203,7 +203,7 @@ describe("greedy split", function() {
     expect(splitPictures).toEqual(expected);
   });
 
-  it("also greedy splits the data set", function() {
+  it("also splits the data set", function() {
     var splitPictures = Stats.split({
       "numGroups": 2, 
       "numPictures": 1, 
@@ -220,7 +220,7 @@ describe("greedy split", function() {
     expect(splitPictures).toEqual(expected);
   });
 
-  it("greedy splits the data set with more pictures", function() {
+  it("splits the data set with more pictures", function() {
     var splitPictures = Stats.split({
       "numGroups": 2, 
       "numPictures": 3, 
@@ -245,7 +245,7 @@ describe("greedy split", function() {
     expect(splitPictures).toEqual(expected);
   });
 
-  it("greedy splits the data set into 3 groups", function() {
+  it("splits the data set into 3 groups", function() {
     var splitPictures = Stats.split({
       "numGroups": 3, 
       "numPictures": 3, 
@@ -285,7 +285,7 @@ describe("greedy split", function() {
 
 
 describe("round robin split", function() {
-  it("roud robin splits the data set", function() {
+  it("splits the data set", function() {
     var splitPictures = Stats.split({
       "numGroups": 2, 
       "numPictures": 1, 
@@ -302,7 +302,7 @@ describe("round robin split", function() {
     expect(splitPictures).toEqual(expected);
   });
 
-  it("also round robin splits the data set", function() {
+  it("also splits the data set", function() {
     var splitPictures = Stats.split({
       "numGroups": 2, 
       "numPictures": 1, 
@@ -319,7 +319,7 @@ describe("round robin split", function() {
     expect(splitPictures).toEqual(expected);
   });
 
-  it("round robin splits the data set with more pictures", function() {
+  it("splits the data set with more pictures", function() {
     var splitPictures = Stats.split({
       "numGroups": 2, 
       "numPictures": 3, 
@@ -344,7 +344,7 @@ describe("round robin split", function() {
     expect(splitPictures).toEqual(expected);
   });
 
-  it("round robin splits the data set into 3 groups", function() {
+  it("splits the data set into 3 groups", function() {
     var splitPictures = Stats.split({
       "numGroups": 3, 
       "numPictures": 3, 
@@ -379,7 +379,7 @@ describe("round robin split", function() {
 
 
 describe("random split", function() {
-  it("roud robin splits the data set", function() {
+  it("splits the data set", function() {
     var splitPictures = Stats.split({
       "numGroups": 2, 
       "numPictures": 1, 
@@ -394,7 +394,7 @@ describe("random split", function() {
     });
   });
 
-  it("also random splits the data set", function() {
+  it("also splits the data set", function() {
     var splitPictures = Stats.split({
       "numGroups": 2, 
       "numPictures": 1, 
@@ -409,7 +409,7 @@ describe("random split", function() {
     });
   });
 
-  it("random splits the data set with more pictures", function() {
+  it("splits the data set with more pictures", function() {
     var splitPictures = Stats.split({
       "numGroups": 2, 
       "numPictures": 3, 
@@ -424,7 +424,7 @@ describe("random split", function() {
     });
   });
 
-  it("random splits the data set into 3 groups", function() {
+  it("splits the data set into 3 groups", function() {
     var splitPictures = Stats.split({
       "numGroups": 3, 
       "numPictures": 3, 
