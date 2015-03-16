@@ -290,7 +290,7 @@ var Stats = (function() {
   //
   my.stdevRating = function(pictures){
     Validate.validatePictures(pictures);
-    if(pictures.length === 0 || pictures.length === 1) {
+    if(pictures.length < 2) {
       return 0;
     } else {
       // Get average rating of the list of Pictures.
