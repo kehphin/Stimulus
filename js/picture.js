@@ -15,3 +15,5 @@ var Picture = function(rating, filePath) {
 Picture.prototype.name = function() {
     return _.last(this.filePath.split("/"));
 };
+
+module.exports = Picture;
