@@ -11,9 +11,22 @@
 var Validate = (function() {
   // public facing object export.
   var my = {};
+
   var _ = require("./underscore-min.js");
   var Picture = require("./picture.js");
 
+  // Internal helper method to reduce an object into a string representation
+  // 
+  // Creation date: 3/15/15
+  // Modifications list:
+  // 
+  var _readObject = function(obj) {
+    var output = '';
+    for (var property in obj) {
+      output += property + ': ' + obj[property]+'; ';
+    }
+    return output;
+  }
 
   // Given a object, checks if it has a value at fieldName.
   // Otherwise throws an error.
@@ -27,7 +40,8 @@ var Validate = (function() {
     if(typeof(params[fieldName]) != "undefined") {
       return params[fieldName];
     } else {
-     throw new Error("missing param field: " + fieldName);
+     throw new Error("missing param field, " + fieldName + 
+      ", in: " + _readObject(params));
     }
   }
 
@@ -41,7 +55,8 @@ var Validate = (function() {
       my.ensure(object, "rating");
       my.ensure(object, "filePath");
     } else {
-      throw new Error("Picture is not properly formatted: " + object);
+      throw new Error("Picture is not properly formatted: " + 
+        _readObject(object));
     }
   }
 
