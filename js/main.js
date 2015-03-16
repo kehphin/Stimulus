@@ -63,5 +63,7 @@ $(function() {
 
       i++;
     });
+
+    Export.savePictures(groups, picturePath);
   });
 });
