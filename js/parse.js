@@ -40,7 +40,29 @@ $(function() {
     picsPerGroup = $('#pics-per-group').val();
     avgRating = $('#rating-per-group').val();
     air.trace("numGroups: " + numGroups + ", picsPerGroup: " + picsPerGroup + ", avgRating: " + avgRating);
-    parse();
+    pictures = parse();
+
+    splitFunc = 'ra'
+
+    air.trace("Splitting with algorithm: " + splitFunc);
+
+    groups = Stats.split({
+      numGroups: numGroups,
+      numPictures: picsPerGroup,
+      targetRating: avgRating,
+      pictures: pictures,
+      splitFunc: splitFunc
+    });
+
+    i = 1;
+    groups.forEach(function(group) {
+      air.trace("Group " + i);
+      group.forEach(function(picture) {
+        air.trace("filePath: " + picture.filePath + ", rating: " + picture.rating);
+      });
+
+      i++;
+    });
   });
 
   /*
@@ -74,5 +96,7 @@ $(function() {
     pictures.forEach(function(picture) {
       air.trace("filePath: " + picture.filePath + ", rating: " + picture.rating);
     });
+
+    return pictures;
   }
 });
