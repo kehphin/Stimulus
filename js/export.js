@@ -27,6 +27,9 @@ var Export = (function(groups) {
   my.savePictures = function(groups, picturePath) {
     var resultsPath = picturePath + "/results";
     var dir = new air.File(resultsPath);
+    if (dir.exists) {
+      dir.deleteDirectory(true);
+    }
     dir.createDirectory();
 
     var currentFile;

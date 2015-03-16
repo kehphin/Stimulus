@@ -23,6 +23,7 @@ var Parse = (function() {
   */
   my.getPictures = function(ratingsFile, picturePath) {
     var pictures = [];
+
     var fileStream = new air.FileStream();
     fileStream.open(ratingsFile, air.FileMode.READ);
     var content = String(fileStream.readUTFBytes(fileStream.bytesAvailable));
