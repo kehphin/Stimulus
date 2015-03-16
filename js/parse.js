@@ -67,7 +67,7 @@ $(function() {
       for(i = dataIndex + 1; i < rows.length; i++) {
         var cols = rows[i].split(",");
         path = [picturePath, cols[0]].join("/");
-        pictures.push({ filePath: path, rating: cols[1] });
+        pictures.push(new Picture(cols[1], path));
       }
     }
 
