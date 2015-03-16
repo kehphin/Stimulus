@@ -16,4 +16,5 @@ Picture.prototype.name = function() {
     return _.last(this.filePath.split("/"));
 };
 
-module.exports = Picture;
+/* Required for testing on Node JS */
+//module.exports = Picture;

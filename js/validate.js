@@ -12,8 +12,9 @@ var Validate = (function() {
   // public facing object export.
   var my = {};
 
-  var _ = require("./underscore-min.js");
-  var Picture = require("./picture.js");
+  /* Required for testing on Node JS */
+  //var _ = require("./underscore-min.js");
+  //var Picture = require("./picture.js");
 
   // Internal helper method to reduce an object into a string representation
   // 
@@ -93,4 +94,5 @@ var Validate = (function() {
   return my;
 }());
 
-module.exports = Validate;
+/* Required for testing on Node JS */
+//module.exports = Validate;
