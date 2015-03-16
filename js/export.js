@@ -27,9 +27,12 @@ var Export = (function(groups) {
   my.savePictures = function(groups, picturePath) {
     var resultsPath = picturePath + "/results";
     var dir = new air.File(resultsPath);
+
+    // remove previous results before generating current ones
     if (dir.exists) {
       dir.deleteDirectory(true);
     }
+
     dir.createDirectory();
 
     var currentFile;
