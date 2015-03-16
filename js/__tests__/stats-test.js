@@ -36,7 +36,7 @@ describe("statistics", function() {
   });
 
   it("throws an error on median"), function() {
-    expect(Stats.medianRating(emptyPictures)).toThrow("not an Array");
+    expect(Stats.medianRating(emptyPictures)).toThrow("empty Array");
   }
 
   it("computes the mode rating", function() {
@@ -48,7 +48,7 @@ describe("statistics", function() {
   });
 
   it("throws an error on mode"), function() {
-    expect(Stats.modeRating(emptyPictures)).toThrow("not an Array");
+    expect(Stats.modeRating(emptyPictures)).toThrow("empty Array");
   }
 
   it("computes the mean rating", function() {
@@ -60,7 +60,7 @@ describe("statistics", function() {
   });
 
   it("throws an error on mean"), function() {
-    expect(Stats.meanRating(emptyPictures)).toThrow("not an Array");
+    expect(Stats.meanRating(emptyPictures)).toBe(0);
   }
 
   it("computes the standard deviation", function() {

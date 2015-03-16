@@ -246,35 +246,41 @@ var Stats = (function() {
   // Returns
   // 0 given an empty Array.
   //
-  // Throws an error if not called with an Array of Pictures.
+  // Throws an error if not called with a non-empty Array of Pictures.
   //
   // Creation date: 3/2/15
   // Modifications list:
   //
   my.modeRating = function(pictures) {
     Validate.validatePictures(pictures);
-    var modeMap = {};
-    var mode = 0;
-    var modeCount = 0;
-    _.each(pictures, function(p) {
-      var r = p.rating;
-      
-      if(modeMap[r] === undefined) {
-        modeMap[r] = 0;
-      }   
-      
-      modeMap[r]++;
-      if(modeMap[r] > modeCount) {
-        mode = r;
-        modeCount = modeMap[r];
-      }
-    });
-    return mode;
+    if(pictures.length === 0) {
+      throw new Error("Called with an empty Array.");
+    } else {
+      var modeMap = {};
+      var mode = 0;
+      var modeCount = 0;
+      _.each(pictures, function(p) {
+        var r = p.rating;
+        
+        if(modeMap[r] === undefined) {
+          modeMap[r] = 0;
+        }   
+        
+        modeMap[r]++;
+        if(modeMap[r] > modeCount) {
+          mode = r;
+          modeCount = modeMap[r];
+        }
+      });
+      return mode;
+    }
   }
 
 
   // Get the (population) standard deviation of a list of Pictures.
   // Returns 0 if given an Array with less than 2 entries.
+  //
+  // Throws an error if not called with an Array of Picture.
   // 
   // See https://www.mathsisfun.com/data/standard-deviation-formulas.html
   //
