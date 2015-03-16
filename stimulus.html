@@ -10,7 +10,6 @@
   <link href="lib/bootstrap/css/bootstrap.css" rel="stylesheet"/>
 
   <script src="js/parse.js"></script>
-  <script src="js/javascript.js"></script>
   <link href="css/style.css" rel="stylesheet"/>
 
 </head>
@@ -20,7 +19,7 @@
       <nav class="navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
           <div class="navbar-header">
-            <a class="navbar-brand" href="#">OnlineU</a>
+            <a class="navbar-brand" href="#">Stimly</a>
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapsed">
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
@@ -29,14 +28,9 @@
           </div>
           <div class="collapse navbar-collapse" id="navbar-collapsed">
             <ul class="nav navbar-nav">
-              <li><a href="#">Home</a></li>
-              <li><a href="#">About</a></li>
-              <li><a href="#">Catalog</a></li>
-              <li class="active"><a href="#">Profile <span class="sr-only">Profile</span></a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="#">Logout</a></li>
-              <li><a href="#">Blog</a></li>
+              <li class="active"><a href="/settings">Settings</a></li>
+              <li><a href="/groups">Groups</a></li>
+              <li><a href="/statistics">Statistics</a></li>
             </ul>
           </div>
         </div>
@@ -46,8 +40,8 @@
       <form id="input-form" class="form-horizontal col-sm-12">
         <div class="form-group">
           <label class="col-sm-3 control-label" for="pictureDirectory">Picture Directory:</label>
-          <div class="col-sm-9">
-            <input id="picture-directory" type="file" style="width: 100%">
+          <div class="col-sm-3">
+            <input id="picture-directory" type="file">
           </div>
         </div>
         <div class="form-group">
@@ -58,24 +52,28 @@
         </div>
         <div class="form-group">
           <label class="col-sm-3 control-label" for="numGroups">Number of Groups:</label>
-          <div class="col-sm-9">
-            <input id="num-groups" type="text" length="2">
+          <div class="col-sm-1">
+            <input type="text" class="form-control" id="num-groups" type="text" length="2">
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-3 control-label" for="picsPerGroup">Number of Pictures per Group:</label>
-          <div class="col-sm-9">
-            <input id="pics-per-group" type="text" length="2">
+          <div class="col-sm-1">
+            <input type="text" class="form-control" id="pics-per-group" type="text" length="2">
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-3 control-label" for="ratingPerGroup">Average Rating per Group:</label>
-          <div class="col-sm-9">
-            <input id="rating-per-group" type="text" length="10">
+          <div class="col-sm-1">
+            <input type="text" class="form-control" id="rating-per-group" type="text" length="10">
           </div>
         </div>
-        <div class="col-sm-3"></div>
-        <input id="submit" type="submit">
+        <div class="form-group">
+          <label class="col-sm-3 control-label"></label>
+          <div class="col-sm-9">
+            <input class="btn btn-primary" id="submit" type="submit">
+          </div>
+        </div>
       </form>
     </main>
   </div>
