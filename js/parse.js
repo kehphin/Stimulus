@@ -3,17 +3,21 @@
   Group: Team Stimulus
   Created At: 2/28/15
 
-  This handles the event bindings for the input form and the code to parse the
-  ratings.csv file that is imported.
+  This Parse module handles the code to parse the
+  ratings.csv file that is imported into an array of pictures.
 
   All code in this file was authored by David Lin
 */
 
-$(function() {
+var Parse = (function() {
+  var my = {};
+
+  var pictures = [];
+
   /*
     Open the file that was input and parse it into an array of picture objects
   */
-  function parse() {
+  my.getPictures = function(ratingsFile, picturePath) {
     var fileStream = new air.FileStream();
     fileStream.open(ratingsFile, air.FileMode.READ);
     content = String(fileStream.readUTFBytes(fileStream.bytesAvailable));
@@ -44,4 +48,6 @@ $(function() {
 
     return pictures;
   }
-});
+
+  return my;
+}());
