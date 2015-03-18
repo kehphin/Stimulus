@@ -23,22 +23,58 @@ function createMockChartData(num_pics, data_range) {
   // converts pics_data into a form fusioncharts use as input
   var mock_data = _.map(pics_data, function(pic_data) {
     pic_num++;
-    return {
-      "x": pic_num,
-      "y": pic_data
-    };
+    return [pic_num, pic_data];
   });
   
   // creates fusioncharts input json
   var chart_data = {
     "chart": {
-      "XAxisName": "picture",
-      "YAxisName": "rating"
+      "type": "scatter",
+      "zoomType": "xy"
     },
-    "dataset": [{"data": mock_data}]
+    "legend": {
+      "enabled": false
+    },
+    "xAxis": {
+      "title": {
+        "text": "picture"
+      }
+    },
+    "yAxis": {
+      "title": {
+        "text": "rating"
+      }
+    },
+    "plotOptions": {
+      "scatter": {
+        "marker": {
+          "radius": 5,
+          "states": {
+            "hover": {
+              "enabled": true,
+              "lineColor": "rgb(100,100,100)"
+            }
+          }
+        },
+        "states": {
+          "hover": {
+            "marker": {
+              "enabled": false
+            }
+          }
+        },
+        "tooltip": {
+          "headerFormat": '<b>{series.name}</b><br>',
+          "pointFormat": '{point.y}'
+        }
+      }
+    },
+    "series": [{
+      "name": "Picture",
+      "color": "rgba(119, 152, 191, .5)",
+      "data": mock_data
+    }]
   };
   
   return chart_data;
 }
-
-console.log(createMockChartData(500, [0, 10]));
