@@ -1,4 +1,3 @@
-
 /*
   Author: Tony J Huang
   Group: Team Stimulus
