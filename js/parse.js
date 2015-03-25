@@ -12,8 +12,6 @@
 var Parse = (function() {
   var my = {};
 
-  var pictures = [];
-
   /*
     Open the file that was input and parse it into an array of picture objects
 
@@ -24,6 +22,7 @@ var Parse = (function() {
     Returns a list of type Picture from the ratings file
   */
   my.getPictures = function(ratingsFile, picturePath) {
+    var pictures = [];
     var fileStream = new air.FileStream();
     fileStream.open(ratingsFile, air.FileMode.READ);
     var content = String(fileStream.readUTFBytes(fileStream.bytesAvailable));
