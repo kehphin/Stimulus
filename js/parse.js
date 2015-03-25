@@ -26,7 +26,7 @@ var Parse = (function() {
   my.getPictures = function(ratingsFile, picturePath) {
     var fileStream = new air.FileStream();
     fileStream.open(ratingsFile, air.FileMode.READ);
-    content = String(fileStream.readUTFBytes(fileStream.bytesAvailable));
+    var content = String(fileStream.readUTFBytes(fileStream.bytesAvailable));
     fileStream.close();
 
     var rows = content.split("\n");
@@ -43,7 +43,7 @@ var Parse = (function() {
     } else {
       for(i = dataIndex + 1; i < rows.length; i++) {
         var cols = rows[i].split(",");
-        path = [picturePath, cols[0]].join("/");
+        var path = [picturePath, cols[0]].join("/");
         pictures.push(new Picture(cols[1], path));
       }
     }
