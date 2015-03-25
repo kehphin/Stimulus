@@ -55,5 +55,29 @@ var Parse = (function() {
     return pictures;
   }
 
+  /*
+    Gets the values from the input form
+
+    Arguments: None
+
+    Returns a hash of the parsed fields:
+      ratingsFile - File - where the ratings CSV is located
+      numGroups - Int - value of the Number of Groups field
+      picsPerGroup - Int - value of the Pictures per Group field
+      avgRating - Int - value of the Average Rating field
+  */
+  my.getFormFields = function() {
+    air.trace("parsing: " + $('#ratings-file').val());
+    var ratingsFile = new air.File($('#ratings-file').val());
+    var numGroups = $('#num-groups').val();
+    var picsPerGroup = $('#pics-per-group').val();
+    var avgRating = $('#rating-per-group').val();
+    air.trace("numGroups: " + numGroups + ", picsPerGroup: " + picsPerGroup
+      + ", avgRating: " + avgRating);
+
+    return { ratingsFile: ratingsFile, numGroups: numGroups,
+      picsPerGroup: picsPerGroup, avgRating: avgRating }
+  }
+
   return my;
 }());

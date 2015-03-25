@@ -34,22 +34,22 @@ $(function() {
   */
   $('#input-form').submit(function(e) {
     e.preventDefault();
-    air.trace("parsing: " + $('#ratings-file').val());
-    ratingsFile = new air.File($('#ratings-file').val());
-    numGroups = $('#num-groups').val();
-    picsPerGroup = $('#pics-per-group').val();
-    avgRating = $('#rating-per-group').val();
-    air.trace("numGroups: " + numGroups + ", picsPerGroup: " + picsPerGroup + ", avgRating: " + avgRating);
-    pictures = Parse.getPictures(ratingsFile, picturePath);
 
+    // get the grouping parameters off of the form
+    formFields = Parse.getFormFields();
+
+    // read pictures from the ratings file
+    pictures = Parse.getPictures(formFields['ratingsFile'], picturePath);
+
+    // choose algorithm for splitting the pictures
     splitFunc = 'ra'
-
     air.trace("Splitting with algorithm: " + splitFunc);
 
+    // process the pictures with the stats module
     groups = Stats.split({
-      numGroups: numGroups,
-      numPictures: picsPerGroup,
-      targetRating: avgRating,
+      numGroups: formFields['numGroups'],
+      numPictures: formFields['picsPerGroup'],
+      targetRating: formFields['avgRating'],
       pictures: pictures,
       splitFunc: splitFunc
     });
