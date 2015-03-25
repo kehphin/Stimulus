@@ -36,13 +36,13 @@ $(function() {
     e.preventDefault();
 
     // get the grouping parameters off of the form
-    formFields = Parse.getFormFields();
+    var formFields = Parse.getFormFields();
 
     // read pictures from the ratings file
     pictures = Parse.getPictures(formFields['ratingsFile'], picturePath);
 
     // choose algorithm for splitting the pictures
-    splitFunc = 'ra'
+    var splitFunc = 'ra'
     air.trace("Splitting with algorithm: " + splitFunc);
 
     // process the pictures with the stats module
