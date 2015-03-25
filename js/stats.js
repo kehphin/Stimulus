@@ -33,6 +33,10 @@ var Stats = (function() {
   // public facing object export.
   var my = {};
 
+  /* Required for testing on Node JS */
+  //var Validate = require("./validate.js");
+  //var _ = require("./underscore-min.js");
+
   // Chunks an array into equal sizes of chunkSize, notwithstanding 
   // the very last chunk, which is anywhere from size 1 to chunkSize
   //
@@ -52,10 +56,11 @@ var Stats = (function() {
   //
   // Creation date: 3/1/15
   // Modifications list:
+  //   3/15/15 - reverse the list so it's ordered by ascending.
   //
-  function sortPicturesByRating(targetRating, pictures) {
+  function _sortPicturesByRating(targetRating, pictures) {
     return _.sortBy(pictures, function(p) {
-      Math.abs(p.rating - targetRating);
+      return Math.abs(p.rating - targetRating);
     });
   }
 
@@ -70,12 +75,16 @@ var Stats = (function() {
   // Modifications list:
   //
   function splitRR(numGroups, numPictures, targetRating, pictures) {
-    var sortedPictures = sortPicturesByRating(targetRating, pictures);
+    var sortedPictures = _sortPicturesByRating(targetRating, pictures);
     var candidates = _.first(sortedPictures, numGroups * numPictures);
+
     var i = 0;
-    return _.values(_.groupBy(candidates), function(p) {
-      i++ % numGroups;
-    });
+    var grouped = _.groupBy(candidates, function(p) {
+      // Group each picture via round robin.
+      return i++ % numGroups;
+    })
+
+    return _.values(grouped);
   }
 
   
@@ -100,7 +109,7 @@ var Stats = (function() {
   // Modifications list:
   //
   function splitGR(numGroups, numPictures, targetRating, pictures) {
-    var sortedPictures = sortPicturesByRating(targetRating, pictures);
+    var sortedPictures = _sortPicturesByRating(targetRating, pictures);
     var chunkedPictures = sortedPictures.chunk(numPictures);
     return _.first(chunkedPictures, numGroups);
   }
@@ -237,48 +246,55 @@ var Stats = (function() {
   // Returns
   // 0 given an empty Array.
   //
-  // Throws an error if not called with an Array of Pictures.
+  // Throws an error if not called with a non-empty Array of Pictures.
   //
   // Creation date: 3/2/15
   // Modifications list:
   //
   my.modeRating = function(pictures) {
     Validate.validatePictures(pictures);
-    var modeMap = {};
-    var mode = 0;
-    var modeCount = 0;
-    _.each(pictures, function(p) {
-      var r = p.rating;
-      
-      if(modeMap[r] === undefined) {
-        modeMap[r] = 0;
-      }   
-      
-      modeMap[r]++;
-      if(modeMap[r] > modeCount) {
-        mode = r;
-        modeCount = modeMap[r];
-      }
-    });
-    return mode;
+    if(pictures.length === 0) {
+      throw new Error("Called with an empty Array.");
+    } else {
+      var modeMap = {};
+      var mode = 0;
+      var modeCount = 0;
+      _.each(pictures, function(p) {
+        var r = p.rating;
+        
+        if(modeMap[r] === undefined) {
+          modeMap[r] = 0;
+        }   
+        
+        modeMap[r]++;
+        if(modeMap[r] > modeCount) {
+          mode = r;
+          modeCount = modeMap[r];
+        }
+      });
+      return mode;
+    }
   }
 
 
   // Get the (population) standard deviation of a list of Pictures.
-  // Returns 0 given an empty Array.
+  // Returns 0 if given an Array with less than 2 entries.
+  //
+  // Throws an error if not called with an Array of Picture.
   // 
   // See https://www.mathsisfun.com/data/standard-deviation-formulas.html
   //
   // Creation date: 3/2/15
   // Modifications list:
+  //   3/15/15 - update desc, add conditional for length of 1 case
   //
   my.stdevRating = function(pictures){
     Validate.validatePictures(pictures);
-    if(pictures.length === 0) {
+    if(pictures.length < 2) {
       return 0;
     } else {
       // Get average rating of the list of Pictures.
-      var avgRating = meanRating(pictures);
+      var avgRating = my.meanRating(pictures);
 
       // Get the square of the differences between 
       // each rating and the average rating
@@ -287,14 +303,14 @@ var Stats = (function() {
       });
 
       // Stdev = Square root the average of the squared diffs.
-      return Math.sqrt(avg(sqrDiffs));
+      return Math.sqrt(_avg(sqrDiffs));
     }
   }
 
   return my;
 }());
 
-
-
+/* Required for testing on Node JS */
+//module.exports = Stats;
 
 
