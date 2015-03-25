@@ -9,17 +9,6 @@ the Jest documentation here:
 https://facebook.github.io/jest/docs/api.html#content
 */
 
-jest.dontMock("../stats.js");
-jest.dontMock("../picture.js");
-jest.dontMock("../validate.js");
-jest.dontMock("../underscore-min.js");
-
-// Requires 
-var Stats = require("../stats.js");
-var Picture = require("../picture.js");
-var _ = require("../underscore-min.js");
-
-
 // Mock Data
 var emptyPictures = [];
 
