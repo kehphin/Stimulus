@@ -16,6 +16,12 @@ var Parse = (function() {
 
   /*
     Open the file that was input and parse it into an array of picture objects
+
+    Arguments:
+    ratingsFile - File - where the ratings CSV is located
+    picturePath - String - the absolute path to the directory holding the pictures
+
+    Returns a list of type Picture from the ratings file
   */
   my.getPictures = function(ratingsFile, picturePath) {
     var fileStream = new air.FileStream();
