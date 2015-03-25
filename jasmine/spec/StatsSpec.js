@@ -3,10 +3,10 @@ Author: Tony J Huang
 Group: Team Stimulus
 Created At: 3/15/15
 
-Tests for the Stats module. Uses Jest testing framework. See
-the Jest documentation here:
+Tests for the Stats module. Uses Jasmine testing framework. See
+the Jasmine documentation here:
 
-https://facebook.github.io/jest/docs/api.html#content
+http://jasmine.github.io/
 */
 
 // Mock Data
