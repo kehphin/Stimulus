@@ -33,10 +33,6 @@ var Stats = (function() {
   // public facing object export.
   var my = {};
 
-  /* Required for testing on Node JS */
-  //var Validate = require("./validate.js");
-  //var _ = require("./underscore-min.js");
-
   // Chunks an array into equal sizes of chunkSize, notwithstanding 
   // the very last chunk, which is anywhere from size 1 to chunkSize
   //
@@ -309,8 +305,3 @@ var Stats = (function() {
 
   return my;
 }());
-
-/* Required for testing on Node JS */
-//module.exports = Stats;
-
-
