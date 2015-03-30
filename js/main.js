@@ -9,7 +9,28 @@
   All code in this file was authored by David Lin
 */
 
-$(function() {
+  var app = angular.module("StimlyApp", ["ngRoute"]);
+
+  app.config(['$routeProvider',
+    function ($routeProvider) {
+      $routeProvider.
+        when('/settings', {
+          templateUrl: 'partials/settings.html',
+          controller: 'SettingsController'
+        }).
+        when('/pictures', {
+          templateUrl: 'partials/pictures.html',
+          controller: 'PicturesController'
+        }).
+        when('/graphs', {
+          templateUrl: 'partials/graphs.html',
+          controller: 'GraphsController'
+        }).
+        otherwise({
+          redirectTo: '/settings'
+        });
+  }]);
+
   var directory = new air.File();
   var picturePath = "";
   var ratingsFile;
@@ -63,5 +84,6 @@ $(function() {
 
       i++;
     });
+
+    air.trace(JSON.stringify(groups));
   });
-});

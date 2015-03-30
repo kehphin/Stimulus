@@ -4,6 +4,8 @@
   <title>Profile</title>
 
   <script src="lib/jquery.js"></script>
+  <script src="lib/angular.min.js"></script>
+  <script src="lib/angular-route.min.js"></script>
   <script src="lib/chart.js"></script>
   <script src="js/underscore-min.js"></script>
   <script src="lib/AIRAliases.js"></script>
@@ -17,9 +19,10 @@
   <script src="js/main.js"></script>
 
   <link href="css/style.css" rel="stylesheet"/>
+  <link href="css/pictures.css" rel="stylesheet"/>
 
 </head>
-<body>
+<body ng-app="StimlyApp">
   <div class="container">
     <header>
       <nav class="navbar-inverse navbar-fixed-top">
@@ -34,53 +37,15 @@
           </div>
           <div class="collapse navbar-collapse" id="navbar-collapsed">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="/settings">Settings</a></li>
-              <li><a href="/groups">Groups</a></li>
-              <li><a href="/statistics">Statistics</a></li>
+              <li><a href="#/settings">Settings</a></li>
+              <li><a href="#/pictures">Pictures</a></li>
+              <li><a href="#/graphs">Graphs</a></li>
             </ul>
           </div>
         </div>
       </nav>
     </header>
-    <main>
-      <form id="input-form" class="form-horizontal col-sm-12">
-        <div class="form-group">
-          <label class="col-sm-3 control-label" for="pictureDirectory">Picture Directory:</label>
-          <div class="col-sm-3">
-            <input id="picture-directory" type="file">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-3 control-label" for="ratingFile">Ratings File: <a href="#" onclick="window.open('ratings_info.html','name','width=370,height=500')">(?)</a></label>
-          <div class="col-sm-9">
-            <input id="ratings-file" type="file">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-3 control-label" for="numGroups">Number of Groups:</label>
-          <div class="col-sm-1">
-            <input type="text" class="form-control" id="num-groups" type="text" length="2">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-3 control-label" for="picsPerGroup">Number of Pictures per Group:</label>
-          <div class="col-sm-1">
-            <input type="text" class="form-control" id="pics-per-group" type="text" length="2">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-3 control-label" for="ratingPerGroup">Average Rating per Group:</label>
-          <div class="col-sm-1">
-            <input type="text" class="form-control" id="rating-per-group" type="text" length="10">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-3 control-label"></label>
-          <div class="col-sm-9">
-            <input class="btn btn-primary" id="submit" type="submit">
-          </div>
-        </div>
-      </form>
+    <main ng-view>
     </main>
   </div>
 </body>
