@@ -1,48 +1,47 @@
 .rectangle {
-  border:1px solid black;
+  border: 1px solid black;
 }
 
 .group {
-  border:1px solid black;
-  height:300px;
-  overflow:scroll;
+  border: 1px solid black;
+  height: 300px;
+  overflow: scroll;
 
-  text-align:center;
+  text-align: center;
 }
 
 .unsorted {
-  height:190px;
+  height: 190px;
 }
 
 .image {
-  width:100%;
-  height:25%;
+  min-width: 100%;
+  max-width: 100%;
+  height: auto;
 }
 
 .image:hover {
-  cursor:move;
+  cursor: move;
 }
 
 .container {
-  width:1024px;
+  max-width: 1024px;
 }
 
 .row {
-
-  background-color:white;
+  background-color: white;
 }
 
 #container {
-  background-color:#2076EC;
+  background-color: #2076EC;
 }
 
 #header {
   color: #FFFFFF;
 }
 
-
-
 .col-md-3, .col-md-1, .col-md-12, .col-md-6 {
   padding-left: 2px;
   padding-right: 2px;
+  max-width:100%;
 }
