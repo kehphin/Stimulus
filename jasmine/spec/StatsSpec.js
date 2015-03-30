@@ -42,10 +42,6 @@ describe("statistics", function() {
     expect(Stats.medianRating(mockPictures2)).toBe(8);
   });
 
-  it("throws an error on median"), function() {
-    expect(Stats.medianRating(emptyPictures)).toThrow("empty Array");
-  }
-
   it("computes the mode rating", function() {
     expect(Stats.modeRating(mockPictures)).toBe(7);
   });
@@ -54,10 +50,6 @@ describe("statistics", function() {
     expect(Stats.modeRating(mockPictures2)).toBe(9);
   });
 
-  it("throws an error on mode"), function() {
-    expect(Stats.modeRating(emptyPictures)).toThrow("empty Array");
-  }
-
   it("computes the mean rating", function() {
     expect(Stats.meanRating(mockPictures)).toBe(7);
   });
@@ -65,10 +57,6 @@ describe("statistics", function() {
   it("also computes the mean rating", function() {
     expect(Stats.meanRating(mockPictures2)).toBe(7.5);
   });
-
-  it("throws an error on mean"), function() {
-    expect(Stats.meanRating(emptyPictures)).toBe(0);
-  }
 
   it("computes the standard deviation", function() {
     expect(Stats.stdevRating(mockPictures)).toBe(0);
