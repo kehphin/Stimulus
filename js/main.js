@@ -15,6 +15,18 @@ $(function() {
   var ratingsFile;
   var pictures = [];
 
+  var loadPics = function() {
+    var domAdd = "";
+    pictures.forEach(function(picture) {
+      var path = new air.File(picture.filePath).url;
+      domAdd += '<div class="col-md-1"><img src="' + path + '" class="image"></div>';
+    });
+
+    // flush DOM then add current pictures
+    $('#unsorted').html('');
+    $('#unsorted').append(domAdd);
+  }
+
   var showSettings = function() {
     $(".groupsContainer").hide();
     $(".graphsContainer").hide();
@@ -25,6 +37,8 @@ $(function() {
     $(".settingsContainer").hide();
     $(".graphsContainer").hide();
     $(".groupsContainer").show();
+
+    loadPics();
   }
 
   var showGraphs = function() {
