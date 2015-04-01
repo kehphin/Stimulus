@@ -9,29 +9,29 @@
   All code in this file was authored by David Lin
 */
 
-var showSettings = function() {
-  $(".groupsContainer").hide();
-  $(".graphsContainer").hide();
-  $(".settingsContainer").show();
-}
-
-var showGroups = function() {
-  $(".settingsContainer").hide();
-  $(".graphsContainer").hide();
-  $(".groupsContainer").show();
-}
-
-var showGraphs = function() {
-  $(".groupsContainer").hide();
-  $(".settingsContainer").hide();
-  $(".graphsContainer").show();
-}
-
 $(function() {
   var directory = new air.File();
   var picturePath = "";
   var ratingsFile;
   var pictures = [];
+
+  var showSettings = function() {
+    $(".groupsContainer").hide();
+    $(".graphsContainer").hide();
+    $(".settingsContainer").show();
+  }
+
+  var showGroups = function() {
+    $(".settingsContainer").hide();
+    $(".graphsContainer").hide();
+    $(".groupsContainer").show();
+  }
+
+  var showGraphs = function() {
+    $(".groupsContainer").hide();
+    $(".settingsContainer").hide();
+    $(".graphsContainer").show();
+  }
 
   /*
     When the #picture-directory input is clicked, use AIR's browseForDirectory() method
@@ -83,6 +83,8 @@ $(function() {
     });
 
     Export.savePictures(groups, picturePath);
+
+    showGroups();
   });
 
   $(".groupsNav").click(function() {
