@@ -11,7 +11,8 @@
 	<script type="text/javascript">
 	// Loads chart into chartContainer
 	$(function () {
-		$("#chartContainer").highcharts(createChart(createMockChartData(100, [0, 10])));
+		var mock_data = createMockChartData(100, [0, 10]);
+		$("#chartContainer").highcharts(createChart(mock_data));
 	});
 	</script>
 </head>
