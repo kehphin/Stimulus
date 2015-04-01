@@ -2,28 +2,22 @@
   Author: Tony J Huang
   Group: Team Stimulus
   Created At: 2/18/15
-
   This is the stats module, affectionately and globally referred 
   to as Stats. This module provides the solutions to all of your 
   statistical needs, including standard deviations, means, medians, 
   modes, and much much more (coming soon [tm])!
-
   Check the README file for complete documentation on public methods.
-
   DEPENDENCIES: 
     - underscore.js
     - validate.js
     - picture.js
-
   Note: Unless otherwise noted, all code henceforth in this file
       has been authored by me, Tony J Huang. 
-
   Note: Cleared by $wapnil, using TWO space tabs as opposed to 3.
 */
 
 /*
   Global export for Stats variable. 
-
   Sample usages include: 
     Stats.split(...);
     Stats.stDev(...);
@@ -126,20 +120,14 @@ var Stats = (function() {
     The main entree. Splits a set of pictures up into numGroups 
     distinct groups of numPictures entries, in which the pictures'
     average ratings' distance form targetRating is minimized.
-
-
     params object should contain:
         numGroups:    number of different groups you want to 
                       split the pictures into
-
         numPictures:  number of pictures you want in each group
-
         targetRating: the numerical value you want the groups 
                       to average to, ideally
-
         pictures:     array of Pictures that we'll be splitting 
                       into groups
-
     params object OPTIONAL fields:
         splitFunc:    the algorithm you want to use in this split
                       ONEOF: "gr" [greedy]
