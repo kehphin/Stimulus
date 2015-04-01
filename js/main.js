@@ -14,6 +14,7 @@ $(function() {
   var picturePath = "";
   var ratingsFile;
   var pictures = [];
+  var groups = [];
 
   var loadPics = function() {
     var domAdd = "";
@@ -25,6 +26,54 @@ $(function() {
     // flush DOM then add current pictures
     $('#unsorted').html('');
     $('#unsorted').append(domAdd);
+
+    var groupCount = 1;
+    groups.forEach(function(group) {
+      var currentGroup = $("div[data-group='" + groupCount + "']");
+      var outHtml = "";
+
+      currentGroup.show();
+
+      var picSize;
+      if (groups.length > 2) {
+        picSize = 6;
+      } else {
+        picSize = 3;
+      }
+
+      group.forEach(function(picture) {
+        var path = new air.File(picture.filePath).url;
+        outHtml += '<div class="col-md-' + picSize + '"><img src="' + path + '" class="image"></div>';
+      });
+
+      currentGroup.html('');
+      currentGroup.append(outHtml);
+
+      groupCount++;
+    });
+
+    // clear out existing class
+    $('[data-group]').removeClass('col-md-12 col-md-6 col-md-4 col-md-3');
+
+    var numGroups = groups.length;
+    var colSize;
+
+    switch(numGroups) {
+      case 1:
+        colSize = 12;
+        break;
+      case 2:
+        colSize = 6;
+        break;
+      case 3:
+        colSize = 4;
+        break;
+      default:
+        colSize = 3;
+        break;
+    }
+
+    $('[data-group]').addClass('col-md-' + colSize);
   }
 
   var showSettings = function() {
@@ -34,6 +83,8 @@ $(function() {
   }
 
   var showGroups = function() {
+    $('[data-group]').hide();
+
     $(".settingsContainer").hide();
     $(".graphsContainer").hide();
     $(".groupsContainer").show();
