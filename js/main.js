@@ -25,6 +25,9 @@ var showGraphs = function() {
   $(".groupsContainer").hide();
   $(".settingsContainer").hide();
   $(".graphsContainer").show();
+
+  var mock_data = createMockChartData(100, [0, 10]);
+  $(".graphsContainer").highcharts(createChart(mock_data));
 }
 
 $(function() {
