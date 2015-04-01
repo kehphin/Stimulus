@@ -1,22 +1,23 @@
 <html>
 <head>
-	<title>Fusion Chart</title>
-	<script type="text/javascript" src="lib/fusioncharts/fusioncharts.js"></script>
-	<script type="text/javascript" src="lib/fusioncharts/themes/fusioncharts.theme.zune.js"></script>
+	<title>High Chart</title>
+	<script type="text/javascript" src="lib/jquery.js"></script>
+	<script type="text/javascript" src="js/underscore-min.js"></script>
+	<script type="text/javascript" src="lib/highcharts/js/highcharts.js"></script>
+	<script type="text/javascript" src="lib/highcharts/js/modules/exporting.js"></script>
 	<script type="text/javascript" src="js/mock_data.js"></script>
+	<script type="text/javascript" src="js/scatterPlot.js"></script>
 
 	<script type="text/javascript">
 	// Loads chart into chartContainer
-	FusionCharts.ready(function() {
-		var chart = new FusionCharts({
-			
-		});
+	$(function () {
+		$("#chartContainer").highcharts(createChart(createMockChartData(100, [0, 10])));
 	});
 	</script>
 </head>
 
 <body>
-	<div id="chartContainer">FusionCharts XT will load here!</div>
+	<div id="chartContainer">HighChart will load here</div>
 </body>
 
 </html>

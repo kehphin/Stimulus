@@ -1,8 +1,13 @@
-var _ = require('underscore');
+/*
+Author: Gary Song
+Group: Stimulus
+Created on: 1/31/2015
 
-// Creates mock data to make initial fusion chart
-// num_pics is an int : number of pictures
-// data_range is a array of size 2 : [min, max]
+Modified on: 3/31/2015
+
+Creates a mock ratings list of size num_pics,
+which has data between 0 to data_ra
+*/
 function createMockChartData(num_pics, data_range) {
 
   // Returns a random number between min (inclusive) and max (exclusive)
@@ -20,25 +25,6 @@ function createMockChartData(num_pics, data_range) {
   pics_data = _.sortBy(pics_data, function(num) {
       return num;
   });
-  
-  // converts pics_data into a form fusioncharts use as input
-  var mock_data = _.map(pics_data, function(pic_data) {
-    return {
-      "label": "picture",
-      "value": pic_data
-    };
-  });
-  
-  // creates fusioncharts input json
-  var chart_data = {
-    "chart": {
-      "XAxisName": "picture",
-      "YAxisName": "rating"
-    },
-    "data": mock_data
-  };
-  
-  return chart_data;
-}
 
-console.log(createMockChartData(500, [0, 10]));
+  return pics_data;
+}
