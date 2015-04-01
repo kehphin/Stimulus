@@ -16,6 +16,5 @@ Picture: `{filePath:String, Rating:Number}`
 * filePath:     path of the file
 * Rating:   parsed rating of the image
 
-
-###Public Methods:
-split
+###Testing:
+Uses jasmine, open `jasmine/SpecRunner.html`

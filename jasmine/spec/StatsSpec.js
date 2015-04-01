@@ -3,22 +3,11 @@ Author: Tony J Huang
 Group: Team Stimulus
 Created At: 3/15/15
 
-Tests for the Stats module. Uses Jest testing framework. See
-the Jest documentation here:
+Tests for the Stats module. Uses Jasmine testing framework. See
+the Jasmine documentation here:
 
-https://facebook.github.io/jest/docs/api.html#content
+http://jasmine.github.io/
 */
-
-jest.dontMock("../stats.js");
-jest.dontMock("../picture.js");
-jest.dontMock("../validate.js");
-jest.dontMock("../underscore-min.js");
-
-// Requires 
-var Stats = require("../stats.js");
-var Picture = require("../picture.js");
-var _ = require("../underscore-min.js");
-
 
 // Mock Data
 var emptyPictures = [];
@@ -53,10 +42,6 @@ describe("statistics", function() {
     expect(Stats.medianRating(mockPictures2)).toBe(8);
   });
 
-  it("throws an error on median"), function() {
-    expect(Stats.medianRating(emptyPictures)).toThrow("empty Array");
-  }
-
   it("computes the mode rating", function() {
     expect(Stats.modeRating(mockPictures)).toBe(7);
   });
@@ -65,10 +50,6 @@ describe("statistics", function() {
     expect(Stats.modeRating(mockPictures2)).toBe(9);
   });
 
-  it("throws an error on mode"), function() {
-    expect(Stats.modeRating(emptyPictures)).toThrow("empty Array");
-  }
-
   it("computes the mean rating", function() {
     expect(Stats.meanRating(mockPictures)).toBe(7);
   });
@@ -76,10 +57,6 @@ describe("statistics", function() {
   it("also computes the mean rating", function() {
     expect(Stats.meanRating(mockPictures2)).toBe(7.5);
   });
-
-  it("throws an error on mean"), function() {
-    expect(Stats.meanRating(emptyPictures)).toBe(0);
-  }
 
   it("computes the standard deviation", function() {
     expect(Stats.stdevRating(mockPictures)).toBe(0);
