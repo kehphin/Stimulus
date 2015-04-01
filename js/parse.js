@@ -69,9 +69,9 @@ var Parse = (function() {
   my.getFormFields = function() {
     air.trace("parsing: " + $('#ratings-file').val());
     var ratingsFile = new air.File($('#ratings-file').val());
-    var numGroups = $('#num-groups').val();
-    var picsPerGroup = $('#pics-per-group').val();
-    var avgRating = $('#rating-per-group').val();
+    var numGroups = parseInt($('#num-groups').val());
+    var picsPerGroup = parseInt($('#pics-per-group').val());
+    var avgRating = parseInt($('#rating-per-group').val());
     air.trace("numGroups: " + numGroups + ", picsPerGroup: " + picsPerGroup
       + ", avgRating: " + avgRating);
 
