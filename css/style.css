@@ -9,3 +9,7 @@
 #ratings-file, #picture-directory {
   padding-top: 8px;
 }
+
+.navItem {
+  cursor: pointer;
+}

@@ -18,6 +18,7 @@
   <script src="js/main.js"></script>
 
   <link href="css/style.css" rel="stylesheet"/>
+  <link href="css/pictures.css" rel="stylesheet"/>
 
 </head>
 <body>
@@ -35,53 +36,354 @@
           </div>
           <div class="collapse navbar-collapse" id="navbar-collapsed">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="/settings">Settings</a></li>
-              <li><a href="/groups">Groups</a></li>
-              <li><a href="/statistics">Statistics</a></li>
+              <li class="navItem"><a class="settingsNav">Settings</a></li>
+              <li class="navItem"><a class="groupsNav">Groups</a></li>
+              <li class="navItem"><a class="graphsNav">Graphs</a></li>
             </ul>
           </div>
         </div>
       </nav>
     </header>
     <main>
-      <form id="input-form" class="form-horizontal col-sm-12">
-        <div class="form-group">
-          <label class="col-sm-3 control-label" for="pictureDirectory">Picture Directory:</label>
-          <div class="col-sm-3">
-            <input id="picture-directory" type="file">
+      <div class="settingsContainer">
+        <form id="input-form" class="form-horizontal col-sm-12">
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="pictureDirectory">Picture Directory:</label>
+            <div class="col-sm-3">
+              <input id="picture-directory" type="file">
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-3 control-label" for="ratingFile">Ratings File: <a href="#" onclick="window.open('ratings_info.html','name','width=370,height=500')">(?)</a></label>
-          <div class="col-sm-9">
-            <input id="ratings-file" type="file">
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="ratingFile">Ratings File: <a href="#" onclick="window.open('ratings_info.html','name','width=370,height=500')">(?)</a></label>
+            <div class="col-sm-9">
+              <input id="ratings-file" type="file">
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-3 control-label" for="numGroups">Number of Groups:</label>
-          <div class="col-sm-1">
-            <input type="text" class="form-control" id="num-groups" type="text" length="2">
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="numGroups">Number of Groups:</label>
+            <div class="col-sm-1">
+              <input type="text" class="form-control" id="num-groups" type="text" length="2">
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-3 control-label" for="picsPerGroup">Number of Pictures per Group:</label>
-          <div class="col-sm-1">
-            <input type="text" class="form-control" id="pics-per-group" type="text" length="2">
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="picsPerGroup">Number of Pictures per Group:</label>
+            <div class="col-sm-1">
+              <input type="text" class="form-control" id="pics-per-group" type="text" length="2">
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-3 control-label" for="ratingPerGroup">Average Rating per Group:</label>
-          <div class="col-sm-1">
-            <input type="text" class="form-control" id="rating-per-group" type="text" length="10">
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="ratingPerGroup">Average Rating per Group:</label>
+            <div class="col-sm-1">
+              <input type="text" class="form-control" id="rating-per-group" type="text" length="10">
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-3 control-label"></label>
-          <div class="col-sm-9">
-            <input class="btn btn-primary" id="submit" type="submit">
+          <div class="form-group">
+            <label class="col-sm-3 control-label"></label>
+            <div class="col-sm-9">
+              <input class="btn btn-primary" id="submit" type="submit">
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
+      <div class="groupsContainer">
+        <div class="row">
+          <div class="col-md-12 group">
+            <h4>Unsorted Pictures</h4>
+            <div class="row">
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+              <div class="col-md-1 col-sm-1"><img src="img/image.jpg" class="image"></div>
+            </div>
+          </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3 group">
+      <h4>Group 1</h4>
+      <div class="row">
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+      </div>
+    </div>
+
+    <div class="col-md-3 group">
+      <h4>Group 2</h4>
+      <div class="row">
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+      </div>
+    </div>
+
+    <div class="col-md-3 group">
+      <h4>Group 3</h4>
+      <div class="row">
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+      </div>
+    </div>
+
+    <div class="col-md-3 group">
+      <h4>Group 4</h4>
+      <div class="row">
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3 group">
+      <h4>Group 5</h4>
+      <div class="row">
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+      </div>
+    </div>
+
+    <div class="col-md-3 group">
+      <h4>Group 6</h4>
+      <div class="row">
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+      </div>
+    </div>
+
+    <div class="col-md-3 group">
+      <h4>Group 7</h4>
+      <div class="row">
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+      </div>
+    </div>
+
+    <div class="col-md-3 group">
+      <h4>Group 8</h4>
+      <div class="row">
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+        <div class="col-md-3 col-sm-1"><img src="img/image.jpg" class="image"></div>
+      </div>
+    </div>
+  </div>
+      </div>
+      <div class="graphsContainer">
+        <h1>Hello from graphs</h1>
+      </div>
     </main>
   </div>
 </body>

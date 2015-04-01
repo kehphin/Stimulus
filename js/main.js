@@ -9,6 +9,24 @@
   All code in this file was authored by David Lin
 */
 
+var showSettings = function() {
+  $(".groupsContainer").hide();
+  $(".graphsContainer").hide();
+  $(".settingsContainer").show();
+}
+
+var showGroups = function() {
+  $(".settingsContainer").hide();
+  $(".graphsContainer").hide();
+  $(".groupsContainer").show();
+}
+
+var showGraphs = function() {
+  $(".groupsContainer").hide();
+  $(".settingsContainer").hide();
+  $(".graphsContainer").show();
+}
+
 $(function() {
   var directory = new air.File();
   var picturePath = "";
@@ -66,4 +84,18 @@ $(function() {
 
     Export.savePictures(groups, picturePath);
   });
+
+  $(".groupsNav").click(function() {
+    showGroups();
+  });
+
+  $(".settingsNav").click(function() {
+    showSettings();
+  });
+
+  $(".graphsNav").click(function() {
+    showGraphs();
+  });
+
+  showSettings();
 });
