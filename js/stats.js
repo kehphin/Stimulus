@@ -184,7 +184,8 @@ var Stats = (function() {
     var unsorted = _.difference(pictures, _.flatten(sorted));
 
     return {
-      sorted: sorted
+      sorted: sorted,
+      unsorted: unsorted
     };
   }
 
