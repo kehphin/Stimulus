@@ -84,7 +84,7 @@ describe("greedy split", function() {
       [new Picture(9, "qux")]
     ];
 
-    expect(splitPictures).toEqual(expected);
+    expect(splitPictures.sorted).toEqual(expected);
   });
 
   it("also splits the data set", function() {
@@ -101,7 +101,7 @@ describe("greedy split", function() {
       [new Picture(5, "Picture 5")]
     ];
 
-    expect(splitPictures).toEqual(expected);
+    expect(splitPictures.sorted).toEqual(expected);
   });
 
   it("splits the data set with more pictures", function() {
@@ -126,7 +126,7 @@ describe("greedy split", function() {
       ]
     ];
 
-    expect(splitPictures).toEqual(expected);
+    expect(splitPictures.sorted).toEqual(expected);
   });
 
   it("splits the data set into 3 groups", function() {
@@ -156,7 +156,7 @@ describe("greedy split", function() {
       ]
     ];
 
-    expect(splitPictures).toEqual(expected);
+    expect(splitPictures.sorted).toEqual(expected);
   });
 });
 
@@ -176,7 +176,7 @@ describe("round robin split", function() {
       [new Picture(9, "qux")]
     ];
 
-    expect(splitPictures).toEqual(expected);
+    expect(splitPictures.sorted).toEqual(expected);
   });
 
   it("also splits the data set", function() {
@@ -193,7 +193,7 @@ describe("round robin split", function() {
       [new Picture(5, "Picture 5")]
     ];
 
-    expect(splitPictures).toEqual(expected);
+    expect(splitPictures.sorted).toEqual(expected);
   });
 
   it("splits the data set with more pictures", function() {
@@ -218,7 +218,7 @@ describe("round robin split", function() {
       ]
     ];
 
-    expect(splitPictures).toEqual(expected);
+    expect(splitPictures.sorted).toEqual(expected);
   });
 
   it("splits the data set into 3 groups", function() {
@@ -248,7 +248,7 @@ describe("round robin split", function() {
       ]
     ];
 
-    expect(splitPictures).toEqual(expected);
+    expect(splitPictures.sorted).toEqual(expected);
   });
 });
 
@@ -263,8 +263,8 @@ describe("random split", function() {
       "splitFunc": "rr"
     });
 
-    expect(splitPictures.length).toBe(2);
-    _.each(splitPictures, function(group) {
+    expect(splitPictures.sorted.length).toBe(2);
+    _.each(splitPictures.sorted, function(group) {
       expect(group.length).toBe(1);
     });
   });
@@ -278,8 +278,8 @@ describe("random split", function() {
       "splitFunc": "rr"
     });
 
-    expect(splitPictures.length).toBe(2);
-    _.each(splitPictures, function(group) {
+    expect(splitPictures.sorted.length).toBe(2);
+    _.each(splitPictures.sorted, function(group) {
       expect(group.length).toBe(1);
     });
   });
@@ -293,8 +293,8 @@ describe("random split", function() {
       "splitFunc": "rr"
     });
 
-    expect(splitPictures.length).toBe(2);
-    _.each(splitPictures, function(group) {
+    expect(splitPictures.sorted.length).toBe(2);
+    _.each(splitPictures.sorted, function(group) {
       expect(group.length).toBe(3);
     });
   });
@@ -308,8 +308,8 @@ describe("random split", function() {
       "splitFunc": "rr"
     });
 
-    expect(splitPictures.length).toBe(3);
-    _.each(splitPictures, function(group) {
+    expect(splitPictures.sorted.length).toBe(3);
+    _.each(splitPictures.sorted, function(group) {
       expect(group.length).toBe(3);
     });
   });
