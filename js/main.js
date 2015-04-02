@@ -34,6 +34,7 @@ $(function() {
 
       currentGroup.show();
 
+      // for smaller group boxes, scale the pictures up so they are still viewable
       var picSize;
       if (groups.length > 2) {
         picSize = 6;
@@ -41,6 +42,7 @@ $(function() {
         picSize = 3;
       }
 
+      // add each picture inside the group to the outHtml string that will be added to DOM
       group.forEach(function(picture) {
         var path = new air.File(picture.filePath).url;
         outHtml += '<div class="col-md-' + picSize + '"><img src="' + path + '" class="image"></div>';
@@ -59,6 +61,7 @@ $(function() {
     var numGroups = groups.length;
     var colSize;
 
+    // set the group box width based on number of groups
     switch(numGroups) {
       case 1:
         colSize = 12;
