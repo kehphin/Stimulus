@@ -161,28 +161,32 @@ var Stats = (function() {
     var targetRating = Validate.ensure(params, "targetRating");
     var pictures     = Validate.ensure(params, "pictures");
 
-    // Return value.
-    var r;
+    var sorted;
 
     // Pick an algorithm, any algorithm.
     switch(params["splitFunc"] || "gr") {
       case "rr":
-        r = splitRR(numGroups, numPictures, targetRating, pictures);
+        sorted = splitRR(numGroups, numPictures, targetRating, pictures);
         break;
       case "ra":
-        r = splitRA(numGroups, numPictures, targetRating, pictures);
+        sorted = splitRA(numGroups, numPictures, targetRating, pictures);
         break;
       case "gr":
-        r = splitGR(numGroups, numPictures, targetRating, pictures);
+        sorted = splitGR(numGroups, numPictures, targetRating, pictures);
         break;
       case "dp":
-        r = splitDP(numGroups, numPictures, targetRating, pictures);
+        sorted = splitDP(numGroups, numPictures, targetRating, pictures);
         break;
       default:
-        r = splitGR(numGroups, numPictures, targetRating, pictures);
+        sorted = splitGR(numGroups, numPictures, targetRating, pictures);
     }
 
-    return r;
+    var unsorted = _.difference(pictures, _.flatten(sorted));
+
+    return {
+      sorted: sorted,
+      unsorted: unsorted
+    };
   }
 
 

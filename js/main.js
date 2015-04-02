@@ -73,7 +73,7 @@ $(function() {
     });
 
     i = 1;
-    groups.forEach(function(group) {
+    groups.sorted.forEach(function(group) {
       air.trace("Group " + i);
       group.forEach(function(picture) {
         air.trace("filePath: " + picture.filePath + ", rating: " + picture.rating);
@@ -82,7 +82,7 @@ $(function() {
       i++;
     });
 
-    Export.savePictures(groups, picturePath);
+    Export.savePictures(groups.sorted, picturePath);
   });
 
   $(".groupsNav").click(function() {
