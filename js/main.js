@@ -17,15 +17,15 @@ $(function() {
   var groups = [];
 
   var loadPics = function() {
-    var domAdd = "";
+    var unsortedPicsHtml = "";
     pictures.forEach(function(picture) {
       var path = new air.File(picture.filePath).url;
-      domAdd += '<div class="col-md-1"><img src="' + path + '" class="image"></div>';
+      unsortedPicsHtml += '<div class="col-md-1"><img src="' + path + '" class="image"></div>';
     });
 
     // flush DOM then add current pictures
     $('#unsorted').html('');
-    $('#unsorted').append(domAdd);
+    $('#unsorted').append(unsortedPicsHtml);
 
     var groupCount = 1;
     groups.forEach(function(group) {
@@ -46,8 +46,9 @@ $(function() {
         outHtml += '<div class="col-md-' + picSize + '"><img src="' + path + '" class="image"></div>';
       });
 
-      currentGroup.html('');
-      currentGroup.append(outHtml);
+      currentPicBox = $("div[data-group='" + groupCount + "'] > .pic-box");
+      currentPicBox.html('');
+      currentPicBox.append(outHtml);
 
       groupCount++;
     });
