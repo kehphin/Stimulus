@@ -18,7 +18,7 @@ $(function() {
 
   var loadPics = function() {
     var unsortedPicsHtml = "";
-    pictures.forEach(function(picture) {
+    groups.unsorted.forEach(function(picture) {
       var path = new air.File(picture.filePath).url;
       unsortedPicsHtml += '<div class="col-md-1"><img src="' + path + '" class="image"></div>';
     });
@@ -28,7 +28,7 @@ $(function() {
     $('#unsorted').append(unsortedPicsHtml);
 
     var groupCount = 1;
-    groups.forEach(function(group) {
+    groups.sorted.forEach(function(group) {
       var currentGroup = $("div[data-group='" + groupCount + "']");
       var outHtml = "";
 
@@ -36,7 +36,7 @@ $(function() {
 
       // for smaller group boxes, scale the pictures up so they are still viewable
       var picSize;
-      if (groups.length > 2) {
+      if (groups.sorted.length > 2) {
         picSize = 6;
       } else {
         picSize = 3;
@@ -58,7 +58,7 @@ $(function() {
     // clear out existing class
     $('[data-group]').removeClass('col-md-12 col-md-6 col-md-4 col-md-3');
 
-    var numGroups = groups.length;
+    var numGroups = groups.sorted.length;
     var colSize;
 
     // set the group box width based on number of groups
