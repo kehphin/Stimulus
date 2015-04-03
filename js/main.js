@@ -9,29 +9,98 @@
   All code in this file was authored by David Lin
 */
 
-var showSettings = function() {
-  $(".groupsContainer").hide();
-  $(".graphsContainer").hide();
-  $(".settingsContainer").show();
-}
-
-var showGroups = function() {
-  $(".settingsContainer").hide();
-  $(".graphsContainer").hide();
-  $(".groupsContainer").show();
-}
-
-var showGraphs = function() {
-  $(".groupsContainer").hide();
-  $(".settingsContainer").hide();
-  $(".graphsContainer").show();
-}
-
 $(function() {
   var directory = new air.File();
   var picturePath = "";
   var ratingsFile;
   var pictures = [];
+  var groups = [];
+
+  var loadPics = function() {
+    var unsortedPicsHtml = "";
+    groups.unsorted.forEach(function(picture) {
+      var path = new air.File(picture.filePath).url;
+      unsortedPicsHtml += '<div class="col-md-1"><img src="' + path + '" class="image"></div>';
+    });
+
+    // flush DOM then add current pictures
+    $('#unsorted').html('');
+    $('#unsorted').append(unsortedPicsHtml);
+
+    var groupCount = 1;
+    groups.sorted.forEach(function(group) {
+      var currentGroup = $("div[data-group='" + groupCount + "']");
+      var outHtml = "";
+
+      currentGroup.show();
+
+      // for smaller group boxes, scale the pictures up so they are still viewable
+      var picSize;
+      if (groups.sorted.length > 2) {
+        picSize = 6;
+      } else {
+        picSize = 3;
+      }
+
+      // add each picture inside the group to the outHtml string that will be added to DOM
+      group.forEach(function(picture) {
+        var path = new air.File(picture.filePath).url;
+        outHtml += '<div class="col-md-' + picSize + '"><img src="' + path + '" class="image"></div>';
+      });
+
+      currentPicBox = $("div[data-group='" + groupCount + "'] > .pic-box");
+      currentPicBox.html('');
+      currentPicBox.append(outHtml);
+
+      groupCount++;
+    });
+
+    // clear out existing class
+    $('[data-group]').removeClass('col-md-12 col-md-6 col-md-4 col-md-3');
+
+    var numGroups = groups.sorted.length;
+    var colSize;
+
+    // set the group box width based on number of groups
+    switch(numGroups) {
+      case 1:
+        colSize = 12;
+        break;
+      case 2:
+        colSize = 6;
+        break;
+      case 3:
+        colSize = 4;
+        break;
+      default:
+        colSize = 3;
+        break;
+    }
+
+    $('[data-group]').addClass('col-md-' + colSize);
+  }
+
+  var showSettings = function() {
+    $(".groupsContainer").hide();
+    $(".graphsContainer").hide();
+    $(".settingsContainer").show();
+  }
+
+  var showGroups = function() {
+    $('[data-group]').hide();
+
+    $(".settingsContainer").hide();
+    $(".graphsContainer").hide();
+    $(".groupsContainer").show();
+
+    loadPics();
+  }
+
+  var showGraphs = function() {
+    $(".groupsContainer").hide();
+    $(".settingsContainer").hide();
+    $(".graphsContainer").show();
+  }
 
   /*
     When the #picture-directory input is clicked, use AIR's browseForDirectory() method
@@ -83,6 +152,8 @@ $(function() {
     });
 
     Export.savePictures(groups.sorted, picturePath);
+
+    showGroups();
   });
 
   $(".groupsNav").click(function() {
