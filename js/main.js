@@ -10,7 +10,7 @@
 */
 
 $(function() {
-  //var directory = new air.File();
+  var directory = new air.File();
   var picturePath = "";
   var ratingsFile;
   var pictures = [];
@@ -20,7 +20,7 @@ $(function() {
     groups.unsorted.forEach(function(picture) {
       var path = new air.File(picture.filePath).url;
       unsortedPicsHtml += '<img src="' + path + '" class="image">';
-    }); */
+    });
 
     // flush DOM then add current pictures
     $('#unsorted').html('');
@@ -42,8 +42,6 @@ $(function() {
       currentPicBox = $("div[data-group='" + groupCount + "'] > .pic-box");
       currentPicBox.html('');
       currentPicBox.append(outHtml);
-
-      air.trace(outHtml);
 
       groupCount++;
     });
