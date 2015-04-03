@@ -46,7 +46,6 @@ $(function() {
       groupCount++;
     });
 
-
     var numGroups = groups.sorted.length;
     var colSize;
 
@@ -143,9 +142,6 @@ $(function() {
     Export.savePictures(groups.sorted, picturePath);
 
     showGroups();
-
-    air.trace(JSON.stringify(groups));
-
   });
 
   $(".groupsNav").click(function() {
