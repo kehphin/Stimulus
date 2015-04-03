@@ -10,18 +10,17 @@
 */
 
 $(function() {
-  var directory = new air.File();
+  //var directory = new air.File();
   var picturePath = "";
   var ratingsFile;
   var pictures = [];
-  var groups = [];
-
+  var groups = {};
   var loadPics = function() {
     var unsortedPicsHtml = "";
     groups.unsorted.forEach(function(picture) {
       var path = new air.File(picture.filePath).url;
-      unsortedPicsHtml += '<div class="col-md-1"><img src="' + path + '" class="image"></div>';
-    });
+      unsortedPicsHtml += '<img src="' + path + '" class="image">';
+    }); */
 
     // flush DOM then add current pictures
     $('#unsorted').html('');
@@ -34,23 +33,17 @@ $(function() {
 
       currentGroup.show();
 
-      // for smaller group boxes, scale the pictures up so they are still viewable
-      var picSize;
-      if (groups.sorted.length > 2) {
-        picSize = 6;
-      } else {
-        picSize = 3;
-      }
-
       // add each picture inside the group to the outHtml string that will be added to DOM
       group.forEach(function(picture) {
         var path = new air.File(picture.filePath).url;
-        outHtml += '<div class="col-md-' + picSize + '"><img src="' + path + '" class="image"></div>';
+        outHtml += '<img src="' + path + '" class="image"/>';
       });
 
       currentPicBox = $("div[data-group='" + groupCount + "'] > .pic-box");
       currentPicBox.html('');
       currentPicBox.append(outHtml);
+
+      air.trace(outHtml);
 
       groupCount++;
     });
@@ -154,6 +147,9 @@ $(function() {
     Export.savePictures(groups.sorted, picturePath);
 
     showGroups();
+
+    air.trace(JSON.stringify(groups));
+
   });
 
   $(".groupsNav").click(function() {
