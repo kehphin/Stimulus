@@ -49,7 +49,7 @@ var Parse = (function() {
     }
 
     pictures.forEach(function(picture) {
-      air.trace("filePath: " + picture.filePath + ", rating: " + picture.rating);
+      air.trace("id: " + picture.id + ", filePath: " + picture.filePath + ", rating: " + picture.rating);
     });
 
     return pictures;
