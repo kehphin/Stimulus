@@ -46,6 +46,8 @@ $(function() {
       groupCount++;
     });
 
+    $('[data-group]').removeClass('col-md-12 col-md-6 col-md-4 col-md-3');
+
     var numGroups = groups.sorted.length;
     var colSize;
 
