@@ -68,13 +68,14 @@ $(function() {
     $('[data-group]').addClass('col-md-' + colSize);
   }
 
-  var loadDraggable = function () {
+  var loadDragAndDrop = function () {
     $(".image").draggable({
       scroll: true,
       refreshPositions: true,
       helper: 'clone',
       containment: 'window'
     });
+
     $( ".group").droppable({
       accept: '.image',
       activeClass: 'active',
@@ -108,7 +109,7 @@ $(function() {
     $(".groupsContainer").show();
 
     loadPics();
-    loadDraggable();
+    loadDragAndDrop();
   }
 
   var showGraphs = function() {
