@@ -7,13 +7,14 @@ This file contains information about the Picture object, which
 represents a single picture that the user gives as input. 
 */
 
-var id = 1;
-
 var Picture = function(rating, filePath) {
+    if (!Picture.idCounter) {
+      Picture.idCounter = 0;
+    }
+
     this.rating = rating;
     this.filePath = filePath;
-    this.id = id;
-    id++;
+    this.id = Picture.idCounter++;
 }
 
 Picture.prototype.name = function() {
