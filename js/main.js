@@ -10,15 +10,16 @@
 */
 
 $(function() {
-  var directory = new air.File();
+  //var directory = new air.File();
   var picturePath = "";
   var ratingsFile;
   var pictures = [];
-  var groups = {};
+  var groups = {"sorted":[[{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"6","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide6.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"5","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide5.JPG"},{"rating":"10","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide10.JPG"}],[{"rating":"3","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide3.JPG"},{"rating":"9","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide9.JPG"},{"rating":"4","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide4.JPG"},{"rating":"1","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide1.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"}]],"unsorted":[{"rating":"2","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide2.JPG"},{"rating":"8","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide8.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"},{"rating":"7","filePath":"/Users/Kevin/Desktop/2015.02.20-Test_Stimuli/pictures/Slide7.JPG"}]};
   var loadPics = function() {
     var unsortedPicsHtml = "";
     groups.unsorted.forEach(function(picture) {
-      var path = new air.File(picture.filePath).url;
+      //var path = new air.File(picture.filePath).url;
+      var path = picture.filePath;
       unsortedPicsHtml += '<img src="' + path + '" class="image">';
     });
 
@@ -35,7 +36,8 @@ $(function() {
 
       // add each picture inside the group to the outHtml string that will be added to DOM
       group.forEach(function(picture) {
-        var path = new air.File(picture.filePath).url;
+        //var path = new air.File(picture.filePath).url;
+        var path = picture.filePath;
         outHtml += '<img src="' + path + '" class="image"/>';
       });
 
@@ -68,6 +70,32 @@ $(function() {
     $('[data-group]').addClass('col-md-' + colSize);
   }
 
+  var loadDraggable = function () {
+    $(".image").draggable({
+      scroll: true,
+      refreshPositions: true,
+      helper: 'clone',
+      containment: 'window'
+    });
+    $( ".group").droppable({
+      accept: '.image',
+      activeClass: 'active',
+      hoverClass: 'hover',
+      tolerance: 'pointer',
+      drop: function(event, ui) {
+        var clone = $(ui.draggable).clone();
+        clone.draggable({
+          scroll: true,
+          refreshPositions: true,
+          helper: 'clone'
+        });
+
+        $(this).children('div').append(clone);
+        ui.draggable.remove();
+      }
+    });
+  }
+
   var showSettings = function() {
     $(".groupsContainer").hide();
     $(".graphsContainer").hide();
@@ -82,6 +110,7 @@ $(function() {
     $(".groupsContainer").show();
 
     loadPics();
+    loadDraggable();
   }
 
   var showGraphs = function() {
