@@ -15,13 +15,13 @@
 .group {
   border: 1px solid black;
   height: 300px;
-  overflow-y: scroll;
-  overflow-x: hidden;
   text-align: center;
 }
 
-.unsorted {
+.unsorted, .pic-box {
   height: 190px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .image {

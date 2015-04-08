@@ -70,6 +70,33 @@ $(function() {
     $('[data-group]').addClass('col-md-' + colSize);
   }
 
+  var loadDragAndDrop = function () {
+    $(".image").draggable({
+      scroll: true,
+      refreshPositions: true,
+      helper: 'clone',
+      containment: 'window'
+    });
+
+    $( ".group").droppable({
+      accept: '.image',
+      activeClass: 'active',
+      hoverClass: 'hover',
+      tolerance: 'pointer',
+      drop: function(event, ui) {
+        var clone = $(ui.draggable).clone();
+        clone.draggable({
+          scroll: true,
+          refreshPositions: true,
+          helper: 'clone'
+        });
+
+        $(this).children('div').append(clone);
+        ui.draggable.remove();
+      }
+    });
+  }
+
   var showSettings = function() {
     $(".groupsContainer").hide();
     $(".graphsContainer").hide();
@@ -84,6 +111,7 @@ $(function() {
     $(".groupsContainer").show();
 
     loadPics();
+    loadDragAndDrop();
   }
 
   var showGraphs = function() {
