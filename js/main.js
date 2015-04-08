@@ -15,6 +15,9 @@ $(function() {
   var ratingsFile;
   var pictures = [];
   var groups = {};
+
+  /* This function will populate all the picture objects into
+  the group containers in the Groups tab. */
   var loadPics = function() {
     var unsortedPicsHtml = "";
     groups.unsorted.forEach(function(picture) {
@@ -70,6 +73,7 @@ $(function() {
     $('[data-group]').addClass('col-md-' + colSize);
   }
 
+  /* This function attaches drag and drop capability to all the groups and pictures */
   var loadDragAndDrop = function () {
     $(".image").draggable({
       scroll: true,
