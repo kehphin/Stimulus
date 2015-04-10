@@ -1,21 +1,21 @@
 /*
-  Author: Gasper Chan
+  Author: Gasper Chan & Tony Huang
   Group: Team Stimulus
   Created At: 3/14/15
 
   CSS for the Groups tab
 
-  All code in this file was authored by Gasper Chan
 */
 
-.rectangle {
-  border: 1px solid black;
+* {
+  color: #444;
 }
 
 .group {
   border: 1px solid black;
   height: 300px;
   text-align: center;
+  padding: 4px;
 }
 
 .unsorted, .pic-box {
@@ -24,19 +24,19 @@
 }
 
 .pic-box {
-  height:249px;
+  height: 249px;
   width: 100%;
   border-bottom: 1px solid black;
 }
 
 .stats-box {
-  background-color: #FFF;
   height: 50px;
   width: 100%;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #999;
 }
 
 .group-name {
+  margin-left: 4px;
   float: left;
 }
 
@@ -64,14 +64,6 @@
 
 .row {
   background-color: white;
-}
-
-#container {
-  background-color: #2076EC;
-}
-
-#header {
-  color: #FFFFFF;
 }
 
 .col-md-3, .col-md-1, .col-md-12, .col-md-6 {

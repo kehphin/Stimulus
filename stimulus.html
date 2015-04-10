@@ -1,7 +1,7 @@
 
 <html>
 <head>
-  <title>Profile</title>
+  <title>Topkek</title>
 
   <script src="lib/jquery.js"></script>
   <script src="lib/jquery-ui.min.js"></script>
@@ -88,22 +88,13 @@
       </div>
       <div class="groupsContainer">
         <div class="row">
-          <div class="group">
-            <h4>Unsorted Pictures</h4>
-            <div id="unsorted">
-              <!-- Pictures loaded in here through main.js -->
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
           <div class="group" data-group="1">
             <div class="pic-box"></div>
             <div class="stats-box">
               <h4 class="group-name">Group 1</h4>
               <div class="stats">
-                <p>Mean: 5</p>
-                <p>StDev: 0.5</p>
+                <p class="stats-mean">Mean: 5</p>
+                <p class="stats-stdev">StDev: 0.5</p>
               </div>
             </div>
           </div>
@@ -186,6 +177,16 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="unsorted row">
+          <div class="group">
+            <h4>Unsorted Pictures</h4>
+            <div class="unsorted-pictures">
+
+              <!-- Pictures loaded in here through main.js -->
+            </div>
+          </div>
+        </div>
       </div>
       <div class="graphsContainer">
         <a href="lib/flot/examples/zooming/index.html">example</a>

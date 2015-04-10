@@ -1,12 +1,10 @@
 /*
-  Author: David Lin
+  Author: David Lin & Tony Huang & Kevin Yang
   Group: Team Stimulus
   Created At: 2/28/15
 
   This is the core JS file that contains all of the bindings for DOM
   actions such as file browsing and submitting the form
-
-  All code in this file was authored by David Lin
 */
 
 $(function() {
@@ -26,8 +24,8 @@ $(function() {
     });
 
     // flush DOM then add current pictures
-    $('#unsorted').html('');
-    $('#unsorted').append(unsortedPicsHtml);
+    $('.unsorted-pictures').html('');
+    $('.unsorted-pictures').append(unsortedPicsHtml);
 
     var groupCount = 1;
     groups.sorted.forEach(function(group) {
@@ -137,18 +135,15 @@ $(function() {
     directory.browseForDirectory("Choose the picture directory");
   });
 
-  /*
-    When submit is clicked on the form, parse all of the input into variables
-    and use the Parse module to parse the ratings file.
-  */
-  $('#input-form').submit(function(e) {
-    e.preventDefault();
-
+  function onInputFormSubmit() {
     // get the grouping parameters off of the form
-    var formFields = Parse.getFormFields();
+    //var formFields = Parse.getFormFields();
 
     // read pictures from the ratings file
-    pictures = Parse.getPictures(formFields['ratingsFile'], picturePath);
+    //pictures = Parse.getPictures(formFields['ratingsFile'], picturePath);
+    picturePath = "/Users/tony/sd/Stimulus/test_data";
+    var ratingsFile = new air.File(picturePath + "/ratings.csv");
+    pictures = Parse.getPictures(ratingsFile, picturePath);
 
     // choose algorithm for splitting the pictures
     var splitFunc = 'ra'
@@ -156,9 +151,9 @@ $(function() {
 
     // process the pictures with the stats module
     groups = Stats.split({
-      numGroups: formFields['numGroups'],
-      numPictures: formFields['picsPerGroup'],
-      targetRating: formFields['avgRating'],
+      numGroups: 8,//formFields['numGroups'],
+      numPictures: 1,//formFields['picsPerGroup'],
+      targetRating: 5,//formFields['avgRating'],
       pictures: pictures,
       splitFunc: splitFunc
     });
@@ -176,6 +171,15 @@ $(function() {
     Export.savePictures(groups.sorted, picturePath);
 
     showGroups();
+  }
+
+  /*
+    When submit is clicked on the form, parse all of the input into variables
+    and use the Parse module to parse the ratings file.
+  */
+  $('#input-form').submit(function(e) {
+    e.preventDefault();
+    onInputFormSubmit();
   });
 
   $(".groupsNav").click(function() {
@@ -190,5 +194,6 @@ $(function() {
     showGraphs();
   });
 
-  showSettings();
+  //showSettings();
+  onInputFormSubmit();
 });
