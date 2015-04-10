@@ -40,6 +40,11 @@
   float: left;
 }
 
+.stats {
+  float: right;
+  text-align: right;
+}
+
 .mean, .stdev {
   float: right;
 }
