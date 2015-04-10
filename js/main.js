@@ -142,8 +142,8 @@ $(function() {
 
     // process the pictures with the stats module
     groups = Stats.split({
-      numGroups: 8,//formFields['numGroups'],
-      numPictures: 1,//formFields['picsPerGroup'],
+      numGroups: 2,//formFields['numGroups'],
+      numPictures: 5,//formFields['picsPerGroup'],
       targetRating: 5,//formFields['avgRating'],
       pictures: pictures,
       splitFunc: splitFunc
@@ -202,10 +202,14 @@ function _getPictureHtml(picture) {
   var path = new air.File(picture.filePath).url;
   var imageHtml =
     '<div class="image-container">\n' +
-      '<img src="' + path + '" class="image">\n' +
-      '<div class="pic-info">Rating: ' + picture.rating + '</div>\n' +
+    '  <img src="{path}" class="image">\n' +
+    '  <div class="pic-info">Rating: {rating}</div>\n' +
     '</div>\n';
-  return imageHtml;
+
+  return imageHtml.supplant({
+    path: path,
+    rating: picture.rating
+  });
 }
 
 

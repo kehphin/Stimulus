@@ -19,9 +19,13 @@ footer {
   color: #444;
 }
 
+body {
+  background-color: #DDD;
+}
+
 .pic-info {
-  background-color: white;
-  text-align: left;
+  background: #EFEFEF;
+  text-align: middle;
   width: 100px;
 }
 
@@ -38,14 +42,13 @@ footer {
 .pic-box {
   overflow-y: auto;
   overflow-x: hidden;
-  box-shadow: 0 0 50px #888888;
   height: 250px;
   background: #FFF;
   width: 100%;
 }
 
-.stats-box {
-  background: #FBFBFB;
+.stats-box, .unsorted-header {
+  background: #EEE;
   height: 40px;
   width: 100%;
   padding: 1px 10px 0px 10px;
@@ -62,8 +65,11 @@ footer {
 }
 
 .image-container {
+  float: left;
+  display: inline-block;
   width: 100px;
   margin: 5px;
+  -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.45);
 }
 
 .image {
