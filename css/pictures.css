@@ -19,9 +19,34 @@
 }
 
 .unsorted, .pic-box {
-  height: 190px;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.pic-box {
+  height:249px;
+  width: 100%;
+  border-bottom: 1px solid black;
+}
+
+.stats-box {
+  background-color: #FFF;
+  height: 50px;
+  width: 100%;
+  border-bottom: 1px solid black;
+}
+
+.group-name {
+  float: left;
+}
+
+.stats {
+  float: right;
+  text-align: right;
+}
+
+.mean, .stdev {
+  float: right;
 }
 
 .image {
