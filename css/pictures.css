@@ -35,8 +35,9 @@ body {
   padding: 10px 5px !important;
 }
 
-.inner-group {
+.inner-group, .pic-container {
   -webkit-box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.20);
+  border-radius: 2px;
 }
 
 .pic-box {
@@ -54,6 +55,14 @@ body {
   padding: 1px 10px 0px 10px;
 }
 
+.unsorted-group .unsorted-header, .sorted-group .pic-box {
+  border-radius: 2px 2px 0 0;
+}
+
+.unsorted-group .pic-box, .sorted-group .stats-box, .pic-info {
+  border-radius: 0 0 2px 2px;
+}
+
 .group-name {
   margin-top: 8px;
   float: left;
@@ -64,7 +73,7 @@ body {
   text-align: right;
 }
 
-.image-container {
+.pic-container {
   float: left;
   display: inline-block;
   width: 100px;
@@ -72,11 +81,11 @@ body {
   -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.45);
 }
 
-.image {
+.pic-image {
   width: 100px;
 }
 
-.image:hover {
+.pic-image:hover {
   cursor: move;
 }
 

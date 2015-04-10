@@ -201,8 +201,8 @@ String.prototype.supplant = function (o) {
 function _getPictureHtml(picture) {
   var path = new air.File(picture.filePath).url;
   var imageHtml =
-    '<div class="image-container">\n' +
-    '  <img src="{path}" class="image">\n' +
+    '<div class="pic-container">\n' +
+    '  <img src="{path}" class="pic-image">\n' +
     '  <div class="pic-info">Rating: {rating}</div>\n' +
     '</div>\n';
 
@@ -234,8 +234,9 @@ function _addGroupToRow(group, index, $parentRow) {
     '  </div>\n' +
     '</div>\n';
 
-  var meanRating = Stats.meanRating(group);
-  var stdevRating = Stats.stdevRating(group);
+  var meanRating = +Stats.meanRating(group).toFixed(3);
+  var stdevRating = +Stats.stdevRating(group).toFixed(3);
+  //http://stackoverflow.com/a/12830454
 
   groupHtml = groupHtml.supplant({
     index: index,
