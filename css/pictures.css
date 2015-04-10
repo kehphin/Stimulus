@@ -19,7 +19,7 @@ body {
   background: #0F0;
   height: 300px;
   text-align: center;
-  /*padding: 10px !important;*/
+  padding: 10px;
 }
 
 .pic-box {
@@ -37,21 +37,13 @@ body {
   position: relative;
 }
 
-.stats-box * {
-  position: absolute;
-  display: inline-block;
-}
-
 .group-name {
-  left: 0;
+  float: left;
 }
 
-.stats-mean, .stats-stdev,  {
-  right: 0;
-}
-
-.stats-mean {
-
+.stats {
+  float: right;
+  text-align: right;
 }
 
 .image {
