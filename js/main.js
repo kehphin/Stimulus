@@ -27,6 +27,21 @@ $(function() {
     $('.unsorted-pictures').html('');
     $('.unsorted-pictures').append(unsortedPicsHtml);
 
+    $('.sorted-group').remove();
+
+    // Use JQuery each for easy access to index.
+    $.each(groups.sorted, function(index, group) {
+      var row;
+      if(index < 4) {
+        row = $(".sorted-row")[0];
+      } else {
+        row = $(".sorted-row")[1];
+      }
+
+      _addGroupToRow(group, index, row);
+    });
+
+/*
     var groupCount = 1;
     groups.sorted.forEach(function(group) {
       var currentGroup = $("div[data-group='" + groupCount + "']");
@@ -68,7 +83,7 @@ $(function() {
         break;
     }
 
-    $('[data-group]').addClass('col-md-' + colSize);
+    $('[data-group]').addClass('col-md-' + colSize);*/
   }
 
   /* This function attaches drag and drop capability to all the groups and pictures */
@@ -197,3 +212,36 @@ $(function() {
   //showSettings();
   onInputFormSubmit();
 });
+
+String.prototype.supplant = function (o) {
+  return this.replace(/{([^{}]*)}/g,
+    function (a, b) {
+      var r = o[b];
+      return typeof r === 'string' || typeof r === 'number' ? r : a;
+    }
+  );
+};
+
+function _addGroupToRow(group, index, parentRow) {
+  var groupHtml = 
+    '<div class="group sorted-group" data-group="{index}">\n' + 
+    '  <div class="pic-box"></div>\n' + 
+    '  <div class="stats-box">\n' + 
+    '    <h4 class="group-name">Group {index}</h4>\n' + 
+    '    <div class="stats">\n' + 
+    '      <p class="stats-mean">Mean: 5</p>\n' + 
+    '      <p class="stats-stdev">StDev: 0.5</p>\n' + 
+    '    </div>\n' + 
+    '  </div>\n' + 
+    '</div>\n';
+
+  groupHtml = groupHtml.supplant({
+    index: index
+  });
+
+  parentRow.append(groupHtml);
+}
+
+
+
+
