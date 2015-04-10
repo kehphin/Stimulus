@@ -8,8 +8,13 @@ represents a single picture that the user gives as input.
 */
 
 var Picture = function(rating, filePath) {
+    if (!Picture.idCounter) {
+      Picture.idCounter = 0;
+    }
+
     this.rating = rating;
     this.filePath = filePath;
+    this.id = Picture.idCounter++;
 }
 
 Picture.prototype.name = function() {

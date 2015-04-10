@@ -15,18 +15,18 @@
 .group {
   border: 1px solid black;
   height: 300px;
-  overflow: scroll;
-
   text-align: center;
 }
 
-.unsorted {
+.unsorted, .pic-box {
   height: 190px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .image {
-  max-width: 100%;
-  height: auto;
+  width: 100px;
+  margin: 5px;
 }
 
 .image:hover {
