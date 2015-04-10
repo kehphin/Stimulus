@@ -19,13 +19,12 @@ $(function() {
   var loadPics = function() {
     var unsortedPicsHtml = "";
     groups.unsorted.forEach(function(picture) {
-      var path = new air.File(picture.filePath).url;
-      unsortedPicsHtml += '<img src="' + path + '" class="image">';
+      unsortedPicsHtml += _getPictureHtml(picture);
     });
 
     // flush DOM then add current pictures
-    $('.unsorted-pictures').html('');
-    $('.unsorted-pictures').append(unsortedPicsHtml);
+    $('.unsorted-row .pic-box').html('');
+    $('.unsorted-row .pic-box').append(unsortedPicsHtml);
 
     $('.sorted-group').remove();
 
@@ -61,50 +60,6 @@ $(function() {
     }
 
     $('[data-group]').addClass('col-md-' + colSize);
-
-/*
-    var groupCount = 1;
-    groups.sorted.forEach(function(group) {
-      var currentGroup = $("div[data-group='" + groupCount + "']");
-      var outHtml = "";
-
-      currentGroup.show();
-
-      // add each picture inside the group to the outHtml string that will be added to DOM
-      group.forEach(function(picture) {
-        var path = new air.File(picture.filePath).url;
-        outHtml += '<img src="' + path + '" class="image"/>';
-      });
-
-      currentPicBox = $("div[data-group='" + groupCount + "'] > .pic-box");
-      currentPicBox.html('');
-      currentPicBox.append(outHtml);
-
-      groupCount++;
-    });
-
-    $('[data-group]').removeClass('col-md-12 col-md-6 col-md-4 col-md-3');
-
-    var numGroups = groups.sorted.length;
-    var colSize;
-
-    // set the group box width based on number of groups
-    switch(numGroups) {
-      case 1:
-        colSize = 12;
-        break;
-      case 2:
-        colSize = 6;
-        break;
-      case 3:
-        colSize = 4;
-        break;
-      default:
-        colSize = 3;
-        break;
-    }
-
-    $('[data-group]').addClass('col-md-' + colSize);*/
   }
 
   /* This function attaches drag and drop capability to all the groups and pictures */
@@ -248,6 +203,13 @@ function _getPictureHtml(picture) {
   return '<img src="' + path + '" class="image"/>\n';
 }
 
+
+// Adds a group of pictures to a given row element, assigns
+// it an id of {index}
+//
+// Creation date: 4/10/15 - Tony J Huang
+// Modifications list:
+//
 function _addGroupToRow(group, index, $parentRow) {
   var groupHtml = 
     '<div class="group sorted-group" data-group="{index}">\n' + 
@@ -255,27 +217,32 @@ function _addGroupToRow(group, index, $parentRow) {
     '  <div class="stats-box">\n' + 
     '    <h4 class="group-name">Group {index}</h4>\n' + 
     '    <div class="stats">\n' + 
-    '      <p class="stats-mean">Mean: 5</p>\n' + 
-    '      <p class="stats-stdev">StDev: 0.5</p>\n' + 
+    '      <div class="stats-mean">Mean: {mean}</div>\n' + 
+    '      <div class="stats-stdev">St.dev: {stdev}</div>\n' + 
     '    </div>\n' + 
     '  </div>\n' + 
     '</div>\n';
 
+  var meanRating = Stats.meanRating(group);
+  var stdevRating = Stats.stdevRating(group);
+
   groupHtml = groupHtml.supplant({
-    index: index
+    index: index,
+    mean: meanRating,
+    stdev: stdevRating
   });
 
   var $groupElement = $(groupHtml);
   $parentRow.append($groupElement);
 
-  // construct Html for pictures
+  // Add pictures to group
   var pictureHtml = "";
   group.forEach(function(picture) {
     pictureHtml += _getPictureHtml(picture);
   });
-
-  // add pictures to pic box
   $groupElement.find(".pic-box").append(pictureHtml);
+
+
 
   return $groupElement;
 }

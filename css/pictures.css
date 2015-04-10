@@ -7,46 +7,51 @@
 
 */
 
+body {
+  background: #EFEFEF;
+}
+
 * {
   color: #444;
 }
 
 .group {
-  border: 1px solid black;
+  background: #0F0;
   height: 300px;
   text-align: center;
-  padding: 4px;
-}
-
-.unsorted, .pic-box {
-  overflow-y: auto;
-  overflow-x: hidden;
+  /*padding: 10px !important;*/
 }
 
 .pic-box {
-  height: 249px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 250px;
+  background: #00F;
   width: 100%;
-  border-bottom: 1px solid black;
 }
 
 .stats-box {
+  background: #F00;
   height: 50px;
   width: 100%;
-  border-bottom: 1px solid #999;
+  position: relative;
+}
+
+.stats-box * {
+  position: absolute;
+  display: inline-block;
 }
 
 .group-name {
-  margin-left: 4px;
-  float: left;
+  left: 0;
 }
 
-.stats {
-  float: right;
-  text-align: right;
+.stats-mean, .stats-stdev,  {
+  right: 0;
 }
 
-.mean, .stdev {
-  float: right;
+.stats-mean {
+
 }
 
 .image {
@@ -60,10 +65,7 @@
 
 .container {
   max-width: 1024px;
-}
 
-.row {
-  background-color: white;
 }
 
 .col-md-3, .col-md-1, .col-md-12, .col-md-6 {
