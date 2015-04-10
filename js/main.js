@@ -213,14 +213,16 @@ function _getPictureHtml(picture) {
 function _addGroupToRow(group, index, $parentRow) {
   var groupHtml = 
     '<div class="group sorted-group" data-group="{index}">\n' + 
-    '  <div class="pic-box"></div>\n' + 
-    '  <div class="stats-box">\n' + 
-    '    <h4 class="group-name">Group {index}</h4>\n' + 
-    '    <div class="stats">\n' + 
-    '      <div class="stats-mean">Mean: {mean}</div>\n' + 
-    '      <div class="stats-stdev">St.dev: {stdev}</div>\n' + 
-    '    </div>\n' + 
+    '  <div class="inner-group">\n' + 
+    '    <div class="pic-box"></div>\n' + 
+    '    <div class="stats-box">\n' + 
+    '      <h4 class="group-name">Group {index}</h4>\n' + 
+    '      <div class="stats">\n' + 
+    '        <div class="stats-mean">Mean: {mean}</div>\n' + 
+    '        <div class="stats-stdev">St.dev: {stdev}</div>\n' + 
+    '      </div>\n' + 
     '  </div>\n' + 
+    '  </div>\n' +
     '</div>\n';
 
   var meanRating = Stats.meanRating(group);

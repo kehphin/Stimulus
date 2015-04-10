@@ -7,8 +7,12 @@
 
 */
 
-body {
-  background: #EFEFEF;
+header {
+  -webkit-box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.25);
+}
+
+footer {
+  height: 100px;
 }
 
 * {
@@ -16,28 +20,33 @@ body {
 }
 
 .group {
-  background: #0F0;
   height: 300px;
   text-align: center;
-  padding: 10px;
+  padding: 10px 5px !important;
+}
+
+.inner-group {
+  -webkit-box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.20);
 }
 
 .pic-box {
   overflow-y: auto;
   overflow-x: hidden;
+  box-shadow: 0 0 50px #888888;
   height: 250px;
-  background: #00F;
+  background: #FFF;
   width: 100%;
 }
 
 .stats-box {
-  background: #F00;
-  height: 50px;
+  background: #FBFBFB;
+  height: 40px;
   width: 100%;
-  position: relative;
+  padding: 1px 10px 0px 10px;
 }
 
 .group-name {
+  margin-top: 8px;
   float: left;
 }
 
@@ -57,7 +66,6 @@ body {
 
 .container {
   max-width: 1024px;
-
 }
 
 .col-md-3, .col-md-1, .col-md-12, .col-md-6 {
@@ -65,3 +73,4 @@ body {
   padding-right: 2px;
   max-width:100%;
 }
+
