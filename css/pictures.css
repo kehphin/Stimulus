@@ -19,6 +19,12 @@ footer {
   color: #444;
 }
 
+.pic-info {
+  background-color: white;
+  text-align: left;
+  width: 100px;
+}
+
 .group {
   height: 300px;
   text-align: center;
@@ -55,9 +61,13 @@ footer {
   text-align: right;
 }
 
-.image {
+.image-container {
   width: 100px;
   margin: 5px;
+}
+
+.image {
+  width: 100px;
 }
 
 .image:hover {

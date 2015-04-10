@@ -64,7 +64,7 @@ $(function() {
 
   /* This function attaches drag and drop capability to all the groups and pictures */
   var loadDragAndDrop = function () {
-    $(".image").draggable({
+    $(".image-container").draggable({
       scroll: true,
       refreshPositions: true,
       helper: 'clone',
@@ -72,7 +72,7 @@ $(function() {
     });
 
     $( ".group").droppable({
-      accept: '.image',
+      accept: '.image-container',
       activeClass: 'active',
       hoverClass: 'hover',
       tolerance: 'pointer',
@@ -200,7 +200,12 @@ String.prototype.supplant = function (o) {
 
 function _getPictureHtml(picture) {
   var path = new air.File(picture.filePath).url;
-  return '<img src="' + path + '" class="image"/>\n';
+  var imageHtml =
+    '<div class="image-container">\n' +
+      '<img src="' + path + '" class="image">\n' +
+      '<div class="pic-info">Rating: ' + picture.rating + '</div>\n' +
+    '</div>\n';
+  return imageHtml;
 }
 
 
