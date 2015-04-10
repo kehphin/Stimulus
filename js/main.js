@@ -38,8 +38,29 @@ $(function() {
         row = $(".sorted-row")[1];
       }
 
-      _addGroupToRow(group, index, row);
+      var groupElement = _addGroupToRow(group, index, $(row));
     });
+
+    var numGroups = groups.sorted.length;
+    var colSize;
+
+    // set the group box width based on number of groups
+    switch(numGroups) {
+      case 1:
+        colSize = 12;
+        break;
+      case 2:
+        colSize = 6;
+        break;
+      case 3:
+        colSize = 4;
+        break;
+      default:
+        colSize = 3;
+        break;
+    }
+
+    $('[data-group]').addClass('col-md-' + colSize);
 
 /*
     var groupCount = 1;
@@ -222,7 +243,12 @@ String.prototype.supplant = function (o) {
   );
 };
 
-function _addGroupToRow(group, index, parentRow) {
+function _getPictureHtml(picture) {
+  var path = new air.File(picture.filePath).url;
+  return '<img src="' + path + '" class="image"/>\n';
+}
+
+function _addGroupToRow(group, index, $parentRow) {
   var groupHtml = 
     '<div class="group sorted-group" data-group="{index}">\n' + 
     '  <div class="pic-box"></div>\n' + 
@@ -239,7 +265,19 @@ function _addGroupToRow(group, index, parentRow) {
     index: index
   });
 
-  parentRow.append(groupHtml);
+  var $groupElement = $(groupHtml);
+  $parentRow.append($groupElement);
+
+  // construct Html for pictures
+  var pictureHtml = "";
+  group.forEach(function(picture) {
+    pictureHtml += _getPictureHtml(picture);
+  });
+
+  // add pictures to pic box
+  $groupElement.find(".pic-box").append(pictureHtml);
+
+  return $groupElement;
 }
 
 
