@@ -42,7 +42,6 @@
 
 .mean, .stdev {
   float: right;
-  right: 0;
 }
 
 .image {
