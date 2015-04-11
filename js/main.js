@@ -7,6 +7,8 @@
   actions such as file browsing and submitting the form
 */
 
+var DEBUG = true;
+
 $(function() {
   var directory = new air.File();
   var picturePath = "";
@@ -127,32 +129,47 @@ $(function() {
   });
 
   function onInputFormSubmit() {
-    // get the grouping parameters off of the form
-    var formFields = Parse.getFormFields();
-
-    // read pictures from the ratings file
-    pictures = Parse.getPictures(formFields['ratingsFile'], picturePath);
+    if(DEBUG) {
+      picturePath = "/Users/tony/sd/Stimulus/test_data";
+      var ratingsFile = new air.File(picturePath + "/ratings.csv");
+      pictures = Parse.getPictures(ratingsFile, picturePath);
+    } else {
+      // get the grouping parameters off of the form
+      var formFields = Parse.getFormFields();
+      // read pictures from the ratings file
+      pictures = Parse.getPictures(formFields['ratingsFile'], picturePath);
+    }
 
     // choose algorithm for splitting the pictures
     var splitFunc = 'ra'
     air.trace("Splitting with algorithm: " + splitFunc);
 
-    // process the pictures with the stats module
-    groups = Stats.split({
-      numGroups: formFields['numGroups'],
-      numPictures: formFields['picsPerGroup'],
-      targetRating: formFields['avgRating'],
-      pictures: pictures,
-      splitFunc: splitFunc
-    });
+    if(DEBUG) {
+      // process the pictures with the stats module
+      groups = Stats.split({
+        numGroups: 2,
+        numPictures: 5,
+        targetRating: 5,
+        pictures: pictures,
+        splitFunc: splitFunc
+      });
+    } else {
+      // process the pictures with the stats module
+      groups = Stats.split({
+        numGroups: formFields['numGroups'],
+        numPictures: formFields['picsPerGroup'],
+        targetRating: formFields['avgRating'],
+        pictures: pictures,
+        splitFunc: splitFunc
+      });
+    }
 
-    i = 1;
+    var i = 1;
     groups.sorted.forEach(function(group) {
       air.trace("Group " + i);
       group.forEach(function(picture) {
         air.trace("filePath: " + picture.filePath + ", rating: " + picture.rating);
       });
-
       i++;
     });
 
@@ -182,7 +199,12 @@ $(function() {
     showGraphs();
   });
 
-  showSettings();
+  if(DEBUG) {
+    onInputFormSubmit();
+    showSettings();
+  } else {
+    showSettings();
+  }
 });
 
 String.prototype.supplant = function (o) {
