@@ -7,5 +7,11 @@
 }
 
 #input-form {
-  padding: 40px 0px 20px 0px;
+  padding: 20px 0px 20px 0px;
+}
+
+.welcome-back {
+  float: right;
+  padding: 40px 0px 0px 0px;
+  font-size: 24pt;
 }

@@ -94,9 +94,4 @@ body {
   max-width: 1024px;
 }
 
-.col-md-3, .col-md-1, .col-md-12, .col-md-6 {
-  padding-left: 2px;
-  padding-right: 2px;
-  max-width:100%;
-}
 
