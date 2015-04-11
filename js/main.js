@@ -122,6 +122,7 @@ $(function() {
     $(".groupsContainer").hide();
     $(".settingsContainer").hide();
     $(".graphsContainer").show();
+    Chart.plotCharts(groups.sorted);
   }
 
   /*
