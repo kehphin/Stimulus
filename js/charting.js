@@ -72,6 +72,11 @@ var Chart = (function() {
           lines: {show: false},
           points: {show: true}
         },
+        xaxis: {
+          tickSize: 1,
+          min: -0.5,
+          max: groups[g].length - 0.5
+        },
         selection: {mode: "xy"}
       };
 
