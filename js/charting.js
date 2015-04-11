@@ -125,7 +125,6 @@ var Chart = (function() {
       // binds unzoom button
       $(charts[g].buttonSelector).click(function(e) {
         // finds which chart wants to be unzoomed
-        debugger;
         var chartNum = parseInt(e.currentTarget.className.split("reset")[2]);
         charts[chartNum].plot = $.plot(charts[chartNum].chartSelector, charts[chartNum].chart_data, options);
         charts[chartNum].overview = $.plot(charts[chartNum].overviewSelector, charts[chartNum].chart_data, options);
