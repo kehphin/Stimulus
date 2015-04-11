@@ -201,7 +201,6 @@ $(function() {
 
   if(DEBUG) {
     onInputFormSubmit();
-    showSettings();
   } else {
     showSettings();
   }

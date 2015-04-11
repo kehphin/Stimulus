@@ -32,7 +32,7 @@ body {
 .group {
   height: 300px;
   text-align: center;
-  padding: 10px 5px !important;
+  padding: 10px 5px;
 }
 
 .inner-group, .pic-container {
