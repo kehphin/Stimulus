@@ -7,7 +7,7 @@
   actions such as file browsing and submitting the form
 */
 
-var DEBUG = true;
+var DEBUG = false;
 
 $(function() {
   var directory = new air.File();
