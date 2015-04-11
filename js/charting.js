@@ -39,15 +39,18 @@ var Chart = (function() {
       var chartClass = "chart" + g;
       var chartDiv = $("<div></div>");
       chartDiv.addClass("chart " + chartClass);
+
+      var buttonClass = "reset" + g;
+      var resetButton = $("<button type='button'>Unzoom</button>").addClass("reset-zoom " + buttonClass);
       
-      $(".graphsContainer").append(chartDiv);
-      $(".graphsContainer").append(overviewDiv);
+      $(".graphsContainer").append(chartDiv, overviewDiv, resetButton);
 
       // chart object saved for use after initialization, i.e for zooming
       chart = {};
 
       chart.overviewSelector = "." + overviewClass;
       chart.chartSelector = "." + chartClass;
+      chart.buttonSelector = "." + buttonClass;
 
       // sorts the given group based on ratings
       function compare(a, b) {
@@ -66,6 +69,7 @@ var Chart = (function() {
         data: data
       }];
 
+      // styles the charts
       var options = {
         legend: {show: false},
         series: {
@@ -117,6 +121,15 @@ var Chart = (function() {
           }
         }
       });
+
+      // binds unzoom button
+      $(charts[g].buttonSelector).click(function(e) {
+        // finds which chart wants to be unzoomed
+        var chartNum = parseInt(e.currentTarget.classList[1].split("reset")[1]);
+        charts[chartNum].plot = $.plot(charts[chartNum].chartSelector, charts[chartNum].chart_data, options);
+        charts[chartNum].overview = $.plot(charts[chartNum].overviewSelector, charts[chartNum].chart_data, options);
+      });
+
     }
 
   }

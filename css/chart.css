@@ -9,3 +9,9 @@
     height: 400px;
     float: left;
 }
+
+.reset-zoom {
+    float: right;
+    clear: right;
+    margin-top: 25px;
+}
