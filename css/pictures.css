@@ -1,42 +1,70 @@
 /*
-  Author: Gasper Chan
+  Author: Gasper Chan & Tony Huang
   Group: Team Stimulus
   Created At: 3/14/15
 
   CSS for the Groups tab
 
-  All code in this file was authored by Gasper Chan
 */
 
-.rectangle {
-  border: 1px solid black;
+#nav {
+  -webkit-box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.20);
+}
+
+footer {
+  height: 100px;
+}
+
+* {
+  color: #444;
+}
+
+body {
+  background-color: #DDD;
+}
+
+.pic-info {
+  background: #EFEFEF;
+  text-align: middle;
+  width: 100px;
 }
 
 .group {
-  border: 1px solid black;
   height: 300px;
   text-align: center;
+  padding: 10px 5px;
 }
 
-.unsorted, .pic-box {
-  overflow-y: auto;
-  overflow-x: hidden;
+.inner-group, .pic-container {
+  -webkit-box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.20);
+  border-radius: 2px;
 }
 
 .pic-box {
-  height:249px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 250px;
+  background: #FFF;
   width: 100%;
-  border-bottom: 1px solid black;
 }
 
-.stats-box {
-  background-color: #FFF;
-  height: 50px;
+.stats-box, .unsorted-header {
+  background: #EEE;
+  height: 40px;
   width: 100%;
-  border-bottom: 1px solid black;
+  padding: 1px 10px 0px 10px;
+}
+
+.unsorted-group .unsorted-header, .sorted-group .pic-box {
+  border-radius: 2px 2px 0 0;
+}
+
+.unsorted-group .pic-box, .sorted-group .stats-box, .pic-info {
+  border-radius: 0 0 2px 2px;
 }
 
 .group-name {
+  margin-top: 8px;
   float: left;
 }
 
@@ -45,16 +73,20 @@
   text-align: right;
 }
 
-.mean, .stdev {
-  float: right;
-}
-
-.image {
+.pic-container {
+  z-index: 999;
+  float: left;
+  display: inline-block;
   width: 100px;
   margin: 5px;
+  -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.45);
 }
 
-.image:hover {
+.pic-image {
+  width: 100px;
+}
+
+.pic-image:hover {
   cursor: move;
 }
 
@@ -62,20 +94,4 @@
   max-width: 1024px;
 }
 
-.row {
-  background-color: white;
-}
 
-#container {
-  background-color: #2076EC;
-}
-
-#header {
-  color: #FFFFFF;
-}
-
-.col-md-3, .col-md-1, .col-md-12, .col-md-6 {
-  padding-left: 2px;
-  padding-right: 2px;
-  max-width:100%;
-}

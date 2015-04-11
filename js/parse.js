@@ -44,7 +44,7 @@ var Parse = (function() {
       for(i = dataIndex + 1; i < rows.length; i++) {
         var cols = rows[i].split(",");
         var path = [picturePath, cols[0]].join("/");
-        pictures.push(new Picture(cols[1], path));
+        pictures.push(new Picture(parseInt(cols[1]), path));
       }
     }
 

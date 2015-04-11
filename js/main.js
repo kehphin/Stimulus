@@ -1,13 +1,13 @@
 /*
-  Author: David Lin
+  Author: David Lin & Tony Huang & Kevin Yang
   Group: Team Stimulus
   Created At: 2/28/15
 
   This is the core JS file that contains all of the bindings for DOM
   actions such as file browsing and submitting the form
-
-  All code in this file was authored by David Lin
 */
+
+var DEBUG = true;
 
 $(function() {
   var directory = new air.File();
@@ -21,35 +21,26 @@ $(function() {
   var loadPics = function() {
     var unsortedPicsHtml = "";
     groups.unsorted.forEach(function(picture) {
-      var path = new air.File(picture.filePath).url;
-      unsortedPicsHtml += '<img src="' + path + '" class="image">';
+      unsortedPicsHtml += _getPictureHtml(picture);
     });
 
     // flush DOM then add current pictures
-    $('#unsorted').html('');
-    $('#unsorted').append(unsortedPicsHtml);
+    $('.unsorted-row .pic-box').html('');
+    $('.unsorted-row .pic-box').append(unsortedPicsHtml);
 
-    var groupCount = 1;
-    groups.sorted.forEach(function(group) {
-      var currentGroup = $("div[data-group='" + groupCount + "']");
-      var outHtml = "";
+    $('.sorted-group').remove();
 
-      currentGroup.show();
+    // Use JQuery each for easy access to index.
+    $.each(groups.sorted, function(index, group) {
+      var row;
+      if(index < 4) {
+        row = $(".sorted-row")[0];
+      } else {
+        row = $(".sorted-row")[1];
+      }
 
-      // add each picture inside the group to the outHtml string that will be added to DOM
-      group.forEach(function(picture) {
-        var path = new air.File(picture.filePath).url;
-        outHtml += '<img src="' + path + '" class="image"/>';
-      });
-
-      currentPicBox = $("div[data-group='" + groupCount + "'] > .pic-box");
-      currentPicBox.html('');
-      currentPicBox.append(outHtml);
-
-      groupCount++;
+      var groupElement = _addGroupToRow(group, index, $(row));
     });
-
-    $('[data-group]').removeClass('col-md-12 col-md-6 col-md-4 col-md-3');
 
     var numGroups = groups.sorted.length;
     var colSize;
@@ -75,7 +66,7 @@ $(function() {
 
   /* This function attaches drag and drop capability to all the groups and pictures */
   var loadDragAndDrop = function () {
-    $(".image").draggable({
+    $(".pic-container").draggable({
       scroll: true,
       refreshPositions: true,
       helper: 'clone',
@@ -83,7 +74,7 @@ $(function() {
     });
 
     $( ".group").droppable({
-      accept: '.image',
+      accept: '.pic-container',
       activeClass: 'active',
       hoverClass: 'hover',
       tolerance: 'pointer',
@@ -95,7 +86,7 @@ $(function() {
           helper: 'clone'
         });
 
-        $(this).children('div').append(clone);
+        $(this).find('.pic-box').append(clone);
         ui.draggable.remove();
       }
     });
@@ -138,45 +129,63 @@ $(function() {
     directory.browseForDirectory("Choose the picture directory");
   });
 
-  /*
-    When submit is clicked on the form, parse all of the input into variables
-    and use the Parse module to parse the ratings file.
-  */
-  $('#input-form').submit(function(e) {
-    e.preventDefault();
-
-    // get the grouping parameters off of the form
-    var formFields = Parse.getFormFields();
-
-    // read pictures from the ratings file
-    pictures = Parse.getPictures(formFields['ratingsFile'], picturePath);
+  function onInputFormSubmit() {
+    if(DEBUG) {
+      picturePath = "/Users/tony/sd/Stimulus/test_data";
+      var ratingsFile = new air.File(picturePath + "/ratings.csv");
+      pictures = Parse.getPictures(ratingsFile, picturePath);
+    } else {
+      // get the grouping parameters off of the form
+      var formFields = Parse.getFormFields();
+      // read pictures from the ratings file
+      pictures = Parse.getPictures(formFields['ratingsFile'], picturePath);
+    }
 
     // choose algorithm for splitting the pictures
     var splitFunc = 'ra'
     air.trace("Splitting with algorithm: " + splitFunc);
 
-    // process the pictures with the stats module
-    groups = Stats.split({
-      numGroups: formFields['numGroups'],
-      numPictures: formFields['picsPerGroup'],
-      targetRating: formFields['avgRating'],
-      pictures: pictures,
-      splitFunc: splitFunc
-    });
+    if(DEBUG) {
+      // process the pictures with the stats module
+      groups = Stats.split({
+        numGroups: 2,
+        numPictures: 5,
+        targetRating: 5,
+        pictures: pictures,
+        splitFunc: splitFunc
+      });
+    } else {
+      // process the pictures with the stats module
+      groups = Stats.split({
+        numGroups: formFields['numGroups'],
+        numPictures: formFields['picsPerGroup'],
+        targetRating: formFields['avgRating'],
+        pictures: pictures,
+        splitFunc: splitFunc
+      });
+    }
 
-    i = 1;
+    var i = 1;
     groups.sorted.forEach(function(group) {
       air.trace("Group " + i);
       group.forEach(function(picture) {
         air.trace("filePath: " + picture.filePath + ", rating: " + picture.rating);
       });
-
       i++;
     });
 
     Export.savePictures(groups.sorted, picturePath);
 
     showGroups();
+  }
+
+  /*
+    When submit is clicked on the form, parse all of the input into variables
+    and use the Parse module to parse the ratings file.
+  */
+  $('#input-form').submit(function(e) {
+    e.preventDefault();
+    onInputFormSubmit();
   });
 
   $(".groupsNav").click(function() {
@@ -191,5 +200,78 @@ $(function() {
     showGraphs();
   });
 
-  showSettings();
+  if(DEBUG) {
+    onInputFormSubmit();
+  } else {
+    showSettings();
+  }
 });
+
+String.prototype.supplant = function (o) {
+  return this.replace(/{([^{}]*)}/g,
+    function (a, b) {
+      var r = o[b];
+      return typeof r === 'string' || typeof r === 'number' ? r : a;
+    }
+  );
+};
+
+function _getPictureHtml(picture) {
+  var path = new air.File(picture.filePath).url;
+  var imageHtml =
+    '<div class="pic-container">\n' +
+    '  <img src="{path}" class="pic-image">\n' +
+    '  <div class="pic-info">Rating: {rating}</div>\n' +
+    '</div>\n';
+
+  return imageHtml.supplant({
+    path: path,
+    rating: picture.rating
+  });
+}
+
+
+// Adds a group of pictures to a given row element, assigns
+// it an id of {index}
+//
+// Creation date: 4/10/15 - Tony J Huang
+// Modifications list:
+//
+function _addGroupToRow(group, index, $parentRow) {
+  var groupHtml = 
+    '<div class="group sorted-group" data-group="{index_0}">\n' + 
+    '  <div class="inner-group">\n' + 
+    '    <div class="pic-box"></div>\n' + 
+    '    <div class="stats-box">\n' + 
+    '      <h4 class="group-name">Group {index}</h4>\n' + 
+    '      <div class="stats">\n' + 
+    '        <div class="stats-mean">Mean: {mean}</div>\n' + 
+    '        <div class="stats-stdev">SD: {stdev}</div>\n' + 
+    '      </div>\n' + 
+    '  </div>\n' + 
+    '  </div>\n' +
+    '</div>\n';
+
+  var meanRating = +Stats.meanRating(group).toFixed(3);
+  var stdevRating = +Stats.stdevRating(group).toFixed(3);
+  //http://stackoverflow.com/a/12830454
+
+  groupHtml = groupHtml.supplant({
+    index_0: index, // 0-indexed
+    index: index + 1,
+    mean: meanRating,
+    stdev: stdevRating
+  });
+
+  var $groupElement = $(groupHtml);
+  $parentRow.append($groupElement);
+
+  // Add pictures to group
+  var pictureHtml = "";
+  group.forEach(function(picture) {
+    pictureHtml += _getPictureHtml(picture);
+  });
+  $groupElement.find(".pic-box").append(pictureHtml);
+
+  return $groupElement;
+}
