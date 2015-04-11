@@ -64,7 +64,7 @@ $(function() {
 
   /* This function attaches drag and drop capability to all the groups and pictures */
   var loadDragAndDrop = function () {
-    $(".image-container").draggable({
+    $(".pic-container").draggable({
       scroll: true,
       refreshPositions: true,
       helper: 'clone',
@@ -72,7 +72,7 @@ $(function() {
     });
 
     $( ".group").droppable({
-      accept: '.image-container',
+      accept: '.pic-container',
       activeClass: 'active',
       hoverClass: 'hover',
       tolerance: 'pointer',
@@ -84,7 +84,7 @@ $(function() {
           helper: 'clone'
         });
 
-        $(this).children('div').append(clone);
+        $(this).find('.pic-box').append(clone);
         ui.draggable.remove();
       }
     });
@@ -128,13 +128,10 @@ $(function() {
 
   function onInputFormSubmit() {
     // get the grouping parameters off of the form
-    //var formFields = Parse.getFormFields();
+    var formFields = Parse.getFormFields();
 
     // read pictures from the ratings file
-    //pictures = Parse.getPictures(formFields['ratingsFile'], picturePath);
-    picturePath = "/Users/tony/sd/Stimulus/test_data";
-    var ratingsFile = new air.File(picturePath + "/ratings.csv");
-    pictures = Parse.getPictures(ratingsFile, picturePath);
+    pictures = Parse.getPictures(formFields['ratingsFile'], picturePath);
 
     // choose algorithm for splitting the pictures
     var splitFunc = 'ra'
@@ -142,9 +139,9 @@ $(function() {
 
     // process the pictures with the stats module
     groups = Stats.split({
-      numGroups: 2,//formFields['numGroups'],
-      numPictures: 5,//formFields['picsPerGroup'],
-      targetRating: 5,//formFields['avgRating'],
+      numGroups: formFields['numGroups'],
+      numPictures: formFields['picsPerGroup'],
+      targetRating: formFields['avgRating'],
       pictures: pictures,
       splitFunc: splitFunc
     });
@@ -185,8 +182,7 @@ $(function() {
     showGraphs();
   });
 
-  //showSettings();
-  onInputFormSubmit();
+  showSettings();
 });
 
 String.prototype.supplant = function (o) {
@@ -221,14 +217,14 @@ function _getPictureHtml(picture) {
 //
 function _addGroupToRow(group, index, $parentRow) {
   var groupHtml = 
-    '<div class="group sorted-group" data-group="{index}">\n' + 
+    '<div class="group sorted-group" data-group="{index_0}">\n' + 
     '  <div class="inner-group">\n' + 
     '    <div class="pic-box"></div>\n' + 
     '    <div class="stats-box">\n' + 
     '      <h4 class="group-name">Group {index}</h4>\n' + 
     '      <div class="stats">\n' + 
     '        <div class="stats-mean">Mean: {mean}</div>\n' + 
-    '        <div class="stats-stdev">St.dev: {stdev}</div>\n' + 
+    '        <div class="stats-stdev">SD: {stdev}</div>\n' + 
     '      </div>\n' + 
     '  </div>\n' + 
     '  </div>\n' +
@@ -239,7 +235,8 @@ function _addGroupToRow(group, index, $parentRow) {
   //http://stackoverflow.com/a/12830454
 
   groupHtml = groupHtml.supplant({
-    index: index,
+    index_0: index, // 0-indexed
+    index: index + 1,
     mean: meanRating,
     stdev: stdevRating
   });

@@ -74,6 +74,7 @@ body {
 }
 
 .pic-container {
+  z-index: 999;
   float: left;
   display: inline-block;
   width: 100px;
