@@ -273,11 +273,5 @@ function _addGroupToRow(group, index, $parentRow) {
   });
   $groupElement.find(".pic-box").append(pictureHtml);
 
-
-
   return $groupElement;
 }
-
-
-
-
