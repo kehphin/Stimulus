@@ -9,6 +9,8 @@
   <script src="lib/underscore-min.js"></script>
   <script src="lib/AIRAliases.js"></script>
   <script src="lib/bootstrap/js/bootstrap.js"></script>
+  <script src="lib//flot/jquery.flot.js"></script>
+  <script src="lib//flot/jquery.flot.selection.js"></script>
   <link href="lib/bootstrap/css/bootstrap.css" rel="stylesheet"/>
 
   <script src="js/picture.js"></script>
@@ -16,11 +18,13 @@
   <script src="js/stats.js"></script>
   <script src="js/parse.js"></script>
   <script src="js/export.js"></script>
+  <script src="js/charting.js"></script>
   <script src="js/main.js"></script>
 
   <link href="css/style.css" rel="stylesheet"/>
   <link href="css/pictures.css" rel="stylesheet"/>
   <link href="css/settings.css" rel="stylesheet"/>
+  <link href="css/chart.css" rel="stylesheet"/>
 
 </head>
 <body>
@@ -96,6 +100,8 @@
           </div>
         </div>
       </div>
+      <div class="graphsContainer">
+      </div>
       <div class="groupsContainer">
         <div class="row sorted-row">
         </div>
@@ -111,9 +117,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="graphsContainer">
-        <a href="lib/flot/examples/zooming/index.html">example</a>
       </div>
     </main>
     <footer>

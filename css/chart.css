@@ -1,0 +1,11 @@
+.overview {
+    width: 160px;
+    height: 125px;
+    float: right;
+}
+
+.chart {
+    width: 650px;
+    height: 400px;
+    float: left;
+}

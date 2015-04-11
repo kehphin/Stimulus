@@ -7,7 +7,7 @@
   actions such as file browsing and submitting the form
 */
 
-var DEBUG = false;
+var DEBUG = true;
 
 $(function() {
   var directory = new air.File();
@@ -113,6 +113,7 @@ $(function() {
     $(".groupsContainer").hide();
     $(".settingsContainer").hide();
     $(".graphsContainer").show();
+    Chart.plotCharts(groups.sorted);
   }
 
   /*
