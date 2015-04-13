@@ -64,7 +64,7 @@ $(function() {
     $('[data-group]').addClass('col-md-' + colSize);
   }
 
-  /* This function attaches drag and drop capability to all the groups and pictures */
+  // This function attaches drag and drop capability to all the groups and pictures.
   var loadDragAndDrop = function () {
     $(".pic-container").draggable({
       scroll: true,
@@ -87,17 +87,79 @@ $(function() {
         });
 
         $(this).find('.pic-box').append(clone);
+
+
+        _moveDraggedPicture($(this), clone);
         ui.draggable.remove();
       }
     });
   }
 
+  // Finds the Picture object that is dragged in the data structure and moves it
+  // to the correct group based on the user's draggable interaction.
+  var _moveDraggedPicture = function(toGroup, draggedPicture) {
+    var toGroupNumber = toGroup.attr('data-group');
+    var pictureId = draggedPicture.children('img').attr('id');
+
+    // Picture moved from sorted to sorted/unsorted
+    for (var i=0; i<groups.sorted.length; i++) {
+      var currGroup = groups.sorted[i];
+
+      for (var j=0; j<currGroup.length; j++) {
+        var currPic = currGroup[j];
+
+        if (currPic.id.toString() == pictureId) {
+          if (!toGroupNumber) {       // Dragged from sorted to unsorted
+            groups.unsorted.push(currPic);
+          } else {                    // Dragged from sorted to sorted
+            groups.sorted[parseInt(toGroupNumber)].push(currPic);
+          }
+
+          currGroup.splice(j, 1);
+          _recalculateStats();
+          return;
+        }
+      }
+    }
+
+    // Picture moved from unsorted to unsorted/sorted
+    for (var k=0; k<groups.unsorted.length; k++) {
+      var currUnsortedPic = groups.unsorted[k];
+
+      if (currUnsortedPic.id.toString() == pictureId) {
+        if (!toGroupNumber) {       // Dragged from unsorted to unsorted
+          groups.unsorted.push(currUnsortedPic);
+        } else {                    // Dragged from unsorted to sorted
+          groups.sorted[parseInt(toGroupNumber)].push(currUnsortedPic);
+        }
+
+        groups.unsorted.splice(k, 1);
+        _recalculateStats();
+        return;
+      }
+    }
+  }
+
+  // Redisplays the new group stats of each group in the UI.
+  var _recalculateStats = function() {
+    for (var i=0; i<groups.sorted.length; i++) {
+      var group = groups.sorted[i];
+      var meanRating = +Stats.meanRating(group).toFixed(3);
+      var stdevRating = +Stats.stdevRating(group).toFixed(3);
+
+      $('[data-group=' + i + ']').find('.stats-mean').text('Mean: ' + meanRating);
+      $('[data-group=' + i + ']').find('.stats-stdev').text('SD: ' + stdevRating);
+    }
+  }
+
+  // Shows the Settings tab in the UI.
   var showSettings = function() {
     $(".groupsContainer").hide();
     $(".graphsContainer").hide();
     $(".settingsContainer").show();
   }
 
+  // Shows the Groups tab in the UI.
   var showGroups = function() {
     $('[data-group]').hide();
 
@@ -109,6 +171,7 @@ $(function() {
     loadDragAndDrop();
   }
 
+  // Shows the Graph tab in the UI.
   var showGraphs = function() {
     $(".groupsContainer").hide();
     $(".settingsContainer").hide();
@@ -129,9 +192,10 @@ $(function() {
     directory.browseForDirectory("Choose the picture directory");
   });
 
+  // Handler for form submission for the Settings tab.
   function onInputFormSubmit() {
     if(DEBUG) {
-      picturePath = "/Users/tony/sd/Stimulus/test_data";
+      picturePath = "/Users/Kevin/Desktop/Stimly";
       var ratingsFile = new air.File(picturePath + "/ratings.csv");
       pictures = Parse.getPictures(ratingsFile, picturePath);
     } else {
@@ -207,6 +271,7 @@ $(function() {
   }
 });
 
+// Substitutes metadata in a HTML segment by the placing '{...}'' with its value
 String.prototype.supplant = function (o) {
   return this.replace(/{([^{}]*)}/g,
     function (a, b) {
@@ -216,27 +281,25 @@ String.prototype.supplant = function (o) {
   );
 };
 
+// Returns the HTML segment of a picture that will be inserted into the DOM,
+// populated with the picture's metadata.
 function _getPictureHtml(picture) {
   var path = new air.File(picture.filePath).url;
   var imageHtml =
     '<div class="pic-container">\n' +
-    '  <img src="{path}" class="pic-image">\n' +
+    '  <img src="{path}" class="pic-image" id="{id}"">\n' +
     '  <div class="pic-info">Rating: {rating}</div>\n' +
     '</div>\n';
 
   return imageHtml.supplant({
     path: path,
-    rating: picture.rating
+    rating: picture.rating,
+    id: picture.id
   });
 }
 
-
 // Adds a group of pictures to a given row element, assigns
 // it an id of {index}
-//
-// Creation date: 4/10/15 - Tony J Huang
-// Modifications list:
-//
 function _addGroupToRow(group, index, $parentRow) {
   var groupHtml =
     '<div class="group sorted-group" data-group="{index_0}">\n' +
