@@ -7,7 +7,7 @@
   actions such as file browsing and submitting the form
 */
 
-var DEBUG = true;
+var DEBUG = false;
 
 $(function() {
   var directory = new air.File();
@@ -238,22 +238,23 @@ function _getPictureHtml(picture) {
 // Modifications list:
 //
 function _addGroupToRow(group, index, $parentRow) {
-  var groupHtml = 
-    '<div class="group sorted-group" data-group="{index_0}">\n' + 
-    '  <div class="inner-group">\n' + 
-    '    <div class="pic-box"></div>\n' + 
-    '    <div class="stats-box">\n' + 
-    '      <h4 class="group-name">Group {index}</h4>\n' + 
-    '      <div class="stats">\n' + 
-    '        <div class="stats-mean">Mean: {mean}</div>\n' + 
-    '        <div class="stats-stdev">SD: {stdev}</div>\n' + 
-    '      </div>\n' + 
-    '  </div>\n' + 
+  var groupHtml =
+    '<div class="group sorted-group" data-group="{index_0}">\n' +
+    '  <div class="inner-group">\n' +
+    '    <div class="pic-box"></div>\n' +
+    '    <div class="stats-box">\n' +
+    '      <h4 class="group-name">Group {index}</h4>\n' +
+    '      <div class="stats">\n' +
+    '        <div class="stats-mean">Mean: {mean}</div>\n' +
+    '        <div class="stats-stdev">SD: {stdev}</div>\n' +
+    '      </div>\n' +
+    '  </div>\n' +
     '  </div>\n' +
     '</div>\n';
 
   var meanRating = +Stats.meanRating(group).toFixed(3);
   var stdevRating = +Stats.stdevRating(group).toFixed(3);
+
   //http://stackoverflow.com/a/12830454
 
   groupHtml = groupHtml.supplant({
