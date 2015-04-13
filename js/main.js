@@ -87,8 +87,6 @@ $(function() {
         });
 
         $(this).find('.pic-box').append(clone);
-
-
         _moveDraggedPicture($(this), clone);
         ui.draggable.remove();
       }
