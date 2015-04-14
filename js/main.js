@@ -97,44 +97,42 @@ $(function() {
   // to the correct group based on the user's draggable interaction.
   var _moveDraggedPicture = function(toGroup, draggedPicture) {
     var toGroupNumber = toGroup.attr('data-group');
-    var pictureId = draggedPicture.children('img').attr('id');
+    var pictureId = draggedPicture.children('img').data('id');
+    var picFound = false;
 
     // Picture moved from sorted to sorted/unsorted
-    for (var i=0; i<groups.sorted.length; i++) {
-      var currGroup = groups.sorted[i];
-
-      for (var j=0; j<currGroup.length; j++) {
-        var currPic = currGroup[j];
-
-        if (currPic.id.toString() == pictureId) {
+    $.each(groups.sorted, function(index, group) {
+      $.each(group, function(index, picture) {
+        if (picture.id.toString() == pictureId && !picFound) {
           if (!toGroupNumber) {       // Dragged from sorted to unsorted
-            groups.unsorted.push(currPic);
+            groups.unsorted.push(picture);
           } else {                    // Dragged from sorted to sorted
-            groups.sorted[parseInt(toGroupNumber)].push(currPic);
+            groups.sorted[parseInt(toGroupNumber)].push(picture);
           }
 
-          currGroup.splice(j, 1);
+          group.splice(index, 1);
           _recalculateStats();
-          return;
+          picFound = true;
+          return false;
         }
-      }
-    }
+      });
+    });
 
     // Picture moved from unsorted to unsorted/sorted
-    for (var k=0; k<groups.unsorted.length; k++) {
-      var currUnsortedPic = groups.unsorted[k];
+    if (!picFound) {
+      $.each(groups.unsorted, function(index, picture) {
+        if (picture.id.toString() == pictureId) {
+          if (!toGroupNumber) {       // Dragged from unsorted to unsorted
+            groups.unsorted.push(picture);
+          } else {                    // Dragged from unsorted to sorted
+            groups.sorted[parseInt(toGroupNumber)].push(picture);
+          }
 
-      if (currUnsortedPic.id.toString() == pictureId) {
-        if (!toGroupNumber) {       // Dragged from unsorted to unsorted
-          groups.unsorted.push(currUnsortedPic);
-        } else {                    // Dragged from unsorted to sorted
-          groups.sorted[parseInt(toGroupNumber)].push(currUnsortedPic);
+          groups.unsorted.splice(index, 1);
+          _recalculateStats();
+          return false;
         }
-
-        groups.unsorted.splice(k, 1);
-        _recalculateStats();
-        return;
-      }
+      });
     }
   }
 
@@ -285,7 +283,7 @@ function _getPictureHtml(picture) {
   var path = new air.File(picture.filePath).url;
   var imageHtml =
     '<div class="pic-container">\n' +
-    '  <img src="{path}" class="pic-image" id="{id}"">\n' +
+    '  <img src="{path}" class="pic-image" data-id="{id}">\n' +
     '  <div class="pic-info">Rating: {rating}</div>\n' +
     '</div>\n';
 
