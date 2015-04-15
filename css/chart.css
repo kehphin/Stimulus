@@ -5,13 +5,23 @@
 }
 
 .chart {
-    width: 650px;
-    height: 400px;
+    width: 800px;
+    height: 600px;
     float: left;
+    margin-bottom: 40px;
 }
 
 .reset-zoom {
     float: right;
     clear: right;
-    margin-top: 25px;
+    margin-top: 20px;
+}
+
+.chart-title {
+    text-align: center;
+    clear: both;
+}
+
+.axisLabels {
+    font-size: 20px;
 }

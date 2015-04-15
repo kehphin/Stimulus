@@ -41,9 +41,11 @@ var Chart = (function() {
       chartDiv.addClass("chart " + chartClass);
 
       var buttonClass = "reset" + g;
-      var resetButton = $("<button type='button'>Unzoom</button>").addClass("reset-zoom " + buttonClass);
+      var resetButton = $("<button type='button'>Unzoom</button>").addClass("reset-zoom " + buttonClass).data("graphId", g);
+
+      var title = $("<h1></h1>").addClass("chart-title").text("Graph " + (g + 1));
       
-      $(".graphsContainer").append(chartDiv, overviewDiv, resetButton);
+      $(".graphsContainer").append(title, chartDiv, overviewDiv, resetButton);
 
       // chart object saved for use after initialization, i.e for zooming
       chart = {};
@@ -70,7 +72,8 @@ var Chart = (function() {
       }];
 
       // styles the charts
-      var options = {
+      var chartOptions = {
+        axisLabels: {show: true},
         legend: {show: false},
         series: {
           lines: {show: false},
@@ -79,13 +82,34 @@ var Chart = (function() {
         xaxis: {
           tickSize: 1,
           min: -0.5,
-          max: groups[g].length - 0.5
+          max: groups[g].length - 0.5,
+        },
+        yaxes: [{
+          axisLabel: "Ratings"
+        }],
+        xaxes: [{
+          axisLabel: "Picture"
+        }],
+        selection: {mode: "xy"}
+      };
+
+      // overview charts do not have axes labels
+      var overviewOptions = {
+        legend: {show: false},
+        series: {
+          lines: {show: false},
+          points: {show: true}
+        },
+        xaxis: {
+          tickSize: 1,
+          min: -0.5,
+          max: groups[g].length - 0.5,
         },
         selection: {mode: "xy"}
       };
 
-      chart.overview = $.plot(chart.overviewSelector, chart.chart_data, options);
-      chart.plot = $.plot(chart.chartSelector, chart.chart_data, options);
+      chart.overview = $.plot(chart.overviewSelector, chart.chart_data, overviewOptions);
+      chart.plot = $.plot(chart.chartSelector, chart.chart_data, chartOptions);
 
       charts.push(chart);
 
@@ -102,7 +126,7 @@ var Chart = (function() {
             }
             // do the zooming
             charts[i].plot = $.plot(charts[i].chartSelector, charts[i].chart_data,
-              $.extend(true, {}, options, {
+              $.extend(true, {}, chartOptions, {
                 xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to },
                 yaxis: { min: ranges.yaxis.from, max: ranges.yaxis.to }
               })
@@ -125,9 +149,9 @@ var Chart = (function() {
       // binds unzoom button
       $(charts[g].buttonSelector).click(function(e) {
         // finds which chart wants to be unzoomed
-        var chartNum = parseInt(e.currentTarget.className.split("reset")[2]);
-        charts[chartNum].plot = $.plot(charts[chartNum].chartSelector, charts[chartNum].chart_data, options);
-        charts[chartNum].overview = $.plot(charts[chartNum].overviewSelector, charts[chartNum].chart_data, options);
+        var chartNum = $(e.currentTarget).data("graphId");
+        charts[chartNum].plot = $.plot(charts[chartNum].chartSelector, charts[chartNum].chart_data, chartOptions);
+        charts[chartNum].overview = $.plot(charts[chartNum].overviewSelector, charts[chartNum].chart_data, overviewOptions);
       });
 
     }
