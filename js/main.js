@@ -7,7 +7,7 @@
   actions such as file browsing and submitting the form
 */
 
-var DEBUG = false;
+var DEBUG = true;
 
 $(function() {
   var directory = new air.File();
@@ -66,12 +66,41 @@ $(function() {
 
   // This function attaches drag and drop capability to all the groups and pictures.
   var loadDragAndDrop = function () {
-    $(".pic-container").draggable({
+
+    var containsPoint = function($element, x, y) {
+      var offset = $element.offset();
+      var top = offset.top;
+      var left = offset.left;
+      var right = left + $element.width();
+      var bottom = top + $element.height();
+
+      return left <= x && x <= right && top <= y && y <= bottom;
+    }
+
+    var handleDragEvent = function(event, ui) {
+      air.trace($(ui.draggable).clone().find('img'));
+      var x = parseInt( ui.offset.left );
+      var y = parseInt( ui.offset.top );
+      $.each($('.group'), function(index, groupDiv) {
+        if(containsPoint($(groupDiv), x, y)) {
+          air.trace(index);
+          return false;
+        }
+      });
+    }
+
+    var draggableOptions = {
       scroll: true,
       refreshPositions: true,
+      opacity: 0.35,
       helper: 'clone',
-      containment: 'window'
-    });
+      drag: function(event, ui) {
+        var clone = $(ui.draggable).clone();
+        air.trace(clone.children('img').data('id'));
+      }
+    };
+
+    $(".pic-container").draggable(draggableOptions);
 
     $( ".group").droppable({
       accept: '.pic-container',
@@ -79,16 +108,9 @@ $(function() {
       hoverClass: 'hover',
       tolerance: 'pointer',
       drop: function(event, ui) {
-        var clone = $(ui.draggable).clone();
-        clone.draggable({
-          scroll: true,
-          refreshPositions: true,
-          helper: 'clone'
-        });
-
+        var clone = $(ui.draggable);
         $(this).find('.pic-box').append(clone);
         _moveDraggedPicture($(this), clone);
-        ui.draggable.remove();
       }
     });
   }
@@ -191,7 +213,7 @@ $(function() {
   // Handler for form submission for the Settings tab.
   function onInputFormSubmit() {
     if(DEBUG) {
-      picturePath = "/Users/Kevin/Desktop/Stimly";
+      picturePath = "/Users/tony/sd/Stimulus/test_data/";
       var ratingsFile = new air.File(picturePath + "/ratings.csv");
       pictures = Parse.getPictures(ratingsFile, picturePath);
     } else {
