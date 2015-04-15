@@ -1,5 +1,5 @@
 /*
-  Author: Gary Song
+  Author: Gary Song & Tony J Husng
   Group: Team Stimulus
   Created At: 3/28/15
 
@@ -8,7 +8,6 @@
 
   It is called in main.js
 
-  All code in this file was authored by Gary Song
 */
 var Chart = (function() {
   var my = {};
@@ -45,9 +44,13 @@ var Chart = (function() {
       var buttonClass = "reset" + g;
       var resetButton = $("<button type='button'>Unzoom</button>").addClass("reset-zoom " + buttonClass).data("graphId", g);
 
-      var title = $("<h1></h1>").addClass("chart-title").text("Graph " + (g + 1));
+      var title = $("<h1></h1>").addClass("chart-title").text("Group " + (g + 1));
+
+      var graphContainerDiv = $("<div></div>");
+      graphContainerDiv.addClass("graph-container");
+      graphContainerDiv.append(title, chartDiv, overviewDiv, resetButton);
       
-      $(".graphsContainer").append(title, chartDiv, overviewDiv, resetButton);
+      $(".graphsContainer").append(graphContainerDiv);
 
       // chart object saved for use after initialization, i.e for zooming
       chart = {};
@@ -162,22 +165,4 @@ var Chart = (function() {
 
   return my;
 }());
-
-// Object used to tested in Module in Chrome when console testing is needed
-var mock_pictures = [
-   [
-    {"filePath": "test_data/Slide4.JPG", "rating": 4},
-    {"filePath": "test_data/Slide1.JPG", "rating": 1},
-    {"filePath": "test_data/Slide10.JPG", "rating": 10},
-    {"filePath": "test_data/Slide2.JPG", "rating": 2},
-    {"filePath": "test_data/Slide9.JPG", "rating": 9},
-  ],
-  [
-    {"filePath": "test_data/Slide6.JPG", "rating": 6},
-    {"filePath": "test_data/Slide7.JPG", "rating": 7},
-    {"filePath": "test_data/Slide5.JPG", "rating": 5},
-    {"filePath": "test_data/Slide8.JPG", "rating": 8},
-    {"filePath": "test_data/Slide3.JPG", "rating": 3},
-  ]
-];
 

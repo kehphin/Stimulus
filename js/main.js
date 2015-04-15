@@ -7,7 +7,7 @@
   actions such as file browsing and submitting the form
 */
 
-var DEBUG = false;
+var DEBUG = true;
 
 $(function() {
   var directory = new air.File();
@@ -202,6 +202,7 @@ $(function() {
 
   if(DEBUG) {
     onInputFormSubmit();
+    setTimeout(showGraphs, 500);
   } else {
     showSettings();
   }
