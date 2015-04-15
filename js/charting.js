@@ -25,6 +25,8 @@ var Chart = (function() {
   */
   my.plotCharts = function(groups) {
 
+    $(".graphsContainer").empty();
+
     // keeps track of multiple charts and chart css selectors
     var charts = [];
 
