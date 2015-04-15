@@ -64,10 +64,18 @@ $(function() {
     $('[data-group]').addClass('col-md-' + colSize);
   }
 
+  var _setStatsForGroup = function(groupIndex, mean, stdev) {
+    var meanFormatted  = +mean.toFixed(3);
+    var stdevFormatted = +stdev.toFixed(3);
+    var $group = $('[data-group=' + groupIndex + ']');
+    $group.find('.stats-mean').text('Mean: ' + meanFormatted);
+    $group.find('.stats-stdev').text('SD: ' + stdevFormatted);
+    }
+
   // This function attaches drag and drop capability to all the groups and pictures.
   var loadDragAndDrop = function () {
 
-    var containsPoint = function($element, x, y) {
+    var _containsPoint = function($element, x, y) {
       var offset = $element.offset();
       var top = offset.top;
       var left = offset.left;
@@ -77,14 +85,45 @@ $(function() {
       return left <= x && x <= right && top <= y && y <= bottom;
     }
 
+    var _getPicture = function(pictureId) {
+      var result;
+      pictures.forEach(function(picture) {
+        if(parseInt(picture.id) === parseInt(pictureId)) {
+          result = picture;
+          return false;
+        }
+      });
+      return result;
+    }
+
     var handleDragEvent = function(event, ui) {
-      air.trace($(ui.draggable).clone().find('img'));
+      var pictureId = ui.helper.find('img').data('id');
+      var picture = _getPicture(pictureId);
       var x = parseInt( ui.offset.left );
       var y = parseInt( ui.offset.top );
       $.each($('.group'), function(index, groupDiv) {
-        if(containsPoint($(groupDiv), x, y)) {
-          air.trace(index);
-          return false;
+        if(index === $('.group').length - 1) { 
+          // unsorted (ignore)
+        } else if(_containsPoint($(groupDiv), x, y)) {
+          if($.inArray(picture, groups.sorted[index]) >= 0) {
+              // don't do anything, the dragging picture is already in
+              // this group element.
+            } else {
+              // calculate new ratings with the dragged picture.
+              // see http://davidwalsh.name/javascript-clone-array
+              var groupClone = groups.sorted[index].slice(0);
+              groupClone.push(picture);
+              var meanRating = Stats.meanRating(groupClone);
+              var stdevRating = Stats.stdevRating(groupClone);
+              _setStatsForGroup(index, meanRating, stdevRating);
+            }
+        } else {
+          // calculate ratings of all other groups 
+          // (in case picture has been dragged out of div);
+          var group = groups.sorted[index];
+          var meanRating = Stats.meanRating(group);
+          var stdevRating = Stats.stdevRating(group);
+          _setStatsForGroup(index, meanRating, stdevRating);
         }
       });
     }
@@ -94,10 +133,7 @@ $(function() {
       refreshPositions: true,
       opacity: 0.35,
       helper: 'clone',
-      drag: function(event, ui) {
-        var clone = $(ui.draggable).clone();
-        air.trace(clone.children('img').data('id'));
-      }
+      drag: handleDragEvent
     };
 
     $(".pic-container").draggable(draggableOptions);
@@ -162,11 +198,10 @@ $(function() {
   var _recalculateStats = function() {
     for (var i=0; i<groups.sorted.length; i++) {
       var group = groups.sorted[i];
-      var meanRating = +Stats.meanRating(group).toFixed(3);
-      var stdevRating = +Stats.stdevRating(group).toFixed(3);
+      var meanRating = Stats.meanRating(group);
+      var stdevRating = Stats.stdevRating(group);
 
-      $('[data-group=' + i + ']').find('.stats-mean').text('Mean: ' + meanRating);
-      $('[data-group=' + i + ']').find('.stats-stdev').text('SD: ' + stdevRating);
+      _setStatsForGroup(i, meanRating, stdevRating);
     }
   }
 
