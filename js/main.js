@@ -16,8 +16,12 @@ $(function() {
   var pictures = [];
   var groups = {};
 
-  /* This function will populate all the picture objects into
-  the group containers in the Groups tab. */
+  // This function will populate all the picture objects into
+  // the group containers in the Groups tab.
+  //
+  // Creation date: 2/28/15 - David Lin
+  // Modifications list:
+  //
   var loadPics = function() {
     var unsortedPicsHtml = "";
     groups.unsorted.forEach(function(picture) {
@@ -65,6 +69,10 @@ $(function() {
   }
 
   // This function attaches drag and drop capability to all the groups and pictures.
+  //
+  // Creation date: 3/26/15 - Kevin Yang
+  // Modifications list:
+  //
   var loadDragAndDrop = function () {
     $(".pic-container").draggable({
       scroll: true,
@@ -95,6 +103,10 @@ $(function() {
 
   // Finds the Picture object that is dragged in the data structure and moves it
   // to the correct group based on the user's draggable interaction.
+  //
+  // Creation date: 4/15/15 - Kevin Yang
+  // Modifications list:
+  //
   var _moveDraggedPicture = function(toGroup, draggedPicture) {
     var toGroupNumber = toGroup.attr('data-group');
     var pictureId = draggedPicture.children('img').data('id');
@@ -137,6 +149,10 @@ $(function() {
   }
 
   // Redisplays the new group stats of each group in the UI.
+  //
+  // Creation date: 4/15/15 - Kevin Yang
+  // Modifications list:
+  //
   var _recalculateStats = function() {
     for (var i=0; i<groups.sorted.length; i++) {
       var group = groups.sorted[i];
@@ -149,6 +165,10 @@ $(function() {
   }
 
   // Shows the Settings tab in the UI.
+  //
+  // Creation date: 3/20/15 - Kevin Yang
+  // Modifications list:
+  //
   var showSettings = function() {
     $(".groupsContainer").hide();
     $(".graphsContainer").hide();
@@ -156,6 +176,10 @@ $(function() {
   }
 
   // Shows the Groups tab in the UI.
+  //
+  // Creation date: 3/20/15 - Kevin Yang
+  // Modifications list:
+  //
   var showGroups = function() {
     $('[data-group]').hide();
 
@@ -168,6 +192,10 @@ $(function() {
   }
 
   // Shows the Graph tab in the UI.
+  //
+  // Creation date: 3/20/15 - Kevin Yang
+  // Modifications list:
+  //
   var showGraphs = function() {
     $(".groupsContainer").hide();
     $(".settingsContainer").hide();
@@ -189,6 +217,10 @@ $(function() {
   });
 
   // Handler for form submission for the Settings tab.
+  //
+  // Creation date: 3/13/15 - David Lin
+  // Modifications list:
+  //
   function onInputFormSubmit() {
     if(DEBUG) {
       picturePath = "/Users/Kevin/Desktop/Stimly";
@@ -268,6 +300,10 @@ $(function() {
 });
 
 // Substitutes metadata in a HTML segment by the placing '{...}'' with its value
+//
+// Creation date: 4/10/15 - Tony J Huang
+// Modifications list:
+//
 String.prototype.supplant = function (o) {
   return this.replace(/{([^{}]*)}/g,
     function (a, b) {
@@ -279,6 +315,10 @@ String.prototype.supplant = function (o) {
 
 // Returns the HTML segment of a picture that will be inserted into the DOM,
 // populated with the picture's metadata.
+//
+// Creation date: 4/10/15 - Tony J Huang
+// Modifications list:
+//
 function _getPictureHtml(picture) {
   var path = new air.File(picture.filePath).url;
   var imageHtml =
@@ -296,6 +336,10 @@ function _getPictureHtml(picture) {
 
 // Adds a group of pictures to a given row element, assigns
 // it an id of {index}
+//
+// Creation date: 4/10/15 - Tony J Huang
+// Modifications list:
+//
 function _addGroupToRow(group, index, $parentRow) {
   var groupHtml =
     '<div class="group sorted-group" data-group="{index_0}">\n' +
