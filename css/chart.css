@@ -14,7 +14,7 @@
 
 .chart {
     width: 780px;
-    height: 600px;
+    height: 550px;
     float: left;
     margin-bottom: 40px;
     margin-left: 20px;
@@ -37,7 +37,7 @@
 
 .graph-container {
   padding: 20px 20px 20px 0px;
-  height: 725px;
+  height: 675px;
   background-color: white;
   margin-top: 20px;
   -webkit-box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.20);
