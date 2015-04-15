@@ -21,6 +21,7 @@ $(function() {
   //
   // Creation date: 2/28/15 - David Lin
   // Modifications list:
+  // 4/10/15 - dynamically add html group elements to DOM (Tony J Huang)
   //
   var loadPics = function() {
     var unsortedPicsHtml = "";
@@ -68,6 +69,11 @@ $(function() {
     $('[data-group]').addClass('col-md-' + colSize);
   }
 
+  // Update the stats bar for a group with the given stats.
+  //
+  // Creation date: 4/15/15 - Tony J Huang
+  // Modification list: 
+  // 
   var _setStatsForGroup = function(groupIndex, mean, stdev) {
     var meanFormatted  = +mean.toFixed(3);
     var stdevFormatted = +stdev.toFixed(3);
@@ -76,13 +82,22 @@ $(function() {
     $group.find('.stats-stdev').text('SD: ' + stdevFormatted);
     }
 
-  // This function attaches drag and drop capability to all the groups and pictures.
+  // This function attaches drag and drop capability to all 
+  // the groups and pictures.
   //
   // Creation date: 3/26/15 - Kevin Yang
   // Modifications list:
+  // - 4/15/15 Dynamically update stats box when dragging 
+  //   pictures (Tony J Huang)
   //
   var loadDragAndDrop = function () {
 
+    // Check if the given x and y coordinates are within the
+    // JQuery element's view bounds.
+    //
+    // Creation date: 4/15/15 - Tony J Huang
+    // Modifications list:
+    //
     var _containsPoint = function($element, x, y) {
       var offset = $element.offset();
       var top = offset.top;
@@ -93,6 +108,11 @@ $(function() {
       return left <= x && x <= right && top <= y && y <= bottom;
     }
 
+    // Retrieve a picture given its id
+    //
+    // Creation date: 4/15/15 - Tony J Huang
+    // Modifications list:
+    //
     var _getPicture = function(pictureId) {
       var result;
       pictures.forEach(function(picture) {
@@ -104,6 +124,12 @@ $(function() {
       return result;
     }
 
+    // Update a group's stats box dynamically when dragging a picture
+    // over its div.
+    //
+    // Creation date: 4/15/15 - Tony J Huang
+    // Modifications list:
+    //
     var handleDragEvent = function(event, ui) {
       var pictureId = ui.helper.find('img').data('id');
       var picture = _getPicture(pictureId);
@@ -210,6 +236,7 @@ $(function() {
   //
   // Creation date: 4/15/15 - Kevin Yang
   // Modifications list:
+  // - 4/15/15 use _setStatsForGroup helper (Tony J Huang)
   //
   var _recalculateStats = function() {
     for (var i=0; i<groups.sorted.length; i++) {
