@@ -1,7 +1,7 @@
 
 <html>
 <head>
-  <title>Profile</title>
+  <title>Stimly</title>
 
   <script src="lib/jquery.js"></script>
   <script src="lib/jquery-ui.min.js"></script>
@@ -23,13 +23,14 @@
 
   <link href="css/style.css" rel="stylesheet"/>
   <link href="css/pictures.css" rel="stylesheet"/>
+  <link href="css/settings.css" rel="stylesheet"/>
   <link href="css/chart.css" rel="stylesheet"/>
 
 </head>
 <body>
   <div class="container">
     <header>
-      <nav class="navbar-inverse navbar-fixed-top">
+      <nav class="navbar-inverse navbar-fixed-top" id="nav">
         <div class="container-fluid">
           <div class="navbar-header">
             <a class="navbar-brand" href="#">Stimly</a>
@@ -51,149 +52,71 @@
     </header>
     <main>
       <div class="settingsContainer">
-        <form id="input-form" class="form-horizontal col-sm-12">
-          <div class="form-group">
-            <label class="col-sm-3 control-label" for="pictureDirectory">Picture Directory:</label>
-            <div class="col-sm-3">
-              <input id="picture-directory" type="file">
+        <div class="form-container col-sm-offset-2 col-sm-8">
+            <h1 align="center">Stimly</h1>
+          <div class="row col-sm-12">
+            <form id="input-form" class="form-horizontal">
+              <div class="form-group">
+                <label class="col-sm-6 control-label" for="pictureDirectory">Picture Directory:</label>
+                <div class="col-sm-6">
+                  <input id="picture-directory" type="file">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-6 control-label" for="ratingFile">Ratings File: <a href="#" onclick="window.open('ratings_info.html','name','width=370,height=500')">(?)</a></label>
+                <div class="col-sm-6">
+                  <input id="ratings-file" type="file">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-6 control-label" for="numGroups">Number of Groups:</label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="num-groups" type="text" length="2">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-6 control-label" for="picsPerGroup">Number of Pictures per Group:</label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="pics-per-group" type="text" length="2">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-6 control-label" for="ratingPerGroup">Average Rating per Group:</label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="rating-per-group" type="text" length="10">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-6 control-label"></label>
+                <div class="col-sm-4">
+                  <input class="btn btn-primary" id="submit" type="submit">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="groupsContainer">
+        <div class="row sorted-row">
+        </div>
+        <div class="row sorted-row">
+        </div>
+        <div class="row unsorted-row">
+          <div class="group unsorted-group">
+            <div class="inner-group">
+              <div class="unsorted-header"><h4>Unsorted Pictures</h4></div>
+              <div class="pic-box">
+                <!-- Pictures loaded in here through main.js -->
+              </div>
             </div>
           </div>
-          <div class="form-group">
-            <label class="col-sm-3 control-label" for="ratingFile">Ratings File: <a href="#" onclick="window.open('ratings_info.html','name','width=370,height=500')">(?)</a></label>
-            <div class="col-sm-9">
-              <input id="ratings-file" type="file">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-3 control-label" for="numGroups">Number of Groups:</label>
-            <div class="col-sm-1">
-              <input type="text" class="form-control" id="num-groups" type="text" length="2">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-3 control-label" for="picsPerGroup">Number of Pictures per Group:</label>
-            <div class="col-sm-1">
-              <input type="text" class="form-control" id="pics-per-group" type="text" length="2">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-3 control-label" for="ratingPerGroup">Average Rating per Group:</label>
-            <div class="col-sm-1">
-              <input type="text" class="form-control" id="rating-per-group" type="text" length="10">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-3 control-label"></label>
-            <div class="col-sm-9">
-              <input class="btn btn-primary" id="submit" type="submit">
-            </div>
-          </div>
-        </form>
+        </div>
       </div>
       <div class="graphsContainer">
       </div>
-      <div class="groupsContainer">
-        <div class="row">
-          <div class="group">
-            <h4>Unsorted Pictures</h4>
-            <div id="unsorted">
-              <!-- Pictures loaded in here through main.js -->
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="group" data-group="1">
-            <div class="pic-box"></div>
-            <div class="stats-box">
-              <h4 class="group-name">Group 1</h4>
-              <div class="stats">
-                <p>Mean: 5</p>
-                <p>StDev: 0.5</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="group" data-group="2">
-            <div class="pic-box"></div>
-            <div class="stats-box">
-              <h4 class="group-name">Group 2</h4>
-              <div class="stats">
-                <p>Mean: 5</p>
-                <p>StDev: 0.5</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="group" data-group="3">
-            <div class="pic-box"></div>
-            <div class="stats-box">
-              <h4 class="group-name">Group 3</h4>
-              <div class="stats">
-                <p>Mean: 5</p>
-                <p>StDev: 0.5</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="group" data-group="4">
-            <div class="pic-box"></div>
-            <div class="stats-box">
-              <h4 class="group-name">Group 4</h4>
-              <div class="stats">
-                <p>Mean: 5</p>
-                <p>StDev: 0.5</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="group" data-group="5">
-            <div class="pic-box"></div>
-            <div class="stats-box">
-              <h4 class="group-name">Group 5</h4>
-              <div class="stats">
-                <p>Mean: 5</p>
-                <p>StDev: 0.5</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="group" data-group="6">
-            <div class="pic-box"></div>
-            <div class="stats-box">
-              <h4 class="group-name">Group 6</h4>
-              <div class="stats">
-                <p>Mean: 5</p>
-                <p>StDev: 0.5</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="group" data-group="7">
-            <div class="pic-box"></div>
-            <div class="stats-box">
-              <h4 class="group-name">Group 7</h4>
-              <div class="stats">
-                <p>Mean: 5</p>
-                <p>StDev: 0.5</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="group" data-group="8">
-            <div class="pic-box"></div>
-            <div class="stats-box">
-              <h4 class="group-name">Group 8</h4>
-              <div class="stats">
-                <p>Mean: 5</p>
-                <p>StDev: 0.5</p>
-              </div>
-            </div>
-          </div>
-      </div>
     </main>
+    <footer>
+    </footer>
   </div>
 </body>
 </html>

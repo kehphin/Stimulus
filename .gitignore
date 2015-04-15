@@ -1,3 +1,4 @@
 node_modules/
 npm-debug.log
 test_data/results/
+.DS_STORE
