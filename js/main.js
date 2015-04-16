@@ -7,7 +7,7 @@
   actions such as file browsing and submitting the form
 */
 
-var DEBUG = false;
+var DEBUG = true;
 
 $(function() {
   var directory = new air.File();
@@ -131,8 +131,8 @@ $(function() {
 
   function onInputFormSubmit() {
     if(DEBUG) {
-      picturePath = "/Users/tony/sd/Stimulus/test_data";
-      var ratingsFile = new air.File(picturePath + "/ratings.csv");
+      picturePath = "D:\\Documents\\Stimulus\\test_data";
+      var ratingsFile = new air.File(picturePath + "\\ratings.csv");
       pictures = Parse.getPictures(ratingsFile, picturePath);
     } else {
       // get the grouping parameters off of the form

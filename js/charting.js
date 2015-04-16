@@ -67,14 +67,25 @@ var Chart = (function() {
       
       // parses groups data into flot format
       var data = [];
+      var filepaths = [];
       for(var i = 0; i < pictures.length; i++) {
         data.push([i, pictures[i].rating]);
+        filepaths.push(pictures[i].filePath);
       }
 
-      chart.chart_data = [{
-        label: "ratings",
-        data: data
-      }];
+      chart.dataset = {
+        data: data,
+        points: { show: true },
+        showLabels: true,
+        labels: filepaths,
+        labelPlacement: "center",
+        canvasRender: true
+      };
+
+      chart.overviewDataset = {
+        data: data,
+        points: { show: true }
+      };
 
       // styles the charts
       var chartOptions = {
@@ -82,19 +93,17 @@ var Chart = (function() {
         legend: {show: false},
         series: {
           lines: {show: false},
-          points: {show: true}
+          points: {show: false}
         },
         xaxis: {
           tickSize: 1,
           min: -0.5,
           max: groups[g].length - 0.5,
-        },
-        yaxes: [{
-          axisLabel: "Ratings"
-        }],
-        xaxes: [{
           axisLabel: "Picture"
-        }],
+        },
+        yaxis: {
+          axisLabel: "Ratings"
+        },
         selection: {mode: "xy"}
       };
 
@@ -113,8 +122,8 @@ var Chart = (function() {
         selection: {mode: "xy"}
       };
 
-      chart.overview = $.plot(chart.overviewSelector, chart.chart_data, overviewOptions);
-      chart.plot = $.plot(chart.chartSelector, chart.chart_data, chartOptions);
+      chart.overview = $.plot(chart.overviewSelector, [chart.overviewDataset], overviewOptions);
+      chart.plot = $.plot(chart.chartSelector, [chart.dataset], chartOptions);
 
       charts.push(chart);
 
@@ -130,7 +139,7 @@ var Chart = (function() {
               ranges.yaxis.to = ranges.yaxis.from + 0.00001;
             }
             // do the zooming
-            charts[i].plot = $.plot(charts[i].chartSelector, charts[i].chart_data,
+            charts[i].plot = $.plot(charts[i].chartSelector, [charts[i].dataset],
               $.extend(true, {}, chartOptions, {
                 xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to },
                 yaxis: { min: ranges.yaxis.from, max: ranges.yaxis.to }
@@ -155,8 +164,8 @@ var Chart = (function() {
       $(charts[g].buttonSelector).click(function(e) {
         // finds which chart wants to be unzoomed
         var chartNum = $(e.currentTarget).data("graphId");
-        charts[chartNum].plot = $.plot(charts[chartNum].chartSelector, charts[chartNum].chart_data, chartOptions);
-        charts[chartNum].overview = $.plot(charts[chartNum].overviewSelector, charts[chartNum].chart_data, overviewOptions);
+        charts[chartNum].plot = $.plot(charts[chartNum].chartSelector, [charts[chartNum].dataset], chartOptions);
+        charts[chartNum].overview = $.plot(charts[chartNum].overviewSelector, [charts[chartNum].overviewDataset], overviewOptions);
       });
 
     }
@@ -166,3 +175,20 @@ var Chart = (function() {
   return my;
 }());
 
+// Object used to tested in Module in Chrome when console testing is needed
+var mock_pictures = [
+   [
+    {"filePath": "test_data/Slide4.JPG", "rating": 4},
+    {"filePath": "test_data/Slide1.JPG", "rating": 1},
+    {"filePath": "test_data/Slide10.JPG", "rating": 10},
+    {"filePath": "test_data/Slide2.JPG", "rating": 2},
+    {"filePath": "test_data/Slide9.JPG", "rating": 9},
+  ],
+  [
+    {"filePath": "test_data/Slide6.JPG", "rating": 6},
+    {"filePath": "test_data/Slide7.JPG", "rating": 7},
+    {"filePath": "test_data/Slide5.JPG", "rating": 5},
+    {"filePath": "test_data/Slide8.JPG", "rating": 8},
+    {"filePath": "test_data/Slide3.JPG", "rating": 3},
+  ]
+];
