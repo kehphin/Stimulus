@@ -165,7 +165,7 @@ $(function() {
     }
 
     // choose algorithm for splitting the pictures
-    var splitFunc = 'ra'
+    var splitFunc = 'gr'
     air.trace("Splitting with algorithm: " + splitFunc);
 
     if(DEBUG) {
