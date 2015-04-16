@@ -1,5 +1,5 @@
 /*
-  Author: Tony J Huang
+  Author: Tony J Huang & David Lin
   Group: Team Stimulus
   Created At: 3/2/15
     
@@ -25,6 +25,14 @@ var Validate = (function() {
     return output;
   }
 
+
+  /*
+    given a form input, its corresponding error glyphicon and an error message,
+    display an error on the form
+
+    Creation date: 4/16/15
+    Author: David Lin
+  */
   var _addError = function(formField, glyphicon, message) {
     $('#error-alert').append(message + "<br />");
     formField.parent().parent().addClass('has-error has-feedback');
@@ -83,6 +91,7 @@ var Validate = (function() {
   // they make sense/are possible.
   //
   // Creation date: 3/1/15
+  // Authors: David Lin & Tony Huang
   // Modifications list:
   //
   my.validateNumArgs = function(numGroups, numPictures, pictures) {
@@ -101,6 +110,14 @@ var Validate = (function() {
     return false;
   }
 
+  /*
+    checks the input fields for null values
+
+    Returns true if there are null fields and adds the corresponding errors, false otherwise
+
+    Creation date: 4/16/15
+    Author: David Lin
+  */
   my.nullFields = function() {
     var errorState = false;
 
@@ -127,6 +144,14 @@ var Validate = (function() {
     return errorState;
   }
 
+  /*
+    checks the input fields for number values
+
+    Returns true if there are non-number fields and adds the corresponding errors, false otherwise
+
+    Creation date: 4/16/15
+    Author: David Lin
+  */
   my.numberFields = function(numGroups, numPictures, avgRating) {
     var errorState = false;
 

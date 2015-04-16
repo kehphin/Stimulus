@@ -144,6 +144,7 @@ $(function() {
     } else {
       errorState = Validate.nullFields();
 
+      // if there are errors in the form, fadeIn the error bar and abort split
       if (errorState) {
         $('#error-alert').fadeIn(500);
         return;
@@ -159,6 +160,7 @@ $(function() {
 
     errorState = errorState || Validate.validateNumArgs(formFields['numGroups'], formFields['picsPerGroup'], pictures);
 
+    // if there are errors in the form, fadeIn the error bar and abort split
     if (errorState) {
       $('#error-alert').fadeIn(500);
       return;
