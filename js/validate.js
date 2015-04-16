@@ -25,6 +25,12 @@ var Validate = (function() {
     return output;
   }
 
+  var _addError = function(formField, glyphicon, message) {
+    $('#error-alert').append(message + "<br />");
+    formField.parent().parent().addClass('has-error has-feedback');
+    glyphicon.removeClass('hide');
+  }
+
   // Given a object, checks if it has a value at fieldName.
   // Otherwise throws an error.
   //
@@ -84,7 +90,31 @@ var Validate = (function() {
     if(numGroups * numPictures > size) {
       throw new Error("Can't split " + size + " total pictures into " 
         + numGroups + " groups of " + numPictures);
+
+  my.nullFields = function() {
+    var errorState = false;
+
+    if ($('#ratings-file').val() === '') {
+      $('#error-alert').append("Please select the ratings file <br />");
+      errorState = true;
     }
+
+    if ($('#num-groups').val() === '') {
+      _addError($('#num-groups'), $('#num-groups-error'), "Please specify number of groups");
+      errorState = true;
+    }
+
+    if ($('#pics-per-group').val() === '') {
+      _addError($('#pics-per-group'), $('#pics-per-group-error'), "Please specify pictures per group");
+      errorState = true;
+    }
+
+    if ($('#rating-per-group').val() === '') {
+      _addError($('#rating-per-group'), $('#rating-per-group-error'), "Please specify average rating per group");
+      errorState = true;
+    }
+
+    return errorState;
   }
 
   return my;

@@ -135,6 +135,13 @@ $(function() {
       var ratingsFile = new air.File(picturePath + "/ratings.csv");
       pictures = Parse.getPictures(ratingsFile, picturePath);
     } else {
+      errorState = Validate.nullFields();
+
+      if (errorState) {
+        $('#error-alert').fadeIn(500);
+        return;
+      }
+
       // get the grouping parameters off of the form
       var formFields = Parse.getFormFields();
       // read pictures from the ratings file
