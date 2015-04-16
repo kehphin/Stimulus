@@ -86,10 +86,20 @@ var Validate = (function() {
   // Modifications list:
   //
   my.validateNumArgs = function(numGroups, numPictures, pictures) {
-    var size = _.size(pictures);        
+    var size = _.size(pictures);
+
     if(numGroups * numPictures > size) {
-      throw new Error("Can't split " + size + " total pictures into " 
-        + numGroups + " groups of " + numPictures);
+      var message = "Can't split " + size + " total pictures into " 
+        + numGroups + " groups of " + numPictures;
+
+      _addError($('#num-groups'), $('#num-groups-error'), message);
+      _addError($('#pics-per-group'), $('#pics-per-group-error'), "");
+
+      return true;
+    }
+
+    return false;
+  }
 
   my.nullFields = function() {
     var errorState = false;
@@ -111,6 +121,27 @@ var Validate = (function() {
 
     if ($('#rating-per-group').val() === '') {
       _addError($('#rating-per-group'), $('#rating-per-group-error'), "Please specify average rating per group");
+      errorState = true;
+    }
+
+    return errorState;
+  }
+
+  my.numberFields = function(numGroups, numPictures, avgRating) {
+    var errorState = false;
+
+    if (isNaN(numGroups) && numGroups !== '') {
+      _addError($('#num-groups'), $('#num-groups-error'), "Number of groups must be a number");
+      errorState = true;
+    }
+
+    if (isNaN(numPictures) && numPictures !== '') {
+      _addError($('#pics-per-group'), $('#pics-per-group-error'), "Pictures per group must be a number");
+      errorState = true;
+    }
+
+    if (isNaN(avgRating) && avgRating !== '') {
+      _addError($('#rating-per-group'), $('#rating-per-group-error'), "Rating per group must be a number");
       errorState = true;
     }
 

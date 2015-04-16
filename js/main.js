@@ -130,6 +130,13 @@ $(function() {
   });
 
   function onInputFormSubmit() {
+    // reset form to show no errors again
+    var errorState = false;
+    $('#error-alert').hide();
+    $('#error-alert').empty();
+    $('.form-control-feedback').addClass('hide');
+    $('.form-group').removeClass('has-error has-feedback');
+
     if(DEBUG) {
       picturePath = "/Users/tony/sd/Stimulus/test_data";
       var ratingsFile = new air.File(picturePath + "/ratings.csv");
@@ -146,6 +153,15 @@ $(function() {
       var formFields = Parse.getFormFields();
       // read pictures from the ratings file
       pictures = Parse.getPictures(formFields['ratingsFile'], picturePath);
+    }
+
+    errorState = Validate.numberFields(formFields['numGroups'], formFields['picsPerGroup'], formFields['avgRating']);
+
+    errorState = errorState || Validate.validateNumArgs(formFields['numGroups'], formFields['picsPerGroup'], pictures);
+
+    if (errorState) {
+      $('#error-alert').fadeIn(500);
+      return;
     }
 
     // choose algorithm for splitting the pictures
