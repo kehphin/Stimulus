@@ -13,6 +13,7 @@ var Chart = (function() {
   var my = {};
 
   /*
+  Author: Gary Song
   Takes in groups
 
   Plots out each group as a chart
@@ -44,11 +45,14 @@ var Chart = (function() {
       var buttonClass = "reset" + g;
       var resetButton = $("<button type='button'>Unzoom</button>").addClass("reset-zoom " + buttonClass).data("graphId", g);
 
+      var toggleClass = "toggle" + g;
+      var toggleButton = $("<button type='button'>Show/Unshow Images</button>").addClass("toggle " + toggleClass).data("graphId", g);
+
       var title = $("<h1></h1>").addClass("chart-title").text("Group " + (g + 1));
 
       var graphContainerDiv = $("<div></div>");
       graphContainerDiv.addClass("graph-container");
-      graphContainerDiv.append(title, chartDiv, overviewDiv, resetButton);
+      graphContainerDiv.append(title, chartDiv, overviewDiv, resetButton, toggleButton);
       
       $(".graphsContainer").append(graphContainerDiv);
 
@@ -58,6 +62,7 @@ var Chart = (function() {
       chart.overviewSelector = "." + overviewClass;
       chart.chartSelector = "." + chartClass;
       chart.buttonSelector = "." + buttonClass;
+      chart.toggleSelector = "." + toggleClass;
 
       // sorts the given group based on ratings
       function compare(a, b) {
@@ -76,7 +81,7 @@ var Chart = (function() {
       chart.dataset = {
         data: data,
         points: { show: true },
-        showLabels: true,
+        showLabels: false,
         labels: filepaths,
         labelPlacement: "center",
         canvasRender: true
@@ -160,14 +165,28 @@ var Chart = (function() {
         }
       });
 
-      // binds unzoom button
+      // binds unzoom image button
       $(charts[g].buttonSelector).click(function(e) {
         // finds which chart wants to be unzoomed
-        var chartNum = $(e.currentTarget).data("graphId");
-        charts[chartNum].plot = $.plot(charts[chartNum].chartSelector, [charts[chartNum].dataset], chartOptions);
-        charts[chartNum].overview = $.plot(charts[chartNum].overviewSelector, [charts[chartNum].overviewDataset], overviewOptions);
+        var chart = charts[$(e.currentTarget).data("graphId")];
+
+        chart.plot = $.plot(chart.chartSelector, [chart.dataset], chartOptions);
+        chart.overview = $.plot(chart.overviewSelector, [chart.overviewDataset], overviewOptions);
       });
 
+      // binds the toggle image button
+      $(charts[g].toggleSelector).click(function(e) {
+        // finds which chart wants to be toggled
+        var chart = charts[$(e.currentTarget).data("graphId")];
+
+        chart.dataset.showLabels = !chart.dataset.showLabels;
+        chart.plot = $.plot(chart.chartSelector, [chart.dataset],
+          $.extend(true, {}, chartOptions, {
+            xaxis: chart.plot.getOptions().xaxis,
+            yaxis: chart.plot.getOptions().yaxis
+          })
+        );
+      });
     }
 
   }

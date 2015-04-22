@@ -26,6 +26,12 @@
     margin-top: 20px;
 }
 
+.toggle {
+    float: right;
+    clear: right;
+    margin-top: 20px;
+}
+
 .chart-title {
     text-align: center;
     clear: both;
