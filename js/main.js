@@ -7,7 +7,9 @@
   actions such as file browsing and submitting the form
 */
 
-var DEBUG = false;
+var DEBUG = true;
+var label1 = "";
+var label2 = "";
 
 $(function() {
   var directory = new air.File();
@@ -306,16 +308,22 @@ $(function() {
   // Modifications list:
   //
   function onInputFormSubmit() {
+    var data;
+
     if(DEBUG) {
-      picturePath = "/Users/tony/sd/Stimulus/test_data/";
+      picturePath = "/Users/davlin/Documents/Stimulus/test_data";
       var ratingsFile = new air.File(picturePath + "/ratings.csv");
-      pictures = Parse.getPictures(ratingsFile, picturePath);
+      data = Parse.getPictures(ratingsFile, picturePath);
     } else {
       // get the grouping parameters off of the form
       var formFields = Parse.getFormFields();
       // read pictures from the ratings file
-      pictures = Parse.getPictures(formFields['ratingsFile'], picturePath);
+      data = Parse.getPictures(formFields['ratingsFile'], picturePath);
     }
+
+    pictures = data.pictures;
+    label1 = data.labels[0];
+    label2 = data.labels[1];
 
     // choose algorithm for splitting the pictures
     var splitFunc = 'ra'
@@ -347,11 +355,11 @@ $(function() {
       group.forEach(function(picture) {
         if (picture.rating2) {
           air.trace("filePath: " + picture.filePath
-                    + ", Rating1: " + picture.rating1
-                    + ", Rating2: " + picture.rating2);
+                    + ", " + label1 + ": " + picture.rating1
+                    + ", " + label2 + ": " + picture.rating2);
         } else {
           air.trace("filePath: " + picture.filePath
-                    + ", Rating: " + picture.rating1);
+                    + ", " + label1 + ": " + picture.rating1);
         }
       });
       i++;
@@ -415,10 +423,10 @@ function _getPictureHtml(picture) {
   var imageHtml =
     '<div class="pic-container">\n' +
     '  <img src="{path}" class="pic-image" data-id="{id}">\n' +
-    '  <div class="pic-info">Rating1: {rating1}</div>\n';
+    '  <div class="pic-info">{label1}: {rating1}</div>\n';
 
   if (picture.rating2) {
-    imageHtml += '  <div class="pic-info">Rating2: {rating2}</div>\n';
+    imageHtml += '  <div class="pic-info">{label2}: {rating2}</div>\n';
   }
 
   imageHtml += '</div>\n';
@@ -427,6 +435,8 @@ function _getPictureHtml(picture) {
     path: path,
     rating1: picture.rating1,
     rating2: picture.rating2,
+    label1: label1,
+    label2: label2,
     id: picture.id
   });
 }

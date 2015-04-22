@@ -19,10 +19,12 @@ var Parse = (function() {
     ratingsFile - File - where the ratings CSV is located
     picturePath - String - the absolute path to the directory holding the pictures
 
-    Returns a list of type Picture from the ratings file
+    Returns a list of type Picture from the ratings file and the ratings labels
   */
   my.getPictures = function(ratingsFile, picturePath) {
     var pictures = [];
+    var label1 = '';
+    var label2 = '';
     var doubleRating = false;
 
     var fileStream = new air.FileStream();
@@ -37,7 +39,9 @@ var Parse = (function() {
       if (rows[i].indexOf("PictureName,") > -1) {
         var cols = rows[i].split(",")
 
+        label1 = cols[1];
         if (cols.length >= 3) {
+          label2 = cols[2];
           doubleRating = true;
         }
 
@@ -64,16 +68,16 @@ var Parse = (function() {
       if (doubleRating) {
         air.trace("id: " + picture.id
                   + ", filePath: " + picture.filePath
-                  + ", Rating1: " + picture.rating1
-                  + ", Rating2: " + picture.rating2);
+                  + ", " + label1 + ": " + picture.rating1
+                  + ", " + label2 + ": " + picture.rating2);
       } else {
         air.trace("id: " + picture.id
                   + ", filePath: " + picture.filePath
-                  + ", Rating: " + picture.rating1);
+                  + ", " + label1 + ": " + picture.rating1);
       }
     });
 
-    return pictures;
+    return { "pictures": pictures, "labels": [ label1, label2 ] };
   }
 
   /*
