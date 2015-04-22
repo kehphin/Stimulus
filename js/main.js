@@ -16,8 +16,13 @@ $(function() {
   var pictures = [];
   var groups = {};
 
-  /* This function will populate all the picture objects into
-  the group containers in the Groups tab. */
+  // This function will populate all the picture objects into
+  // the group containers in the Groups tab.
+  //
+  // Creation date: 2/28/15 - David Lin
+  // Modifications list:
+  // 4/10/15 - dynamically add html group elements to DOM (Tony J Huang)
+  //
   var loadPics = function() {
     var unsortedPicsHtml = "";
     groups.unsorted.forEach(function(picture) {
@@ -64,14 +69,108 @@ $(function() {
     $('[data-group]').addClass('col-md-' + colSize);
   }
 
-  /* This function attaches drag and drop capability to all the groups and pictures */
+  // Update the stats bar for a group with the given stats.
+  //
+  // Creation date: 4/15/15 - Tony J Huang
+  // Modification list: 
+  // 
+  var _setStatsForGroup = function(groupIndex, mean, stdev) {
+    var meanFormatted  = +mean.toFixed(3);
+    var stdevFormatted = +stdev.toFixed(3);
+    var $group = $('[data-group=' + groupIndex + ']');
+    $group.find('.stats-mean').text('Mean: ' + meanFormatted);
+    $group.find('.stats-stdev').text('SD: ' + stdevFormatted);
+    }
+
+  // This function attaches drag and drop capability to all 
+  // the groups and pictures.
+  //
+  // Creation date: 3/26/15 - Kevin Yang
+  // Modifications list:
+  // - 4/15/15 Dynamically update stats box when dragging 
+  //   pictures (Tony J Huang)
+  //
   var loadDragAndDrop = function () {
-    $(".pic-container").draggable({
+
+    // Check if the given x and y coordinates are within the
+    // JQuery element's view bounds.
+    //
+    // Creation date: 4/15/15 - Tony J Huang
+    // Modifications list:
+    //
+    var _containsPoint = function($element, x, y) {
+      var offset = $element.offset();
+      var top = offset.top;
+      var left = offset.left;
+      var right = left + $element.width();
+      var bottom = top + $element.height();
+
+      return left <= x && x <= right && top <= y && y <= bottom;
+    }
+
+    // Retrieve a picture given its id
+    //
+    // Creation date: 4/15/15 - Tony J Huang
+    // Modifications list:
+    //
+    var _getPicture = function(pictureId) {
+      var result;
+      pictures.forEach(function(picture) {
+        if(parseInt(picture.id) === parseInt(pictureId)) {
+          result = picture;
+          return false;
+        }
+      });
+      return result;
+    }
+
+    // Update a group's stats box dynamically when dragging a picture
+    // over its div.
+    //
+    // Creation date: 4/15/15 - Tony J Huang
+    // Modifications list:
+    //
+    var handleDragEvent = function(event, ui) {
+      var pictureId = ui.helper.find('img').data('id');
+      var picture = _getPicture(pictureId);
+      var x = parseInt( ui.offset.left );
+      var y = parseInt( ui.offset.top );
+      $.each($('.group'), function(index, groupDiv) {
+        if(index === $('.group').length - 1) { 
+          // unsorted (ignore)
+        } else if(_containsPoint($(groupDiv), x, y)) {
+          if($.inArray(picture, groups.sorted[index]) >= 0) {
+              // don't do anything, the dragging picture is already in
+              // this group element.
+            } else {
+              // calculate new ratings with the dragged picture.
+              // see http://davidwalsh.name/javascript-clone-array
+              var groupClone = groups.sorted[index].slice(0);
+              groupClone.push(picture);
+              var meanRating = Stats.meanRating(groupClone);
+              var stdevRating = Stats.stdevRating(groupClone);
+              _setStatsForGroup(index, meanRating, stdevRating);
+            }
+        } else {
+          // calculate ratings of all other groups 
+          // (in case picture has been dragged out of div);
+          var group = groups.sorted[index];
+          var meanRating = Stats.meanRating(group);
+          var stdevRating = Stats.stdevRating(group);
+          _setStatsForGroup(index, meanRating, stdevRating);
+        }
+      });
+    }
+
+    var draggableOptions = {
       scroll: true,
       refreshPositions: true,
+      opacity: 0.35,
       helper: 'clone',
-      containment: 'window'
-    });
+      drag: handleDragEvent
+    };
+
+    $(".pic-container").draggable(draggableOptions);
 
     $( ".group").droppable({
       accept: '.pic-container',
@@ -79,25 +178,92 @@ $(function() {
       hoverClass: 'hover',
       tolerance: 'pointer',
       drop: function(event, ui) {
-        var clone = $(ui.draggable).clone();
-        clone.draggable({
-          scroll: true,
-          refreshPositions: true,
-          helper: 'clone'
-        });
-
+        var clone = $(ui.draggable);
         $(this).find('.pic-box').append(clone);
-        ui.draggable.remove();
+        _moveDraggedPicture($(this), clone);
       }
     });
   }
 
+  // Finds the Picture object that is dragged in the data structure and moves it
+  // to the correct group based on the user's draggable interaction.
+  //
+  // Creation date: 4/15/15 - Kevin Yang
+  // Modifications list:
+  //
+  var _moveDraggedPicture = function(toGroup, draggedPicture) {
+    var toGroupNumber = toGroup.attr('data-group');
+    var pictureId = draggedPicture.children('img').data('id');
+    var picFound = false;
+
+    // Picture moved from sorted to sorted/unsorted
+    $.each(groups.sorted, function(index, group) {
+      $.each(group, function(index, picture) {
+        if (picture.id.toString() == pictureId && !picFound) {
+          if (!toGroupNumber) {       // Dragged from sorted to unsorted
+            groups.unsorted.push(picture);
+          } else {                    // Dragged from sorted to sorted
+            groups.sorted[parseInt(toGroupNumber)].push(picture);
+          }
+
+          group.splice(index, 1);
+          _recalculateStats();
+          picFound = true;
+          return false;
+        }
+      });
+    });
+
+    // Picture moved from unsorted to unsorted/sorted
+    if (!picFound) {
+      $.each(groups.unsorted, function(index, picture) {
+        if (picture.id.toString() == pictureId) {
+          if (!toGroupNumber) {       // Dragged from unsorted to unsorted
+            groups.unsorted.push(picture);
+          } else {                    // Dragged from unsorted to sorted
+            groups.sorted[parseInt(toGroupNumber)].push(picture);
+          }
+
+          groups.unsorted.splice(index, 1);
+          _recalculateStats();
+          return false;
+        }
+      });
+    }
+  }
+
+  // Redisplays the new group stats of each group in the UI.
+  //
+  // Creation date: 4/15/15 - Kevin Yang
+  // Modifications list:
+  // - 4/15/15 use _setStatsForGroup helper (Tony J Huang)
+  //
+  var _recalculateStats = function() {
+    for (var i=0; i<groups.sorted.length; i++) {
+      var group = groups.sorted[i];
+      var meanRating = Stats.meanRating(group);
+      var stdevRating = Stats.stdevRating(group);
+
+      _setStatsForGroup(i, meanRating, stdevRating);
+    }
+  }
+
+  // Shows the Settings tab in the UI.
+  //
+  // Creation date: 3/20/15 - Kevin Yang
+  // Modifications list:
+  //
   var showSettings = function() {
     $(".groupsContainer").hide();
     $(".graphsContainer").hide();
     $(".settingsContainer").show();
   }
 
+  // Shows the Groups tab in the UI.
+  //
+  // Creation date: 3/20/15 - Kevin Yang
+  // Modifications list:
+  //
   var showGroups = function() {
     $('[data-group]').hide();
 
@@ -109,6 +275,11 @@ $(function() {
     loadDragAndDrop();
   }
 
+  // Shows the Graph tab in the UI.
+  //
+  // Creation date: 3/20/15 - Kevin Yang
+  // Modifications list:
+  //
   var showGraphs = function() {
     $(".groupsContainer").hide();
     $(".settingsContainer").hide();
@@ -129,6 +300,11 @@ $(function() {
     directory.browseForDirectory("Choose the picture directory");
   });
 
+  // Handler for form submission for the Settings tab.
+  //
+  // Creation date: 3/13/15 - David Lin
+  // Modifications list:
+  //
   function onInputFormSubmit() {
     if(DEBUG) {
       picturePath = "D:\\Documents\\Stimulus\\test_data";
@@ -208,6 +384,11 @@ $(function() {
   }
 });
 
+// Substitutes metadata in a HTML segment by the placing '{...}'' with its value
+//
+// Creation date: 4/10/15 - Tony J Huang
+// Modifications list:
+//
 String.prototype.supplant = function (o) {
   return this.replace(/{([^{}]*)}/g,
     function (a, b) {
@@ -217,20 +398,26 @@ String.prototype.supplant = function (o) {
   );
 };
 
+// Returns the HTML segment of a picture that will be inserted into the DOM,
+// populated with the picture's metadata.
+//
+// Creation date: 4/10/15 - Tony J Huang
+// Modifications list:
+//
 function _getPictureHtml(picture) {
   var path = new air.File(picture.filePath).url;
   var imageHtml =
     '<div class="pic-container">\n' +
-    '  <img src="{path}" class="pic-image">\n' +
+    '  <img src="{path}" class="pic-image" data-id="{id}">\n' +
     '  <div class="pic-info">Rating: {rating}</div>\n' +
     '</div>\n';
 
   return imageHtml.supplant({
     path: path,
-    rating: picture.rating
+    rating: picture.rating,
+    id: picture.id
   });
 }
-
 
 // Adds a group of pictures to a given row element, assigns
 // it an id of {index}
