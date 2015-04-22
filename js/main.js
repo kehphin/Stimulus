@@ -345,7 +345,14 @@ $(function() {
     groups.sorted.forEach(function(group) {
       air.trace("Group " + i);
       group.forEach(function(picture) {
-        air.trace("filePath: " + picture.filePath + ", rating: " + picture.rating);
+        if (picture.rating2) {
+          air.trace("filePath: " + picture.filePath
+                    + ", Rating1: " + picture.rating1
+                    + ", Rating2: " + picture.rating2);
+        } else {
+          air.trace("filePath: " + picture.filePath
+                    + ", Rating: " + picture.rating1);
+        }
       });
       i++;
     });
@@ -408,12 +415,18 @@ function _getPictureHtml(picture) {
   var imageHtml =
     '<div class="pic-container">\n' +
     '  <img src="{path}" class="pic-image" data-id="{id}">\n' +
-    '  <div class="pic-info">Rating: {rating}</div>\n' +
-    '</div>\n';
+    '  <div class="pic-info">Rating1: {rating1}</div>\n';
+
+  if (picture.rating2) {
+    imageHtml += '  <div class="pic-info">Rating2: {rating2}</div>\n';
+  }
+
+  imageHtml += '</div>\n';
 
   return imageHtml.supplant({
     path: path,
-    rating: picture.rating,
+    rating1: picture.rating1,
+    rating2: picture.rating2,
     id: picture.id
   });
 }

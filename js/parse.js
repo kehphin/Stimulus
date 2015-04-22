@@ -23,6 +23,7 @@ var Parse = (function() {
   */
   my.getPictures = function(ratingsFile, picturePath) {
     var pictures = [];
+    var doubleRating = false;
 
     var fileStream = new air.FileStream();
     fileStream.open(ratingsFile, air.FileMode.READ);
@@ -33,7 +34,13 @@ var Parse = (function() {
 
     var dataIndex = -1;
     for(i = 0; i < rows.length; i++) {
-      if (rows[i].indexOf("PictureName,Rating") > -1) {
+      if (rows[i].indexOf("PictureName,") > -1) {
+        var cols = rows[i].split(",")
+
+        if (cols.length >= 3) {
+          doubleRating = true;
+        }
+
         dataIndex = i;
       }
     }
@@ -44,12 +51,26 @@ var Parse = (function() {
       for(i = dataIndex + 1; i < rows.length; i++) {
         var cols = rows[i].split(",");
         var path = [picturePath, cols[0]].join("/");
-        pictures.push(new Picture(parseInt(cols[1]), path));
+
+        if (doubleRating) {
+          pictures.push(new Picture(parseInt(cols[1]), parseInt(cols[2]), path));
+        } else {
+          pictures.push(new Picture(parseInt(cols[1]), null, path));
+        }
       }
     }
 
     pictures.forEach(function(picture) {
-      air.trace("id: " + picture.id + ", filePath: " + picture.filePath + ", rating: " + picture.rating);
+      if (doubleRating) {
+        air.trace("id: " + picture.id
+                  + ", filePath: " + picture.filePath
+                  + ", Rating1: " + picture.rating1
+                  + ", Rating2: " + picture.rating2);
+      } else {
+        air.trace("id: " + picture.id
+                  + ", filePath: " + picture.filePath
+                  + ", Rating: " + picture.rating1);
+      }
     });
 
     return pictures;

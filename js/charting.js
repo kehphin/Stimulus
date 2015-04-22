@@ -51,14 +51,14 @@ var Chart = (function() {
 
       // sorts the given group based on ratings
       function compare(a, b) {
-        return a.rating - b.rating;
+        return a.rating1 - b.rating1;
       }
       var pictures = groups[g].sort(compare);
       
       // parses groups data into flot format
       var data = [];
       for(var i = 0; i < pictures.length; i++) {
-        data.push([i, pictures[i].rating]);
+        data.push([i, pictures[i].rating1]);
       }
 
       chart.chart_data = [{

@@ -49,7 +49,7 @@ var Validate = (function() {
   //
   my.validatePicture = function(object) {
     if(object instanceof Picture) {
-      my.ensure(object, "rating");
+      my.ensure(object, "rating1");
       my.ensure(object, "filePath");
     } else {
       throw new Error("Picture is not properly formatted: " + 
