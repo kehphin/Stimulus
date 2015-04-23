@@ -56,7 +56,7 @@ var Stats = (function() {
   //
   function _sortPicturesByRating(targetRating, pictures) {
     return _.sortBy(pictures, function(p) {
-      return Math.abs(p.rating - targetRating);
+      return Math.abs(p.rating1 - targetRating);
     });
   }
 
@@ -215,7 +215,7 @@ var Stats = (function() {
     if(pictures.length === 0) {
       return 0;
     } else {
-      return _avg(_.pluck(pictures, "rating"));
+      return _avg(_.pluck(pictures, "rating1"));
     }
   }
 
@@ -231,13 +231,13 @@ var Stats = (function() {
     if(pictures.length === 0) {
       throw new Error("Called with an empty Array.");
     } else {
-      var sorted = _.sortBy(pictures, "rating");
+      var sorted = _.sortBy(pictures, "rating1");
       if(sorted.length % 2 == 0) {
         // Even number of entries, find middle two entries and average.
         var half = sorted.length / 2;
-        return _avg([sorted[half-1]['rating'], sorted[half]['rating']]);
+        return _avg([sorted[half-1]['rating1'], sorted[half]['rating1']]);
       } else {
-        return sorted[Math.floor((sorted.length - 1) / 2)]['rating'];
+        return sorted[Math.floor((sorted.length - 1) / 2)]['rating1'];
       }
     }
   }
@@ -260,7 +260,7 @@ var Stats = (function() {
       var mode = 0;
       var modeCount = 0;
       _.each(pictures, function(p) {
-        var r = p.rating;
+        var r = p.rating1;
         
         if(modeMap[r] === undefined) {
           modeMap[r] = 0;
@@ -299,7 +299,7 @@ var Stats = (function() {
       // Get the square of the differences between 
       // each rating and the average rating
       var sqrDiffs = _.map(pictures, function(p) {
-        return Math.pow(p.rating - avgRating, 2);
+        return Math.pow(p.rating1 - avgRating, 2);
       });
 
       // Stdev = Square root the average of the squared diffs.

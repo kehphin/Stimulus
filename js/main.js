@@ -7,7 +7,9 @@
   actions such as file browsing and submitting the form
 */
 
-var DEBUG = false;
+var DEBUG = true;
+var label1 = "";
+var label2 = "";
 
 $(function() {
   var directory = new air.File();
@@ -306,6 +308,8 @@ $(function() {
   // Modifications list:
   //
   function onInputFormSubmit() {
+    var data;
+
     // reset form to show no errors again
     var errorState = false;
     $('#error-alert').hide();
@@ -314,9 +318,9 @@ $(function() {
     $('.form-group').removeClass('has-error has-feedback');
 
     if(DEBUG) {
-      picturePath = "/Users/tony/sd/Stimulus/test_data/";
+      picturePath = "/Users/davlin/Documents/Stimulus/test_data";
       var ratingsFile = new air.File(picturePath + "/ratings.csv");
-      pictures = Parse.getPictures(ratingsFile, picturePath);
+      data = Parse.getPictures(ratingsFile, picturePath);
     } else {
       errorState = Validate.nullFields();
 
@@ -329,8 +333,12 @@ $(function() {
       // get the grouping parameters off of the form
       var formFields = Parse.getFormFields();
       // read pictures from the ratings file
-      pictures = Parse.getPictures(formFields['ratingsFile'], picturePath);
+      data = Parse.getPictures(formFields['ratingsFile'], picturePath);
     }
+
+    pictures = data.pictures;
+    label1 = data.labels[0];
+    label2 = data.labels[1];
 
     errorState = Validate.numberFields(formFields['numGroups'], formFields['picsPerGroup'], formFields['avgRating']);
 
@@ -370,7 +378,14 @@ $(function() {
     groups.sorted.forEach(function(group) {
       air.trace("Group " + i);
       group.forEach(function(picture) {
-        air.trace("filePath: " + picture.filePath + ", rating: " + picture.rating);
+        if (picture.rating2) {
+          air.trace("filePath: " + picture.filePath
+                    + ", " + label1 + ": " + picture.rating1
+                    + ", " + label2 + ": " + picture.rating2);
+        } else {
+          air.trace("filePath: " + picture.filePath
+                    + ", " + label1 + ": " + picture.rating1);
+        }
       });
       i++;
     });
@@ -433,12 +448,20 @@ function _getPictureHtml(picture) {
   var imageHtml =
     '<div class="pic-container">\n' +
     '  <img src="{path}" class="pic-image" data-id="{id}">\n' +
-    '  <div class="pic-info">Rating: {rating}</div>\n' +
-    '</div>\n';
+    '  <div class="pic-info">{label1}: {rating1}</div>\n';
+
+  if (picture.rating2) {
+    imageHtml += '  <div class="pic-info">{label2}: {rating2}</div>\n';
+  }
+
+  imageHtml += '</div>\n';
 
   return imageHtml.supplant({
     path: path,
-    rating: picture.rating,
+    rating1: picture.rating1,
+    rating2: picture.rating2,
+    label1: label1,
+    label2: label2,
     id: picture.id
   });
 }

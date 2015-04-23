@@ -19,10 +19,13 @@ var Parse = (function() {
     ratingsFile - File - where the ratings CSV is located
     picturePath - String - the absolute path to the directory holding the pictures
 
-    Returns a list of type Picture from the ratings file
+    Returns a list of type Picture from the ratings file and the ratings labels
   */
   my.getPictures = function(ratingsFile, picturePath) {
     var pictures = [];
+    var label1 = '';
+    var label2 = '';
+    var doubleRating = false;
 
     var fileStream = new air.FileStream();
     fileStream.open(ratingsFile, air.FileMode.READ);
@@ -33,7 +36,15 @@ var Parse = (function() {
 
     var dataIndex = -1;
     for(i = 0; i < rows.length; i++) {
-      if (rows[i].indexOf("PictureName,Rating") > -1) {
+      if (rows[i].indexOf("PictureName,") > -1) {
+        var cols = rows[i].split(",")
+
+        label1 = cols[1];
+        if (cols.length >= 3) {
+          label2 = cols[2];
+          doubleRating = true;
+        }
+
         dataIndex = i;
       }
     }
@@ -44,15 +55,29 @@ var Parse = (function() {
       for(i = dataIndex + 1; i < rows.length; i++) {
         var cols = rows[i].split(",");
         var path = [picturePath, cols[0]].join("/");
-        pictures.push(new Picture(parseInt(cols[1]), path));
+
+        if (doubleRating) {
+          pictures.push(new Picture(parseInt(cols[1]), parseInt(cols[2]), path));
+        } else {
+          pictures.push(new Picture(parseInt(cols[1]), null, path));
+        }
       }
     }
 
     pictures.forEach(function(picture) {
-      air.trace("id: " + picture.id + ", filePath: " + picture.filePath + ", rating: " + picture.rating);
+      if (doubleRating) {
+        air.trace("id: " + picture.id
+                  + ", filePath: " + picture.filePath
+                  + ", " + label1 + ": " + picture.rating1
+                  + ", " + label2 + ": " + picture.rating2);
+      } else {
+        air.trace("id: " + picture.id
+                  + ", filePath: " + picture.filePath
+                  + ", " + label1 + ": " + picture.rating1);
+      }
     });
 
-    return pictures;
+    return { "pictures": pictures, "labels": [ label1, label2 ] };
   }
 
   /*
