@@ -56,10 +56,14 @@ var Parse = (function() {
         var cols = rows[i].split(",");
         var path = [picturePath, cols[0]].join("/");
 
+        if (cols[0] === "") {
+          break;
+        }
+
         if (doubleRating) {
-          pictures.push(new Picture(parseInt(cols[1]), parseInt(cols[2]), path));
+          pictures.push(new Picture(parseFloat(cols[1]), parseFloat(cols[2]), path));
         } else {
-          pictures.push(new Picture(parseInt(cols[1]), null, path));
+          pictures.push(new Picture(parseFloat(cols[1]), null, path));
         }
       }
     }
