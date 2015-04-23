@@ -23,3 +23,7 @@
 .navItem {
   cursor: pointer;
 }
+
+.exportGraph {
+    display: none;
+}

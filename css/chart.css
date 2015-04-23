@@ -1,3 +1,11 @@
+/*
+  Author: Gary Song & Tony Huang
+  Group: Team Stimulus
+  Created At: 4/14/15
+
+  CSS for the Charts tab
+
+*/
 .overview {
     width: 160px;
     height: 125px;
@@ -5,7 +13,39 @@
 }
 
 .chart {
-    width: 650px;
-    height: 400px;
+    width: 780px;
+    height: 550px;
     float: left;
+    margin-bottom: 40px;
+    margin-left: 20px;
+}
+
+.reset-zoom {
+    float: right;
+    clear: right;
+    margin-top: 20px;
+}
+
+.toggle {
+    float: right;
+    clear: right;
+    margin-top: 20px;
+}
+
+.chart-title {
+    text-align: center;
+    clear: both;
+}
+
+.axisLabels {
+    font-size: 20px;
+}
+
+.graph-container {
+  padding: 20px 20px 20px 0px;
+  height: 675px;
+  background-color: white;
+  margin-top: 20px;
+  -webkit-box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.20);
+  border-radius: 2px;
 }

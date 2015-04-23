@@ -6,7 +6,6 @@
   This is the core JS file that contains all of the bindings for DOM
   actions such as file browsing and submitting the form
 */
-
 var DEBUG = false;
 var label1 = "";
 var label2 = "";
@@ -74,8 +73,8 @@ $(function() {
   // Update the stats bar for a group with the given stats.
   //
   // Creation date: 4/15/15 - Tony J Huang
-  // Modification list: 
-  // 
+  // Modification list:
+  //
   var _setStatsForGroup = function(groupIndex, mean, stdev) {
     var meanFormatted  = +mean.toFixed(3);
     var stdevFormatted = +stdev.toFixed(3);
@@ -84,12 +83,12 @@ $(function() {
     $group.find('.stats-stdev').text('SD: ' + stdevFormatted);
     }
 
-  // This function attaches drag and drop capability to all 
+  // This function attaches drag and drop capability to all
   // the groups and pictures.
   //
   // Creation date: 3/26/15 - Kevin Yang
   // Modifications list:
-  // - 4/15/15 Dynamically update stats box when dragging 
+  // - 4/15/15 Dynamically update stats box when dragging
   //   pictures (Tony J Huang)
   //
   var loadDragAndDrop = function () {
@@ -138,7 +137,7 @@ $(function() {
       var x = parseInt( ui.offset.left );
       var y = parseInt( ui.offset.top );
       $.each($('.group'), function(index, groupDiv) {
-        if(index === $('.group').length - 1) { 
+        if(index === $('.group').length - 1) {
           // unsorted (ignore)
         } else if(_containsPoint($(groupDiv), x, y)) {
           if($.inArray(picture, groups.sorted[index]) >= 0) {
@@ -154,7 +153,7 @@ $(function() {
               _setStatsForGroup(index, meanRating, stdevRating);
             }
         } else {
-          // calculate ratings of all other groups 
+          // calculate ratings of all other groups
           // (in case picture has been dragged out of div);
           var group = groups.sorted[index];
           var meanRating = Stats.meanRating(group);
@@ -318,8 +317,8 @@ $(function() {
     $('.form-group').removeClass('has-error has-feedback');
 
     if(DEBUG) {
-      picturePath = "/Users/davlin/Documents/Stimulus/test_data";
-      var ratingsFile = new air.File(picturePath + "/ratings.csv");
+      picturePath = "D:\\Documents\\Stimulus\\test_data";
+      var ratingsFile = new air.File(picturePath + "\\ratings.csv");
       data = Parse.getPictures(ratingsFile, picturePath);
     } else {
       errorState = Validate.nullFields();
@@ -418,6 +417,7 @@ $(function() {
 
   if(DEBUG) {
     onInputFormSubmit();
+    setTimeout(showGraphs, 500);
   } else {
     showSettings();
   }
