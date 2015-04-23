@@ -32,12 +32,12 @@ var Chart = (function() {
 
     // goes through each group of pictures and creates a zooming scatter plot for each one
     for(var g = 0; g < groups.length; g++) {
-      
+
       // makes nessesary divs for each chart
       var overviewClass = "overview" + g;
       var overviewDiv = $("<div></div>");
       overviewDiv.addClass("overview " + overviewClass);
-      
+
       var chartClass = "chart" + g;
       var chartDiv = $("<div></div>");
       chartDiv.addClass("chart " + chartClass);
@@ -53,7 +53,7 @@ var Chart = (function() {
       var graphContainerDiv = $("<div></div>");
       graphContainerDiv.addClass("graph-container");
       graphContainerDiv.append(title, chartDiv, overviewDiv, resetButton, toggleButton);
-      
+
       $(".graphsContainer").append(graphContainerDiv);
 
       // chart object saved for use after initialization, i.e for zooming
@@ -66,15 +66,15 @@ var Chart = (function() {
 
       // sorts the given group based on ratings
       function compare(a, b) {
-        return a.rating - b.rating;
+        return a.rating1 - b.rating1;
       }
       var pictures = groups[g].sort(compare);
-      
+
       // parses groups data into flot format
       var data = [];
       var filepaths = [];
       for(var i = 0; i < pictures.length; i++) {
-        data.push([i, pictures[i].rating]);
+        data.push([i, pictures[i].rating1]);
         filepaths.push(pictures[i].filePath);
       }
 

@@ -6,8 +6,9 @@
   This is the core JS file that contains all of the bindings for DOM
   actions such as file browsing and submitting the form
 */
-
-var DEBUG = true;
+var DEBUG = false;
+var label1 = "";
+var label2 = "";
 
 $(function() {
   var directory = new air.File();
@@ -72,8 +73,8 @@ $(function() {
   // Update the stats bar for a group with the given stats.
   //
   // Creation date: 4/15/15 - Tony J Huang
-  // Modification list: 
-  // 
+  // Modification list:
+  //
   var _setStatsForGroup = function(groupIndex, mean, stdev) {
     var meanFormatted  = +mean.toFixed(3);
     var stdevFormatted = +stdev.toFixed(3);
@@ -82,12 +83,12 @@ $(function() {
     $group.find('.stats-stdev').text('SD: ' + stdevFormatted);
     }
 
-  // This function attaches drag and drop capability to all 
+  // This function attaches drag and drop capability to all
   // the groups and pictures.
   //
   // Creation date: 3/26/15 - Kevin Yang
   // Modifications list:
-  // - 4/15/15 Dynamically update stats box when dragging 
+  // - 4/15/15 Dynamically update stats box when dragging
   //   pictures (Tony J Huang)
   //
   var loadDragAndDrop = function () {
@@ -136,7 +137,7 @@ $(function() {
       var x = parseInt( ui.offset.left );
       var y = parseInt( ui.offset.top );
       $.each($('.group'), function(index, groupDiv) {
-        if(index === $('.group').length - 1) { 
+        if(index === $('.group').length - 1) {
           // unsorted (ignore)
         } else if(_containsPoint($(groupDiv), x, y)) {
           if($.inArray(picture, groups.sorted[index]) >= 0) {
@@ -152,7 +153,7 @@ $(function() {
               _setStatsForGroup(index, meanRating, stdevRating);
             }
         } else {
-          // calculate ratings of all other groups 
+          // calculate ratings of all other groups
           // (in case picture has been dragged out of div);
           var group = groups.sorted[index];
           var meanRating = Stats.meanRating(group);
@@ -306,19 +307,50 @@ $(function() {
   // Modifications list:
   //
   function onInputFormSubmit() {
+    var data;
+
+    // reset form to show no errors again
+    var errorState = false;
+    $('#error-alert').hide();
+    $('#error-alert').empty();
+    $('.form-control-feedback').addClass('hide');
+    $('.form-group').removeClass('has-error has-feedback');
+
     if(DEBUG) {
       picturePath = "D:\\Documents\\Stimulus\\test_data";
       var ratingsFile = new air.File(picturePath + "\\ratings.csv");
-      pictures = Parse.getPictures(ratingsFile, picturePath);
+      data = Parse.getPictures(ratingsFile, picturePath);
     } else {
+      errorState = Validate.nullFields();
+
+      // if there are errors in the form, fadeIn the error bar and abort split
+      if (errorState) {
+        $('#error-alert').fadeIn(500);
+        return;
+      }
+
       // get the grouping parameters off of the form
       var formFields = Parse.getFormFields();
       // read pictures from the ratings file
-      pictures = Parse.getPictures(formFields['ratingsFile'], picturePath);
+      data = Parse.getPictures(formFields['ratingsFile'], picturePath);
+    }
+
+    pictures = data.pictures;
+    label1 = data.labels[0];
+    label2 = data.labels[1];
+
+    errorState = Validate.numberFields(formFields['numGroups'], formFields['picsPerGroup'], formFields['avgRating']);
+
+    errorState = errorState || Validate.validateNumArgs(formFields['numGroups'], formFields['picsPerGroup'], pictures);
+
+    // if there are errors in the form, fadeIn the error bar and abort split
+    if (errorState) {
+      $('#error-alert').fadeIn(500);
+      return;
     }
 
     // choose algorithm for splitting the pictures
-    var splitFunc = 'ra'
+    var splitFunc = 'gr'
     air.trace("Splitting with algorithm: " + splitFunc);
 
     if(DEBUG) {
@@ -345,7 +377,14 @@ $(function() {
     groups.sorted.forEach(function(group) {
       air.trace("Group " + i);
       group.forEach(function(picture) {
-        air.trace("filePath: " + picture.filePath + ", rating: " + picture.rating);
+        if (picture.rating2) {
+          air.trace("filePath: " + picture.filePath
+                    + ", " + label1 + ": " + picture.rating1
+                    + ", " + label2 + ": " + picture.rating2);
+        } else {
+          air.trace("filePath: " + picture.filePath
+                    + ", " + label1 + ": " + picture.rating1);
+        }
       });
       i++;
     });
@@ -409,12 +448,20 @@ function _getPictureHtml(picture) {
   var imageHtml =
     '<div class="pic-container">\n' +
     '  <img src="{path}" class="pic-image" data-id="{id}">\n' +
-    '  <div class="pic-info">Rating: {rating}</div>\n' +
-    '</div>\n';
+    '  <div class="pic-info">{label1}: {rating1}</div>\n';
+
+  if (picture.rating2) {
+    imageHtml += '  <div class="pic-info">{label2}: {rating2}</div>\n';
+  }
+
+  imageHtml += '</div>\n';
 
   return imageHtml.supplant({
     path: path,
-    rating: picture.rating,
+    rating1: picture.rating1,
+    rating2: picture.rating2,
+    label1: label1,
+    label2: label2,
     id: picture.id
   });
 }

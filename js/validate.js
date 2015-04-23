@@ -1,5 +1,5 @@
 /*
-  Author: Tony J Huang
+  Author: Tony J Huang & David Lin
   Group: Team Stimulus
   Created At: 3/2/15
     
@@ -23,6 +23,20 @@ var Validate = (function() {
       output += property + ': ' + obj[property]+'; ';
     }
     return output;
+  }
+
+
+  /*
+    given a form input, its corresponding error glyphicon and an error message,
+    display an error on the form
+
+    Creation date: 4/16/15
+    Author: David Lin
+  */
+  var _addError = function(formField, glyphicon, message) {
+    $('#error-alert').append(message + "<br />");
+    formField.parent().parent().addClass('has-error has-feedback');
+    glyphicon.removeClass('hide');
   }
 
   // Given a object, checks if it has a value at fieldName.
@@ -49,7 +63,7 @@ var Validate = (function() {
   //
   my.validatePicture = function(object) {
     if(object instanceof Picture) {
-      my.ensure(object, "rating");
+      my.ensure(object, "rating1");
       my.ensure(object, "filePath");
     } else {
       throw new Error("Picture is not properly formatted: " + 
@@ -77,14 +91,86 @@ var Validate = (function() {
   // they make sense/are possible.
   //
   // Creation date: 3/1/15
+  // Authors: David Lin & Tony Huang
   // Modifications list:
   //
   my.validateNumArgs = function(numGroups, numPictures, pictures) {
-    var size = _.size(pictures);        
+    var size = _.size(pictures);
+
     if(numGroups * numPictures > size) {
-      throw new Error("Can't split " + size + " total pictures into " 
-        + numGroups + " groups of " + numPictures);
+      var message = "Can't split " + size + " total pictures into " 
+        + numGroups + " groups of " + numPictures;
+
+      _addError($('#num-groups'), $('#num-groups-error'), message);
+      _addError($('#pics-per-group'), $('#pics-per-group-error'), "");
+
+      return true;
     }
+
+    return false;
+  }
+
+  /*
+    checks the input fields for null values
+
+    Returns true if there are null fields and adds the corresponding errors, false otherwise
+
+    Creation date: 4/16/15
+    Author: David Lin
+  */
+  my.nullFields = function() {
+    var errorState = false;
+
+    if ($('#ratings-file').val() === '') {
+      $('#error-alert').append("Please select the ratings file <br />");
+      errorState = true;
+    }
+
+    if ($('#num-groups').val() === '') {
+      _addError($('#num-groups'), $('#num-groups-error'), "Please specify number of groups");
+      errorState = true;
+    }
+
+    if ($('#pics-per-group').val() === '') {
+      _addError($('#pics-per-group'), $('#pics-per-group-error'), "Please specify pictures per group");
+      errorState = true;
+    }
+
+    if ($('#rating-per-group').val() === '') {
+      _addError($('#rating-per-group'), $('#rating-per-group-error'), "Please specify average rating per group");
+      errorState = true;
+    }
+
+    return errorState;
+  }
+
+  /*
+    checks the input fields for number values
+
+    Returns true if there are non-number fields and adds the corresponding errors, false otherwise
+
+    Creation date: 4/16/15
+    Author: David Lin
+  */
+  my.numberFields = function(numGroups, numPictures, avgRating) {
+    var errorState = false;
+
+    if (isNaN(numGroups) && numGroups !== '') {
+      _addError($('#num-groups'), $('#num-groups-error'), "Number of groups must be a number");
+      errorState = true;
+    }
+
+    if (isNaN(numPictures) && numPictures !== '') {
+      _addError($('#pics-per-group'), $('#pics-per-group-error'), "Pictures per group must be a number");
+      errorState = true;
+    }
+
+    if (isNaN(avgRating) && avgRating !== '') {
+      _addError($('#rating-per-group'), $('#rating-per-group-error'), "Rating per group must be a number");
+      errorState = true;
+    }
+
+    return errorState;
   }
 
   return my;
