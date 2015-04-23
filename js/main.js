@@ -310,11 +310,26 @@ $(function() {
   function onInputFormSubmit() {
     var data;
 
+    // reset form to show no errors again
+    var errorState = false;
+    $('#error-alert').hide();
+    $('#error-alert').empty();
+    $('.form-control-feedback').addClass('hide');
+    $('.form-group').removeClass('has-error has-feedback');
+
     if(DEBUG) {
       picturePath = "/Users/davlin/Documents/Stimulus/test_data";
       var ratingsFile = new air.File(picturePath + "/ratings.csv");
       data = Parse.getPictures(ratingsFile, picturePath);
     } else {
+      errorState = Validate.nullFields();
+
+      // if there are errors in the form, fadeIn the error bar and abort split
+      if (errorState) {
+        $('#error-alert').fadeIn(500);
+        return;
+      }
+
       // get the grouping parameters off of the form
       var formFields = Parse.getFormFields();
       // read pictures from the ratings file
@@ -325,8 +340,18 @@ $(function() {
     label1 = data.labels[0];
     label2 = data.labels[1];
 
+    errorState = Validate.numberFields(formFields['numGroups'], formFields['picsPerGroup'], formFields['avgRating']);
+
+    errorState = errorState || Validate.validateNumArgs(formFields['numGroups'], formFields['picsPerGroup'], pictures);
+
+    // if there are errors in the form, fadeIn the error bar and abort split
+    if (errorState) {
+      $('#error-alert').fadeIn(500);
+      return;
+    }
+
     // choose algorithm for splitting the pictures
-    var splitFunc = 'ra'
+    var splitFunc = 'gr'
     air.trace("Splitting with algorithm: " + splitFunc);
 
     if(DEBUG) {
