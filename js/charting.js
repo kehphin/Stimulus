@@ -104,10 +104,10 @@ var Chart = (function() {
           tickSize: 1,
           min: -0.5,
           max: groups[g].length - 0.5,
-          axisLabel: "Picture"
+          axisLabel: label2 || "Picture"
         },
         yaxis: {
-          axisLabel: "Ratings"
+          axisLabel: label1 || "Ratings"
         },
         selection: {mode: "xy"}
       };
@@ -193,21 +193,3 @@ var Chart = (function() {
 
   return my;
 }());
-
-// Object used to tested in Module in Chrome when console testing is needed
-var mock_pictures = [
-   [
-    {"filePath": "test_data/Slide4.JPG", "rating": 4},
-    {"filePath": "test_data/Slide1.JPG", "rating": 1},
-    {"filePath": "test_data/Slide10.JPG", "rating": 10},
-    {"filePath": "test_data/Slide2.JPG", "rating": 2},
-    {"filePath": "test_data/Slide9.JPG", "rating": 9},
-  ],
-  [
-    {"filePath": "test_data/Slide6.JPG", "rating": 6},
-    {"filePath": "test_data/Slide7.JPG", "rating": 7},
-    {"filePath": "test_data/Slide5.JPG", "rating": 5},
-    {"filePath": "test_data/Slide8.JPG", "rating": 8},
-    {"filePath": "test_data/Slide3.JPG", "rating": 3},
-  ]
-];
