@@ -120,7 +120,7 @@ var Chart = (function() {
       };
 
       // styles the charts
-      var chartOptions = {
+      chart.chartOptions = {
         axisLabels: {show: true},
         legend: {show: false},
         series: {
@@ -128,7 +128,6 @@ var Chart = (function() {
           points: {show: false}
         },
         xaxis: {
-          tickSize: 1,
           min: min,
           max: max,
           axisLabel: label2 || "Picture"
@@ -140,22 +139,21 @@ var Chart = (function() {
       };
 
       // overview charts do not have axes labels
-      var overviewOptions = {
+      chart.overviewOptions = {
         legend: {show: false},
         series: {
           lines: {show: false},
           points: {show: true}
         },
         xaxis: {
-          tickSize: 1,
           min: min,
           max: max,
         },
         selection: {mode: "xy"}
       };
 
-      chart.overview = $.plot(chart.overviewSelector, [chart.overviewDataset], overviewOptions);
-      chart.plot = $.plot(chart.chartSelector, [chart.dataset], chartOptions);
+      chart.overview = $.plot(chart.overviewSelector, [chart.overviewDataset], chart.overviewOptions);
+      chart.plot = $.plot(chart.chartSelector, [chart.dataset], chart.chartOptions);
 
       charts.push(chart);
 
@@ -172,7 +170,7 @@ var Chart = (function() {
             }
             // do the zooming
             charts[i].plot = $.plot(charts[i].chartSelector, [charts[i].dataset],
-              $.extend(true, {}, chartOptions, {
+              $.extend(true, {}, charts[i].chartOptions, {
                 xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to },
                 yaxis: { min: ranges.yaxis.from, max: ranges.yaxis.to }
               })
@@ -197,8 +195,8 @@ var Chart = (function() {
         // finds which chart wants to be unzoomed
         var chart = charts[$(e.currentTarget).data("graphId")];
 
-        chart.plot = $.plot(chart.chartSelector, [chart.dataset], chartOptions);
-        chart.overview = $.plot(chart.overviewSelector, [chart.overviewDataset], overviewOptions);
+        chart.plot = $.plot(chart.chartSelector, [chart.dataset], chart.chartOptions);
+        chart.overview = $.plot(chart.overviewSelector, [chart.overviewDataset], chart.overviewOptions);
       });
 
       // binds the toggle image button
@@ -208,7 +206,7 @@ var Chart = (function() {
 
         chart.dataset.showLabels = !chart.dataset.showLabels;
         chart.plot = $.plot(chart.chartSelector, [chart.dataset],
-          $.extend(true, {}, chartOptions, {
+          $.extend(true, {}, chart.chartOptions, {
             xaxis: chart.plot.getOptions().xaxis,
             yaxis: chart.plot.getOptions().yaxis
           })
