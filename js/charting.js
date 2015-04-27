@@ -73,10 +73,37 @@ var Chart = (function() {
       // parses groups data into flot format
       var data = [];
       var filepaths = [];
-      for(var i = 0; i < pictures.length; i++) {
-        data.push([i, pictures[i].rating1]);
-        filepaths.push(pictures[i].filePath);
+
+      // if rating2 f given, use that for xaxis, else just increment 1 for xaxis
+      if(pictures[0].rating2) {
+        var min = Number.MAX_VALUE;
+        var max = Number.MIN_VALUE;
+        for(var i = 0; i < pictures.length; i++) {
+          var rating2 = pictures[i].rating2;
+          if(rating2 < min) {
+            min = rating2;
+          }
+          if(rating2 > max) {
+            max = rating2;
+          }
+          data.push([pictures[i].rating2, pictures[i].rating1]);
+          filepaths.push(pictures[i].filePath);
+        }
+
+        // so the points aren't exactly on the edge of the graph horizontally wise
+        var margin = (max - min) / 10;
+        max += margin;
+        min -= margin;
       }
+      else {
+        var min = -0.5;
+        var max =  groups[g].length - 0.5;
+        for(var i = 0; i < pictures.length; i++) {
+          data.push([i, pictures[i].rating1]);
+          filepaths.push(pictures[i].filePath);
+        }
+      }
+      
 
       chart.dataset = {
         data: data,
@@ -102,8 +129,8 @@ var Chart = (function() {
         },
         xaxis: {
           tickSize: 1,
-          min: -0.5,
-          max: groups[g].length - 0.5,
+          min: min,
+          max: max,
           axisLabel: label2 || "Picture"
         },
         yaxis: {
@@ -121,8 +148,8 @@ var Chart = (function() {
         },
         xaxis: {
           tickSize: 1,
-          min: -0.5,
-          max: groups[g].length - 0.5,
+          min: min,
+          max: max,
         },
         selection: {mode: "xy"}
       };
