@@ -27,3 +27,16 @@
 .exportGraph {
     display: none;
 }
+
+.export-pics {
+  margin-left: -8px;
+  display: inline-block;
+}
+
+.export-msg {
+  margin-left: 8px;
+  position: absolute;
+  padding-top: 7px;
+  display: inline-block;
+  color: green;
+}

@@ -301,6 +301,19 @@ $(function() {
     directory.browseForDirectory("Choose the picture directory");
   });
 
+  /*
+    When the Export Pictures button is clicked, we call the Export module's savePictures
+    to place the pictures in folders in the directory
+  */
+  $('.export-pics').click(function(e) {
+    Export.savePictures(groups.sorted, picturePath);
+    $(".export-msg").html("Successfully exported!");
+
+    setTimeout(function() {
+      $(".export-msg").html("");
+    }, 3000);
+  });
+
   // Handler for form submission for the Settings tab.
   //
   // Creation date: 3/13/15 - David Lin
@@ -317,8 +330,8 @@ $(function() {
     $('.form-group').removeClass('has-error has-feedback');
 
     if(DEBUG) {
-      picturePath = "D:\\Documents\\Stimulus\\test_data";
-      var ratingsFile = new air.File(picturePath + "\\ratings.csv");
+      picturePath = "/Users/Kevin/Desktop/stimuli";
+      var ratingsFile = new air.File(picturePath + "/ratings.csv");
       data = Parse.getPictures(ratingsFile, picturePath);
     } else {
       errorState = Validate.nullFields();
