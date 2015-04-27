@@ -4,28 +4,28 @@
   Group: Team Stimulus
   Created At: 2/18/15
 
-  This is the stats module, affectionately and globally referred 
-  to as Stats. This module provides the solutions to all of your 
-  statistical needs, including standard deviations, means, medians, 
+  This is the stats module, affectionately and globally referred
+  to as Stats. This module provides the solutions to all of your
+  statistical needs, including standard deviations, means, medians,
   modes, and much much more (coming soon [tm])!
 
   Check the README file for complete documentation on public methods.
 
-  DEPENDENCIES: 
+  DEPENDENCIES:
     - underscore.js
     - validate.js
     - picture.js
 
   Note: Unless otherwise noted, all code henceforth in this file
-      has been authored by me, Tony J Huang. 
+      has been authored by me, Tony J Huang.
 
   Note: Cleared by $wapnil, using TWO space tabs as opposed to 3.
 */
 
 /*
-  Global export for Stats variable. 
+  Global export for Stats variable.
 
-  Sample usages include: 
+  Sample usages include:
     Stats.split(...);
     Stats.stDev(...);
 */
@@ -33,7 +33,7 @@ var Stats = (function() {
   // public facing object export.
   var my = {};
 
-  // Chunks an array into equal sizes of chunkSize, notwithstanding 
+  // Chunks an array into equal sizes of chunkSize, notwithstanding
   // the very last chunk, which is anywhere from size 1 to chunkSize
   //
   // Creation date: 3/1/15
@@ -43,7 +43,7 @@ var Stats = (function() {
     var R = [];
     for (var i = 0; i < this.length; i += chunkSize) {
         R.push(this.slice(i, i + chunkSize));
-    }   
+    }
     return R;
   }
 
@@ -61,7 +61,7 @@ var Stats = (function() {
   }
 
 
-  
+
   // Round Robin.
   // ALGORITHM: Picks the picture with the closest rating to the target
   //     and assigns it to group 1, then group 2, then group 3, ...,
@@ -83,7 +83,7 @@ var Stats = (function() {
     return _.values(grouped);
   }
 
-  
+
   // Random.
   // ALGORITHM: Pretty much what it sounds like.
   //     Will return pictures at random. Useful for... ???
@@ -124,21 +124,21 @@ var Stats = (function() {
 
 
   /*
-    The main entree. Splits a set of pictures up into numGroups 
+    The main entree. Splits a set of pictures up into numGroups
     distinct groups of numPictures entries, in which the pictures'
     average ratings' distance form targetRating is minimized.
 
 
     params object should contain:
-        numGroups:    number of different groups you want to 
+        numGroups:    number of different groups you want to
                       split the pictures into
 
         numPictures:  number of pictures you want in each group
 
-        targetRating: the numerical value you want the groups 
+        targetRating: the numerical value you want the groups
                       to average to, ideally
 
-        pictures:     array of Pictures that we'll be splitting 
+        pictures:     array of Pictures that we'll be splitting
                       into groups
 
     params object OPTIONAL fields:
@@ -153,7 +153,7 @@ var Stats = (function() {
   // Creation date: 3/1/15
   // Modifications list:
   //  3/2/15 - Use Validate module.
-  // 
+  //
   my.split = function(params) {
     // Validate input.
     var numGroups    = Validate.ensure(params, "numGroups");
@@ -202,20 +202,27 @@ var Stats = (function() {
     return sum / values.length;
   }
 
-  // Returns the average rating from a list of pictures. Returns
-  // 0 given an empty Array.
+  // Returns the an object of average rating1 and rating2 from a list of pictures.
+  // If length of picture array is 0, the object's rating1 and rating2 are 0.
   //
   // Throws an error if not called with an Array of Pictures.
   //
   // Creation date: 3/2/15
   // Modifications list:
   //
+  // - Kevin Yang (4/27): calculate mean of two ratings
   my.meanRating = function(pictures) {
     Validate.validatePictures(pictures);
     if(pictures.length === 0) {
-      return 0;
+      return {
+        rating1: 0,
+        rating2: 0
+      };
     } else {
-      return _avg(_.pluck(pictures, "rating1"));
+      return {
+        rating1: _avg(_.pluck(pictures, "rating1")),
+        rating2: _avg(_.pluck(pictures, "rating2"))
+      };
     }
   }
 
@@ -242,7 +249,7 @@ var Stats = (function() {
     }
   }
 
-  // Get the most common rating in a list of Pictures. 
+  // Get the most common rating in a list of Pictures.
   // Returns
   // 0 given an empty Array.
   //
@@ -261,11 +268,11 @@ var Stats = (function() {
       var modeCount = 0;
       _.each(pictures, function(p) {
         var r = p.rating1;
-        
+
         if(modeMap[r] === undefined) {
           modeMap[r] = 0;
-        }   
-        
+        }
+
         modeMap[r]++;
         if(modeMap[r] > modeCount) {
           mode = r;
@@ -277,33 +284,51 @@ var Stats = (function() {
   }
 
 
-  // Get the (population) standard deviation of a list of Pictures.
-  // Returns 0 if given an Array with less than 2 entries.
+  // Get the (population) standard deviation of a list of Pictures
+  // for their rating 1 and rating 2. We return a object with fields
+  // stdev1 and stdev2 for rating 1 and rating 2.
+
+  // Returns an object with stdev1: 0 and stdev2: 0
+  // if given an Array with less than 2 entries.
   //
   // Throws an error if not called with an Array of Picture.
-  // 
+  //
   // See https://www.mathsisfun.com/data/standard-deviation-formulas.html
   //
   // Creation date: 3/2/15
   // Modifications list:
   //   3/15/15 - update desc, add conditional for length of 1 case
+  //   4/27/15 - kevin yang - calculating std for both ratings
   //
   my.stdevRating = function(pictures){
     Validate.validatePictures(pictures);
     if(pictures.length < 2) {
-      return 0;
+      return {
+        stdev1: 0,
+        stdev2: 0
+      };
     } else {
       // Get average rating of the list of Pictures.
-      var avgRating = my.meanRating(pictures);
+      var avgRating1 = my.meanRating(pictures).rating1;
+      var avgRating2 = my.meanRating(pictures).rating2;
 
-      // Get the square of the differences between 
+      // Get the square of the differences between
       // each rating and the average rating
-      var sqrDiffs = _.map(pictures, function(p) {
-        return Math.pow(p.rating1 - avgRating, 2);
+      var sqrDiffs1 = _.map(pictures, function(p) {
+        return Math.pow(p.rating1 - avgRating1, 2);
+      });
+
+      var sqrDiffs2 = _.map(pictures, function(p) {
+        return Math.pow(p.rating2 - avgRating2, 2);
       });
 
       // Stdev = Square root the average of the squared diffs.
-      return Math.sqrt(_avg(sqrDiffs));
+
+
+      return {
+        stdev1: Math.sqrt(_avg(sqrDiffs1)),
+        stdev2: Math.sqrt(_avg(sqrDiffs2)),
+      }
     }
   }
 

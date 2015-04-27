@@ -76,11 +76,15 @@ $(function() {
   // Modification list:
   //
   var _setStatsForGroup = function(groupIndex, mean, stdev) {
-    var meanFormatted  = +mean.toFixed(3);
-    var stdevFormatted = +stdev.toFixed(3);
+    var meanFormatted1  = +mean.rating1.toFixed(3);
+    var meanFormatted2  = +mean.rating2.toFixed(3);
+    var stdevFormatted1 = +stdev.stdev1.toFixed(3);
+    var stdevFormatted2 = +stdev.stdev2.toFixed(3);
     var $group = $('[data-group=' + groupIndex + ']');
-    $group.find('.stats-mean').text('Mean: ' + meanFormatted);
-    $group.find('.stats-stdev').text('SD: ' + stdevFormatted);
+    $group.find('.stats-mean1').text(label1 + ' μ: ' + meanFormatted1);
+    $group.find('.stats-stdev1').text(label1 + ' σ: ' + stdevFormatted1);
+    $group.find('.stats-mean2').text(label2 + ' μ: ' + meanFormatted2);
+    $group.find('.stats-stdev2').text(label2 + ' σ: ' + stdevFormatted2);
     }
 
   // This function attaches drag and drop capability to all
@@ -168,7 +172,7 @@ $(function() {
       refreshPositions: true,
       opacity: 0.35,
       helper: 'clone',
-      drag: handleDragEvent
+      // drag: handleDragEvent
     };
 
     $(".pic-container").draggable(draggableOptions);
@@ -242,10 +246,10 @@ $(function() {
   var _recalculateStats = function() {
     for (var i=0; i<groups.sorted.length; i++) {
       var group = groups.sorted[i];
-      var meanRating = Stats.meanRating(group);
-      var stdevRating = Stats.stdevRating(group);
+      var meanRatings = Stats.meanRating(group);
+      var stdevRatings = Stats.stdevRating(group);
 
-      _setStatsForGroup(i, meanRating, stdevRating);
+      _setStatsForGroup(i, meanRatings, stdevRatings);
     }
   }
 
@@ -330,7 +334,7 @@ $(function() {
     $('.form-group').removeClass('has-error has-feedback');
 
     if(DEBUG) {
-      picturePath = "/Users/Kevin/Desktop/stimuli";
+      picturePath = "/Users/Kevin/Desktop/Stimly";
       var ratingsFile = new air.File(picturePath + "/ratings.csv");
       data = Parse.getPictures(ratingsFile, picturePath);
     } else {
@@ -351,6 +355,7 @@ $(function() {
     pictures = data.pictures;
     label1 = data.labels[0];
     label2 = data.labels[1];
+
 
     errorState = Validate.numberFields(formFields['numGroups'], formFields['picsPerGroup'], formFields['avgRating']);
 
@@ -493,23 +498,33 @@ function _addGroupToRow(group, index, $parentRow) {
     '    <div class="stats-box">\n' +
     '      <h4 class="group-name">Group {index}</h4>\n' +
     '      <div class="stats">\n' +
-    '        <div class="stats-mean">Mean: {mean}</div>\n' +
-    '        <div class="stats-stdev">SD: {stdev}</div>\n' +
+    '        <div class="stats-mean">\n' +
+    '          <div class="stats-mean1">' + label1 + ' μ: {mean1}</div>\n' +
+    '          <div class="stats-stdev1">' + label1 + ' σ: {stdev1}</div>\n' +
+    '        </div>\n' +
+    '        <div class="stats-stdev">\n' +
+    '          <div class="stats-mean2">' + label2 + ' μ: {mean2}</div>\n' +
+    '          <div class="stats-stdev2">' + label2 + ' σ: {stdev2}</div>\n' +
+    '        </div>\n' +
     '      </div>\n' +
     '  </div>\n' +
     '  </div>\n' +
     '</div>\n';
 
-  var meanRating = +Stats.meanRating(group).toFixed(3);
-  var stdevRating = +Stats.stdevRating(group).toFixed(3);
+  var meanRating1 = +Stats.meanRating(group).rating1.toFixed(3);
+  var meanRating2 = +Stats.meanRating(group).rating2.toFixed(3);
+  var stdevRating1 = +Stats.stdevRating(group).stdev1.toFixed(3);
+  var stdevRating2 = +Stats.stdevRating(group).stdev2.toFixed(3);
 
   //http://stackoverflow.com/a/12830454
 
   groupHtml = groupHtml.supplant({
     index_0: index, // 0-indexed
     index: index + 1,
-    mean: meanRating,
-    stdev: stdevRating
+    mean1: meanRating1,
+    mean2: meanRating2,
+    stdev1: stdevRating1,
+    stdev2: stdevRating2
   });
 
   var $groupElement = $(groupHtml);
